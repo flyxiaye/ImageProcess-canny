@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{f25a2fa5-a6f2-444f-b113-ed90308dc82f}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{9add43b5-cc9c-40ff-8543-ec24037762b8}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{df91103f-74c5-4a13-b9ff-9ffd3e096453}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Source Files\MyGrayImage">
+      <UniqueIdentifier>{50e4c6e2-b237-443d-9140-26a446dcd1c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MyGrayImage">
+      <UniqueIdentifier>{a7e45704-cc6c-4571-909a-2c24f9cda183}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AlgorithmDLL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cxw\XW_GlobalVar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalVar.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicFun.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="FindLine.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="FillSpecialLine.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="Exp.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="MainProcess.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleIsland.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstLineProcess.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="canny.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+    <ClCompile Include="SpecialElem.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AlgorithmDLL.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AlgorithmDLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cxw\XW_GlobalVar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cxw\XW_include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalVar.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicFun.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="FindLine.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="FillSpecialLine.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="Exp.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="MainProcess.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleIsland.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstLineProcess.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="canny.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecialElem.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="AlgorithmDLL.def">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="res\AlgorithmDLL.rc2">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
