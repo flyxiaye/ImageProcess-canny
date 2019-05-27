@@ -5,6 +5,7 @@
 
 #include "GlobalVar.h"
 #include "BasicFun.h"
+#include "canny.h"
 
 
 

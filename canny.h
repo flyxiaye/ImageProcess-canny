@@ -3,8 +3,8 @@
 
 void CannyEage(void);
 int GetAveGray(int row);
+int GetEageThreshold(int row, int col);
 void ShowEage(unsigned char *p);
-void qCannyEage(void);
 
 
 typedef int uint8;
