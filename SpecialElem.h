@@ -1,11 +1,18 @@
 #ifndef SPECIALELEM_H
 #define SPECIALELEM_H
+
+int ImgJudgeCircle(int type);
+void ImgJudgeStopLine(void);
+void ImgJudgeRamp(void);
+void ImgJudgeCurveBroken(void);
+void ImgJudgeBlock(void);
+
 void SpecialElemFill(void);
-int JudgeSpecialElem(int left_line, int right_line);
-int JudgeSpecialLine(int left_line, int right_line,int type);
+int ImgJudgeSpecialElem(int left_line, int right_line);
+int ImgJudgeSpecialLine(int left_line, int right_line,int type);
 int IsBlock(int left_line, int right_line);
 int IsRamp(void);
-int JudgeOutBroken(void);
+int ImgJudgeOutBroken(void);
 int IsStopLine(int line, int left, int right);
 int DistStopLine(int line);
 int JudgeInBroken(Point pa, Point pb);
