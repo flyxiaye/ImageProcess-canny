@@ -65,14 +65,14 @@ int qLength(SeqQueue * q)
 	else return q->rear - q->front;
 }
 
-void travelque(SeqQueue* q)
-{
-	if (q->flag || q->front > q->rear) q->rear += MAXNUM;
-	for (int i = q->front; i < q->rear; i++)
-	{
-		std::cout << q->queue[i % MAXNUM];
-	}
-}
+//void travelque(SeqQueue* q)
+//{
+//	if (q->flag || q->front > q->rear) q->rear += MAXNUM;
+//	for (int i = q->front; i < q->rear; i++)
+//	{
+//		std::cout << q->queue[i % MAXNUM];
+//	}
+//}
 
 #undef MAXNUM
 #undef _type
