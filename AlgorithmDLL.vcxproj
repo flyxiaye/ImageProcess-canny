@@ -182,6 +182,7 @@
     <ClInclude Include="FirstLineProcess.h" />
     <ClInclude Include="GlobalVar.h" />
     <ClInclude Include="MainProcess.h" />
+    <ClInclude Include="queue.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SpecialElem.h" />
     <ClInclude Include="StdAfx.h" />

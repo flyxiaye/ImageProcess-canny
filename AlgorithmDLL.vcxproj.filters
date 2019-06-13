@@ -112,6 +112,9 @@
     <ClInclude Include="SpecialElem.h">
       <Filter>Header Files\MyGrayImage</Filter>
     </ClInclude>
+    <ClInclude Include="queue.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
