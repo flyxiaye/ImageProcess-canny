@@ -56,6 +56,7 @@ int ImgJudgeCircle(int type)
 //================================================================//
 void ImgJudgeStopLine(void)
 {
+#if STOPLINE
 	if (Img_StopOpen && LeftIntLine < UP_EAGE + 15 && RightIntLine < UP_EAGE + 15
 		&& LeftPnt.ErrRow <= UP_EAGE + 15 && RightPnt.ErrRow <= UP_EAGE + 15
 		&& !StopLineFlag && DistStopLine(UP_EAGE + 15))
@@ -63,6 +64,7 @@ void ImgJudgeStopLine(void)
 		StopLineFlag = 1;
 		SpecialElemFlag = 1;
 	}
+#endif
 }
 
 //================================================================//
@@ -73,6 +75,7 @@ void ImgJudgeStopLine(void)
 //================================================================//
 void ImgJudgeRamp(void)
 {
+#if RAMP
 	if (Img_RampOpen && !SpecialElemFlag
 		&& LeftPnt.ErrRow <= UP_EAGE + 1 && RightPnt.ErrRow <= UP_EAGE + 1)
 	{
@@ -82,6 +85,7 @@ void ImgJudgeRamp(void)
 			SpecialElemFlag = 1;
 		}
 	}
+#endif
 }
 
 //================================================================//
@@ -92,6 +96,7 @@ void ImgJudgeRamp(void)
 //================================================================//
 void ImgJudgeCurveBroken(void)
 {
+#if CURVE_BROKEN
 	if (LeftPnt.ErrRow - RightPnt.ErrRow < 5 && RightPnt.ErrRow - LeftPnt.ErrRow < 5
 		&& LeftPnt.ErrCol - RightPnt.ErrCol < 10 && RightPnt.ErrCol - LeftPnt.ErrCol < 10)
 	{
@@ -103,6 +108,7 @@ void ImgJudgeCurveBroken(void)
 		else BrokenFlag = 0;
 	}
 	else BrokenFlag = 0;
+#endif
 }
 
 //================================================================//
@@ -113,6 +119,7 @@ void ImgJudgeCurveBroken(void)
 //================================================================//
 void ImgJudgeBlock(void)
 {
+#if BLOCK_BROKEN
 	if ((Img_BlockOpen || Img_BrokenOpen) && !SpecialElemFlag)		//断路路障判断
 	{
 		int flag = ImgJudgeSpecialElem(LeftIntLine, RightIntLine);
@@ -140,6 +147,7 @@ void ImgJudgeBlock(void)
 		}
 		else;
 	}
+#endif
 }
 
 //===========================以上为可直接调用的元素识别函数======================//

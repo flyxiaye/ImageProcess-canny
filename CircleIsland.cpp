@@ -289,9 +289,7 @@ void ChangeState(int Order)
 					}
 					else if (OldRow <= DOWN_EAGE - 20)
 					{
-#if CI_IND
-						if (ind_left + ind_right > ind_ci_th && ind_left > (ind_ci_th >> 2) && ind_right > (ind_ci_th >> 2))
-#endif // CI_IND
+						if (IndJudgeCircle(0))
 							CircleState = 7;
 						break;
 					}
@@ -315,9 +313,7 @@ void ChangeState(int Order)
 					}
 					else if (OldRow <= DOWN_EAGE - 20)
 					{
-#if CI_IND
-						if (ind_left + ind_right > ind_ci_th && ind_left > (ind_ci_th >> 2) && ind_right > (ind_ci_th >> 2))
-#endif // CI_IND
+						if (IndJudgeCircle(0))
 							CircleState = 7;
 						break;
 					}

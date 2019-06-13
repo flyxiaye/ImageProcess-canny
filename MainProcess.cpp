@@ -42,16 +42,10 @@ void MainFill(void)
 		string.Format("\r\n 0x01RightPnt = %d %d %d \r\n", RightPnt.Type, RightPnt.ErrRow, RightPnt.ErrCol); PrintDebug(string);
 		PointE.Row = LeftPnt.ErrRow; PointE.Col = LeftPnt.ErrCol;
 		PointF.Row = RightPnt.ErrRow; PointF.Col = RightPnt.ErrCol;
-#if STOPLINE
-		ImgJudgeStopLine();		//识别停车
-#endif
-#if RAMP
-		ImgJudgeRamp();			//识别坡道
-#endif
-#if CURVE_BROKEN
-		ImgJudgeCurveBroken();	//弯道断路
-#endif
 
+		ImgJudgeStopLine();		//识别停车
+		ImgJudgeRamp();			//识别坡道
+		ImgJudgeCurveBroken();	//弯道断路
 #if CIRCLE == 2
 		CircleFlag = ImgJudgeCircle(0);
 		if (CL == CircleFlag)
@@ -89,9 +83,7 @@ void MainFill(void)
 				FindLineNormal(0);
 
 			}
-#if BLOCK_BROKEN
 		ImgJudgeBlock();		//识别路障
-#endif
 	}
 	if (1 == g_RoadType)
 	{
@@ -168,6 +160,8 @@ void GetML(void)
 	}
 	if (!ErrorFlag)
 		SpeedRow = GetSpeedRow(ML[DOWN_EAGE], LeftPnt.ErrRow, RightPnt.ErrRow);
+
+
 
 	string.Format("\r\n ErrorFlag = %d \r\n", ErrorFlag); PrintDebug(string);
 	/*string.Format("\r\n StopLine = %d \r\n", StopLineFlag); PrintDebug(string);

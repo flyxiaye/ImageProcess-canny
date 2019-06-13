@@ -44,3 +44,8 @@ void Exp(void)
 	string.Format("\r\n RL = %d \r\n", ImageEage[DOWN_EAGE][166]); PrintDebug(string);
 	string.Format("\r\n RL = %d \r\n", ImageEage[DOWN_EAGE][167]); PrintDebug(string);
 }
+
+unsigned char IndJudgeCircle(unsigned char type)
+{
+	return 1;
+}

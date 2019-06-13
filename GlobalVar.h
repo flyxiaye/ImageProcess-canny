@@ -1,6 +1,7 @@
 #ifndef GlobalVar_H
 #define GlobalVar_H
 #include "windows.h"
+#include "Exp.h"
 #define LEFT_EAGE 0			//Í¼Ïñ×ó±ß½ç
 #define RIGHT_EAGE 187		//Í¼ÏñÓÒ±ß½ç
 #define MIDDLE 94			//Í¼ÏñÖÐÖµ
