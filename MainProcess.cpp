@@ -138,6 +138,7 @@ void MainFill(void)
 void GetML(void)
 {
 	CannyEage();
+	SpecialColorPuls();
 #if CIRCLE
 	if (CircleFlag)		//is CircleIsland 
 	{
