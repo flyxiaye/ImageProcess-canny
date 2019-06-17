@@ -96,16 +96,26 @@ void ImgJudgeRamp(void)
 //================================================================//
 void ImgJudgeCurveBroken(void)
 {
-#if CURVE_BROKEN
-	if (LeftPnt.ErrRow - RightPnt.ErrRow < 5 && RightPnt.ErrRow - LeftPnt.ErrRow < 5
-		&& LeftPnt.ErrCol - RightPnt.ErrCol < 10 && RightPnt.ErrCol - LeftPnt.ErrCol < 10)
+	int RW[IMG_ROW];                 //Â·¿íRoadWidth
+	for (int i = LeftPnt.ErrRow; i <= DOWN_EAGE; i++)
 	{
-		if (ImgJudgeSpecialLine(LeftPnt.ErrRow, RightPnt.ErrRow, 1))
-		{
+		RW[i] = RL[i] - LL[i];
+		
+	}
+	int RWChange = (RW[DOWN_EAGE] - RW[LeftPnt.ErrRow]) / (DOWN_EAGE - LeftPnt.ErrRow);//RoadWidthChange
+	string.Format("\r\n RWChange = %d \r\n", RWChange); PrintDebug(string);
+
+#if CURVE_BROKEN
+	
+	if (abs(LeftPnt.ErrRow - RightPnt.ErrRow) < 5  && RightPnt.ErrCol - LeftPnt.ErrCol < 10 || RWChange >= 3)
+	{
+		string.Format("\r\n LRmeet\r\n"); PrintDebug(string);
+		/*if (ImgJudgeSpecialLine(LeftPnt.ErrRow, RightPnt.ErrRow, 1))
+		{*/
 			BrokenFlag = 3;
 			SpecialElemFlag = 1;
-		}
-		else BrokenFlag = 0;
+		/*}
+		else BrokenFlag = 0;*/
 	}
 	else BrokenFlag = 0;
 #endif

@@ -164,13 +164,13 @@ void GetML(void)
 
 
 	string.Format("\r\n ErrorFlag = %d \r\n", ErrorFlag); PrintDebug(string);
-	/*string.Format("\r\n StopLine = %d \r\n", StopLineFlag); PrintDebug(string);
+	string.Format("\r\n StopLine = %d \r\n", StopLineFlag); PrintDebug(string);
 	string.Format("\r\n SpeedRow = %d \r\n", SpeedRow); PrintDebug(string);
 	string.Format("\r\n CircleFlag = %d \r\n", CircleFlag); PrintDebug(string);
 	string.Format("\r\n BrokenFlag = %d \r\n", BrokenFlag); PrintDebug(string);
 	string.Format("\r\n BlockFlag = %d \r\n", BlockFlag); PrintDebug(string);
 	string.Format("\r\n RampFlag = %d \r\n", RampFlag); PrintDebug(string);
-	string.Format("\r\n SpecElemFlag = %d \r\n", SpecialElemFlag); PrintDebug(string);*/
+	string.Format("\r\n SpecElemFlag = %d \r\n", SpecialElemFlag); PrintDebug(string);
 	string.Format("\r\n ML_count = %d \r\n", ML_Count); PrintDebug(string);
 	string.Format("\r\n ML->count = %d \r\n", ML[ML_Count]); PrintDebug(string);
 
