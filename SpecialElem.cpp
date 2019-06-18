@@ -103,19 +103,16 @@ void ImgJudgeCurveBroken(void)
 		
 	}
 	int RoadWidthChange = (RoadWidth[DOWN_EAGE] - RoadWidth[LeftPnt.ErrRow]) / (DOWN_EAGE - LeftPnt.ErrRow);//路宽变化率
-	//string.Format("\r\n RWChange = %d \r\n", RoadWidthChange); PrintDebug(string);
+	
 
 #if CURVE_BROKEN
 	
 	if (RoadWidthChange >= 3 && abs(LeftPnt.ErrRow - RightPnt.ErrRow) <= 3)
-	{		
-		/*if (ImgJudgeSpecialLine(LeftPnt.ErrRow, RightPnt.ErrRow, 1))
-		{*/
+	{				
 			string.Format("\r\n LRmeet\r\n"); PrintDebug(string);
 			BrokenFlag = 3;
 			SpecialElemFlag = 1;
-		/*}
-		else BrokenFlag = 0;*/
+		
 	}
 	else BrokenFlag = 0;
 #endif

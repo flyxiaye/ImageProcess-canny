@@ -178,16 +178,49 @@ void CircleFirstLine(void)
 	if (RL[DOWN_EAGE] >= RIGHT_EAGE - 3)		//right lost
 		RightLost = 1;
 	else RightLost = 0;
+#define FIND_UP_LINE 0 //向上搜线行数以校正丢边情况
 #define LOST_EAGE_TH 4	//判断为非丢边的阈值
 	if (!LeftLost & !RightLost)  //左右均不丢，函数返回
 		return;
+	int LineL, LineR;
 	switch (CircleState)
 	{
 	case 1:
+		if (LeftLost)
+		{
+			if (CL == CircleFlag)
+				LineL = DOWN_EAGE - FIND_UP_LINE;
+			else LineL = UP_EAGE;
+			for (int i = DOWN_EAGE - 1; i > LineL; i--)
+			{
+				LL[i] = GetLL(i, LL[i + 1]);
+				if (LL[i] > LEFT_EAGE + LOST_EAGE_TH)		//no lost eage
+				{
+					LEFT_PNT(i, 0);
+					LeftLost = 0;
+					break;
+				}
+			}
+		}
+		if (RightLost)
+		{
+			if (CR == CircleFlag)
+				LineR = DOWN_EAGE - FIND_UP_LINE;
+			else LineR = UP_EAGE;
+			for (int i = DOWN_EAGE - 1; i > LineR; i--)
+			{
+				RL[i] = GetRL(i, RL[i + 1]);
+				if (RL[i] < RIGHT_EAGE - LOST_EAGE_TH)
+				{
+					RIGHT_PNT(i, 0);
+					RightLost = 0;
+					break;
+				}
+			}
+		}
+		break;
 	case 2:
 	case 3:
-	case 5:
-	case 7:
 		if (LeftLost && CR == CircleFlag)
 		{
 			for (int i = DOWN_EAGE - 1; i > UP_EAGE; i--)
@@ -230,6 +263,62 @@ void CircleFirstLine(void)
 			for (int i = DOWN_EAGE - 1; i > UP_EAGE; i--)
 			{
 				LL[i] = GetLL(i, LL[i + 1]);
+			}
+		}
+		break;
+	case 5:
+		if (CL == CircleFlag && RightLost)
+		{
+			for (int i = DOWN_EAGE - 1; i > UP_EAGE; i--)
+			{
+				RL[i] = GetRL(i, RL[i + 1]);
+				if (RL[i] < RIGHT_EAGE - LOST_EAGE_TH)
+				{
+					RIGHT_PNT(i, 0);
+					RightLost = 0;
+					break;
+				}
+			}
+		}
+		else if (CR == CircleFlag && LeftLost)
+		{
+			for (int i = DOWN_EAGE - 1; i > UP_EAGE; i--)
+			{
+				LL[i] = GetLL(i, LL[i + 1]);
+				if (LL[i] > LEFT_EAGE + LOST_EAGE_TH)		//no lost eage
+				{
+					LEFT_PNT(i, 0);
+					LeftLost = 0;
+					break;
+				}
+			}
+		}
+		break;
+	case 7:
+		if (CL == CircleFlag && RightLost)
+		{
+			for (int i = DOWN_EAGE - 1; i > UP_EAGE; i--)
+			{
+				RL[i] = GetRL(i, RL[i + 1]);
+				if (RL[i] < RIGHT_EAGE - LOST_EAGE_TH)
+				{
+					RIGHT_PNT(i, 0);
+					RightLost = 0;
+					break;
+				}
+			}
+		}
+		else if (CR == CircleFlag && LeftLost)
+		{
+			for (int i = DOWN_EAGE - 1; i > UP_EAGE; i--)
+			{
+				LL[i] = GetLL(i, LL[i + 1]);
+				if (LL[i] > LEFT_EAGE + LOST_EAGE_TH)		//no lost eage
+				{
+					LEFT_PNT(i, 0);
+					LeftLost = 0;
+					break;
+				}
 			}
 		}
 		break;
@@ -336,6 +425,7 @@ void ChangeState(int Order)
 		case 5:
 			if (1 == ChangeFlag)
 			{
+				string.Format("\r\n 5->6 \r\n"); PrintDebug(string);
 				ChangeFlag = 0;
 				CircleState = 6;
 			}
@@ -848,7 +938,8 @@ void GetPointC(void)
 	case 5:
 		if (CL == CircleFlag)
 		{
-			if (RightPnt.Type == 2 && RightPnt.ErrRow > DOWN_EAGE - FIVE_SIX_TH)// || DOWN_EAGE == RightPnt.ErrRow)
+			string.Format("\r\n RightPnt.Type = %d\r\n", RightPnt.Type); PrintDebug(string);
+			if (RightPnt.Type == 2)// && RightPnt.ErrRow > DOWN_EAGE - FIVE_SIX_TH)// || DOWN_EAGE == RightPnt.ErrRow)
 			{
 				//拐点确认
 				int UpSum = 0, DownSum = 0;
@@ -859,7 +950,7 @@ void GetPointC(void)
 				}
 				if (UpSum <= 0 && DownSum <= 0)
 					ChangeFlag = 1;
-
+				string.Format("\r\n ChangeFlag = %d\r\n", ChangeFlag); PrintDebug(string);
 			}
 			PointC.Col = (LeftPnt.ErrCol + RightPnt.ErrCol) >> 1;
 			PointC.Row = SearchUpEage((LeftPnt.ErrRow + RightPnt.ErrRow) >> 1, PointC.Col);
