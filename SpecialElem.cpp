@@ -96,22 +96,22 @@ void ImgJudgeRamp(void)
 //================================================================//
 void ImgJudgeCurveBroken(void)
 {
-	int RW[IMG_ROW];                 //路宽RoadWidth
+	int RoadWidth[IMG_ROW];                 //路宽
 	for (int i = LeftPnt.ErrRow; i <= DOWN_EAGE; i++)
 	{
-		RW[i] = RL[i] - LL[i];
+		RoadWidth[i] = RL[i] - LL[i];
 		
 	}
-	int RWChange = (RW[DOWN_EAGE] - RW[LeftPnt.ErrRow]) / (DOWN_EAGE - LeftPnt.ErrRow);//RoadWidthChange
-	string.Format("\r\n RWChange = %d \r\n", RWChange); PrintDebug(string);
+	int RoadWidthChange = (RoadWidth[DOWN_EAGE] - RoadWidth[LeftPnt.ErrRow]) / (DOWN_EAGE - LeftPnt.ErrRow);//路宽变化率
+	//string.Format("\r\n RWChange = %d \r\n", RoadWidthChange); PrintDebug(string);
 
 #if CURVE_BROKEN
 	
-	if (abs(LeftPnt.ErrRow - RightPnt.ErrRow) < 5  && RightPnt.ErrCol - LeftPnt.ErrCol < 10 || RWChange >= 3)
-	{
-		string.Format("\r\n LRmeet\r\n"); PrintDebug(string);
+	if (RoadWidthChange >= 3 && abs(LeftPnt.ErrRow - RightPnt.ErrRow) <= 3)
+	{		
 		/*if (ImgJudgeSpecialLine(LeftPnt.ErrRow, RightPnt.ErrRow, 1))
 		{*/
+			string.Format("\r\n LRmeet\r\n"); PrintDebug(string);
 			BrokenFlag = 3;
 			SpecialElemFlag = 1;
 		/*}
