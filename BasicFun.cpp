@@ -347,37 +347,6 @@ int GetRL(int row, int col)
 }
 
 //================================================================//
-//  @brief  :		判断边界倾斜程度
-//  @param  :		void
-//  @return :		1为左右倾，0为上下倾
-//  @note   :		void
-//================================================================//
-int CurveDetection(int up_row, int down_row, int type)
-{
-	if (down_row > DOWN_EAGE)
-		down_row = DOWN_EAGE;
-	int return_value = 0;
-	int REC_length = 0, REC_width = 0;
-	if (0 == type)
-	{
-		string.Format("leftCurveDetection\r\n");PrintDebug(string);          
-		REC_length = abs(LL[up_row] - LL[down_row]);
-		REC_width = abs(down_row - up_row);
-		if ((REC_length - REC_width) >= 5)
-			return_value = 1;
-	}
-	else if (1 == type)
-	{
-		string.Format("RightCurveDetection\r\n");PrintDebug(string);   
-		REC_length = abs(RL[down_row] - RL[up_row]);
-		REC_width = abs(down_row - up_row);
-		if ((REC_length - REC_width) >= 5)
-			return_value = 1;
-	}
-	return return_value;
-}
-
-//================================================================//
 //  @brief  :		最小二乘法
 //  @param  :		起始行（row1） 结束行（row2） 首地址（array）
 //  @return :		k斜率

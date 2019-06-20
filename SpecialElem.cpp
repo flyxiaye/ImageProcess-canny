@@ -23,7 +23,7 @@
 //  @note   :		void
 //================================================================//
 int ImgJudgeCircle(int type)
-{		
+{
 	if (0 == type)
 	{
 		if (Img_CircleOpen && !SpecialElemFlag
@@ -37,12 +37,12 @@ int ImgJudgeCircle(int type)
 		else return CN;
 	}
 	else
-	{		
+	{
 		if (Img_CircleOpen && !SpecialElemFlag
-			&& LL[DOWN_EAGE] == LEFT_EAGE && 0 == CurveDetection(RightPnt.ErrRow, DOWN_EAGE, 2))
+			&& LL[DOWN_EAGE] == LEFT_EAGE && RightPnt.ErrRow < UP_EAGE + 10 && RightPnt.ErrCol > MIDDLE)
 			return CL;
 		else if (Img_CircleOpen && !SpecialElemFlag
-			&& RL[DOWN_EAGE] == RIGHT_EAGE && 0 == CurveDetection(LeftPnt.ErrRow,DOWN_EAGE,1))
+			&& RL[DOWN_EAGE] == RIGHT_EAGE && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE)
 			return CR;
 		else return CN;
 	}
@@ -197,7 +197,7 @@ void SpecialElemFill(void)
 		FillMiddleLine();
 	}
 	else if (2 == BrokenFlag)
-	{			
+	{
 		if (ImgJudgeOutBroken())
 		{
 			BrokenFlag = 0;
@@ -403,10 +403,8 @@ int ImgJudgeOutBroken(void)
 {
 	static int Num_i = 0;
 	static int BrokenAve[5] = { 0 };
-	
 	if (BrokenFlag == 1 || BrokenFlag == 3)
 	{
-		
 		if (Num_i < 5)
 		{
 			if (Num_i > 0 && BrokenAve[Num_i - 1] - LightThreshold > 45)
@@ -420,10 +418,7 @@ int ImgJudgeOutBroken(void)
 		else
 		{
 			for (int i = 0; i < 4; i++)		//更新数组元素
-			{
 				BrokenAve[i] = BrokenAve[i + 1];
-				string.Format("\r\n BrokenAve[%d] = %d \r\n",i,BrokenAve[i]); PrintDebug(string);
-			}
 			BrokenAve[4] = LightThreshold;
 			//判断条件
 			for (int i = 0; i < 4; i++)
