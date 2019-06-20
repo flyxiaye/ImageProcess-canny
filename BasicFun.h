@@ -22,6 +22,7 @@ Point SearchRightUpEage45(int row, int col);
 
 int GetLL(int row, int col);
 int GetRL(int row, int col);
+int CurveDetection(int up_row, int down_row, int type);
 int AveGray(void);
 
 int MaxArray(int* line, int n);
