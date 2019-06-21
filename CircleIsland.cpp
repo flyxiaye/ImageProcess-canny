@@ -1075,14 +1075,14 @@ void FillLineAB(void)
 	case 7:
 		if (CL == CircleFlag)
 		{
-			if (UP_EAGE + 10 >= PointB.Row)		//no find line AB
+			if (DOWN_EAGE - 40 >= PointB.Row)		//no find line AB
 			{
-				if (RL[UP_EAGE + 20] < LEFT_EAGE + 60)
+				if (RL[DOWN_EAGE - 30] < LEFT_EAGE + 60)
 					;
 				else
 				{
-					PointB.Row = UP_EAGE + 20;
-					PointB.Col = RL[UP_EAGE + 20] - 60;
+					PointB.Row = DOWN_EAGE - 30;
+					PointB.Col = RL[DOWN_EAGE - 30] - 60;
 					if (LeftLost)			//lost A
 					{
 						PointA.Col = LEFT_EAGE;
@@ -1114,14 +1114,14 @@ void FillLineAB(void)
 		}
 		else if (CR == CircleFlag)
 		{
-			if (UP_EAGE + 10 >= PointB.Row)		//no find line AB
+			if (DOWN_EAGE - 40 >= PointB.Row)		//no find line AB
 			{
-				if (LL[UP_EAGE + 20] > RIGHT_EAGE - 60)
+				if (LL[DOWN_EAGE - 30] > RIGHT_EAGE - 60)
 					;
 				else
 				{
-					PointB.Row = UP_EAGE + 20;
-					PointB.Col = LL[UP_EAGE + 20] + 60;
+					PointB.Row = DOWN_EAGE - 30;
+					PointB.Col = LL[DOWN_EAGE - 30] + 60;
 					if (RightLost)			//lost A
 					{
 						PointA.Col = RIGHT_EAGE;

@@ -18,7 +18,7 @@
 
 //================================================================//
 //  @brief  :		»·µºÅÐ¶Ï
-//  @param  :		void 
+//  @param  :		0ÅÐ¶Ï×´Ì¬1 1ÅÐ¶Ï×´Ì¬2 
 //  @return :		void
 //  @note   :		void
 //================================================================//
@@ -39,10 +39,12 @@ int ImgJudgeCircle(int type)
 	else
 	{
 		if (Img_CircleOpen && !SpecialElemFlag
-			&& LL[DOWN_EAGE] == LEFT_EAGE && RightPnt.ErrRow < UP_EAGE + 10 && RightPnt.ErrCol > MIDDLE)
+			&& LL[DOWN_EAGE] <= LEFT_EAGE + 3 && RightPnt.ErrRow < UP_EAGE + 10 && RightPnt.ErrCol > MIDDLE - 7
+			&& RightPnt.ErrCol < RIGHT_EAGE - 30)
 			return CL;
 		else if (Img_CircleOpen && !SpecialElemFlag
-			&& RL[DOWN_EAGE] == RIGHT_EAGE && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE)
+			&& RL[DOWN_EAGE] >= RIGHT_EAGE - 3 && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE + 7
+			&& LeftPnt.ErrCol > LEFT_EAGE + 30)
 			return CR;
 		else return CN;
 	}
@@ -137,16 +139,16 @@ void ImgJudgeBlock(void)
 			{
 				BlockFlag = 1;
 				BrokenFlag = 0;
-			}
-#endif 
 		}
+#endif 
+	}
 		else if (Img_BrokenOpen && 2 == flag)
 		{
 			BrokenFlag = 1;
 			SpecialElemFlag = 1;
 		}
 		else;
-	}
+}
 #endif
 }
 

@@ -43,9 +43,9 @@ void MainFill(void)
 		PointE.Row = LeftPnt.ErrRow; PointE.Col = LeftPnt.ErrCol;
 		PointF.Row = RightPnt.ErrRow; PointF.Col = RightPnt.ErrCol;
 
-		ImgJudgeStopLine();		//识别停车
-		ImgJudgeRamp();			//识别坡道
-		ImgJudgeCurveBroken();	//弯道断路
+		//ImgJudgeStopLine();		//识别停车
+		//ImgJudgeRamp();			//识别坡道
+		//ImgJudgeCurveBroken();	//弯道断路
 #if CIRCLE == 2
 		CircleFlag = ImgJudgeCircle(0);
 		if (CL == CircleFlag)
@@ -83,7 +83,7 @@ void MainFill(void)
 				FindLineNormal(0);
 
 			}
-		ImgJudgeBlock();		//识别路障
+		//ImgJudgeBlock();		//识别路障
 	}
 	if (1 == g_RoadType)
 	{
@@ -174,16 +174,7 @@ void GetML(void)
 	//string.Format("\r\n SpecElemFlag = %d \r\n", SpecialElemFlag); PrintDebug(string);
 	string.Format("\r\n ML_count = %d \r\n", ML_Count); PrintDebug(string);
 	string.Format("\r\n ML->count = %d \r\n", ML[ML_Count]); PrintDebug(string);
+	
 
-	for (int i = 0; i < 120; i++)
-	{
-		ImageData[i][LL[i]] = 254;
-		ImageData[i][ML[i]] = 255;
-		ImageData[i][RL[i]] = 254;
-	}
-	for (int i = 0; i < 30; i++)
-		ImageData[LeftIntLine][i] = 100;
-	for (int i = 187; i > 158; i--)
-		ImageData[RightIntLine][i] = 128;
 }
 

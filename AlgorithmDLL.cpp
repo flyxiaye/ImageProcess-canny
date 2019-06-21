@@ -94,6 +94,24 @@ void _stdcall HandleImg(void* pData, ULONG w, ULONG h)
 	
 	QueryPerformanceCounter(&start);//获取内部高精度计数器当前的计数值
 	GetML();
+	for (int i = 0; i < 120; i++)
+	{
+		for (int j = 0; j < 188; j++)
+		{
+			if (ImageEage[i][j] == HIGH_TH) ImageData[i][j] = 255;
+			else ImageData[i][j] = 0;
+		}
+	}
+	for (int i = 0; i < 120; i++)
+	{
+		ImageData[i][LL[i]] = 100;
+		ImageData[i][ML[i]] = 254;
+		ImageData[i][RL[i]] = 128;
+	}
+	for (int i = 0; i < 30; i++)
+		ImageData[LeftIntLine][i] = 100;
+	for (int i = 187; i > 158; i--)
+		ImageData[RightIntLine][i] = 128;
 	QueryPerformanceCounter(&end);
 
 	//long a = 300000;
@@ -126,8 +144,8 @@ void _stdcall HandleImg(void* pData, ULONG w, ULONG h)
 	//int a = AveGray();
 	//string.Format("\r\n gray = %d \r\n", a); PrintDebug(string);
 	
-	ImageData[PointE.Row][PointE.Col] = 100;
-	ImageData[PointF.Row][PointF.Col] = 128;
+	ImageData[PointE.Row][PointE.Col] = 128;
+	ImageData[PointF.Row][PointF.Col] = 100;
 	string.Format("\r\n time = %lfs \r\n", duration); PrintDebug(string);
 	string.Format("\r\n freq = %lfs \r\n", dFreq); PrintDebug(string);
 	//CannyEdgeTest(&ImageData[0], 20);
