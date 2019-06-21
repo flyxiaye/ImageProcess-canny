@@ -1075,81 +1075,95 @@ void FillLineAB(void)
 	case 7:
 		if (CL == CircleFlag)
 		{
-			if (DOWN_EAGE - 40 >= PointB.Row)		//no find line AB
-			{
-				if (RL[DOWN_EAGE - 30] < LEFT_EAGE + 60)
-					;
-				else
-				{
-					PointB.Row = DOWN_EAGE - 30;
-					PointB.Col = RL[DOWN_EAGE - 30] - 60;
-					if (LeftLost)			//lost A
-					{
-						PointA.Col = LEFT_EAGE;
-						PointA.Row = DOWN_EAGE;
-					}
-					else if (RL[DOWN_EAGE] - PointA.Col > 120)
-					{
-						PointA.Col = RL[DOWN_EAGE] - 120;
-						PointA.Row = DOWN_EAGE;
-					}
-					LL[PointB.Row] = PointB.Col;
-					LL[PointA.Row] = PointA.Col;
-					FillLinePoint(LL, PointA.Row, PointB.Row);
-					LeftPnt = FillLineUp(LL, PointB.Row + 3, PointB.Row);
-				}
-			}
-			else
-			{
-				LL[PointB.Row] = PointB.Col;
-				LEFT_PNT(PointB.Row, 0);
-				if (RL[DOWN_EAGE] - PointA.Col > 120)				//lost A
-				{
-					PointA.Row = DOWN_EAGE;
-					PointA.Col = RL[DOWN_EAGE] - 120;
-				}
-				LL[PointA.Row] = PointA.Col;
-				FillLinePoint(LL, PointA.Row, PointB.Row);
-			}
+			PointB.Row = RightPnt.ErrRow;
+			PointB.Col = RightPnt.ErrCol - MidOffset[PointB.Row] * 2;
+			PointA.Col = RL[DOWN_EAGE] - 120;
+			PointA.Row = DOWN_EAGE;
+			LL[PointB.Row] = PointB.Col;
+			LL[PointA.Row] = PointA.Col;
+			FillLinePoint(LL, PointA.Row, PointB.Row);
+			//if (DOWN_EAGE - 40 >= PointB.Row)		//no find line AB
+			//{
+			//	if (RL[DOWN_EAGE - 30] < LEFT_EAGE + 60)
+			//		;
+			//	else
+			//	{
+			//		PointB.Row = DOWN_EAGE - 30;
+			//		PointB.Col = RL[DOWN_EAGE - 30] - 60;
+			//		if (LeftLost)			//lost A
+			//		{
+			//			PointA.Col = LEFT_EAGE;
+			//			PointA.Row = DOWN_EAGE;
+			//		}
+			//		else if (RL[DOWN_EAGE] - PointA.Col > 120)
+			//		{
+			//			PointA.Col = RL[DOWN_EAGE] - 120;
+			//			PointA.Row = DOWN_EAGE;
+			//		}
+			//		LL[PointB.Row] = PointB.Col;
+			//		LL[PointA.Row] = PointA.Col;
+			//		FillLinePoint(LL, PointA.Row, PointB.Row);
+			//		LeftPnt = FillLineUp(LL, PointB.Row + 3, PointB.Row);
+			//	}
+			//}
+			//else
+			//{
+			//	LL[PointB.Row] = PointB.Col;
+			//	LEFT_PNT(PointB.Row, 0);
+			//	if (RL[DOWN_EAGE] - PointA.Col > 120)				//lost A
+			//	{
+			//		PointA.Row = DOWN_EAGE;
+			//		PointA.Col = RL[DOWN_EAGE] - 120;
+			//	}
+			//	LL[PointA.Row] = PointA.Col;
+			//	FillLinePoint(LL, PointA.Row, PointB.Row);
+			//}
 		}
 		else if (CR == CircleFlag)
 		{
-			if (DOWN_EAGE - 40 >= PointB.Row)		//no find line AB
-			{
-				if (LL[DOWN_EAGE - 30] > RIGHT_EAGE - 60)
-					;
-				else
-				{
-					PointB.Row = DOWN_EAGE - 30;
-					PointB.Col = LL[DOWN_EAGE - 30] + 60;
-					if (RightLost)			//lost A
-					{
-						PointA.Col = RIGHT_EAGE;
-						PointA.Row = DOWN_EAGE;
-					}
-					else if (PointA.Col - LL[DOWN_EAGE] > 120)
-					{
-						PointA.Col = LL[DOWN_EAGE] + 120;
-						PointA.Row = DOWN_EAGE;
-					}
-					RL[PointB.Row] = PointB.Col;
-					RL[PointA.Row] = PointA.Col;
-					FillLinePoint(RL, PointA.Row, PointB.Row);
-					RightPnt = FillLineUp(RL, PointB.Row + 3, PointB.Row);
-				}
-			}
-			else
-			{
-				RL[PointB.Row] = PointB.Col;
-				RIGHT_PNT(PointB.Row, 0);
-				if (PointA.Col - LL[DOWN_EAGE] > 120)				//lost A
-				{
-					PointA.Row = DOWN_EAGE;
-					PointA.Col = LL[DOWN_EAGE] + 120;
-				}
-				RL[PointA.Row] = PointA.Col;
-				FillLinePoint(RL, PointA.Row, PointB.Row);
-			}
+			PointB.Row = LeftPnt.ErrRow;
+			PointB.Col = LeftPnt.ErrCol + MidOffset[PointB.Row] * 2;
+			PointA.Col = LL[DOWN_EAGE] + 120;
+			PointA.Row = DOWN_EAGE;
+			RL[PointB.Row] = PointB.Col;
+			RL[PointA.Row] = PointA.Col;
+			FillLinePoint(RL, PointA.Row, PointB.Row);
+			//if (DOWN_EAGE - 40 >= PointB.Row)		//no find line AB
+			//{
+			//	if (LL[DOWN_EAGE - 30] > RIGHT_EAGE - 60)
+			//		;
+			//	else
+			//	{
+			//		PointB.Row = DOWN_EAGE - 30;
+			//		PointB.Col = LL[DOWN_EAGE - 30] + 60;
+			//		if (RightLost)			//lost A
+			//		{
+			//			PointA.Col = RIGHT_EAGE;
+			//			PointA.Row = DOWN_EAGE;
+			//		}
+			//		else if (PointA.Col - LL[DOWN_EAGE] > 120)
+			//		{
+			//			PointA.Col = LL[DOWN_EAGE] + 120;
+			//			PointA.Row = DOWN_EAGE;
+			//		}
+			//		RL[PointB.Row] = PointB.Col;
+			//		RL[PointA.Row] = PointA.Col;
+			//		FillLinePoint(RL, PointA.Row, PointB.Row);
+			//		RightPnt = FillLineUp(RL, PointB.Row + 3, PointB.Row);
+			//	}
+			//}
+			//else
+			//{
+			//	RL[PointB.Row] = PointB.Col;
+			//	RIGHT_PNT(PointB.Row, 0);
+			//	if (PointA.Col - LL[DOWN_EAGE] > 120)				//lost A
+			//	{
+			//		PointA.Row = DOWN_EAGE;
+			//		PointA.Col = LL[DOWN_EAGE] + 120;
+			//	}
+			//	RL[PointA.Row] = PointA.Col;
+			//	FillLinePoint(RL, PointA.Row, PointB.Row);
+			//}
 		}
 		break;
 	default:
