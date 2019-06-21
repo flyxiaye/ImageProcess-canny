@@ -39,10 +39,10 @@ int ImgJudgeCircle(int type)
 	else
 	{
 		if (Img_CircleOpen && !SpecialElemFlag
-			&& LL[DOWN_EAGE] == LEFT_EAGE && RightPnt.ErrRow < UP_EAGE + 10 && RightPnt.ErrCol > MIDDLE)
+			&& LL[DOWN_EAGE] == LEFT_EAGE && RightPnt.ErrRow < UP_EAGE + 10 && RightPnt.ErrCol > MIDDLE - 15)
 			return CL;
 		else if (Img_CircleOpen && !SpecialElemFlag
-			&& RL[DOWN_EAGE] == RIGHT_EAGE && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE)
+			&& RL[DOWN_EAGE] == RIGHT_EAGE && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE + 15)
 			return CR;
 		else return CN;
 	}
