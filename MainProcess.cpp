@@ -50,7 +50,6 @@ void MainFill(void)
 		CircleFlag = ImgJudgeCircle(0);
 		if (CL == CircleFlag)
 		{
-			//CircleFlag = CN;
 			CircleState = 1;
 			GetPointA();
 			GetPointB();
@@ -59,10 +58,10 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
+			CircleFlag = CN;
 		}
 		else if (CR == CircleFlag)
 		{
-			//CircleFlag = CN;
 			CircleState = 1;
 			GetPointA();
 			GetPointB();
@@ -71,6 +70,7 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
+			CircleFlag = CN;
 		}
 		else
 #endif // CIRCLE
@@ -100,6 +100,7 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
+			CircleFlag = CN;
 		}
 		else if (CR == CircleFlag)
 		{
@@ -111,6 +112,7 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
+			CircleFlag = CN;
 		}
 		else
 #endif
@@ -146,9 +148,9 @@ void GetML(void)
 	else
 #endif // CIRCLE
 	{
-		if (SpecialElemFlag)
+		if (Img_SpecialElemFlag)
 			SpecialElemFill();
-		if (!SpecialElemFlag)
+		if (!Img_SpecialElemFlag)
 			MainFill();
 	}
 

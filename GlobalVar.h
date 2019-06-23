@@ -70,11 +70,11 @@ extern int CircleState;
 
 extern int LeftIntLine;		//记录左内跳行数
 extern int RightIntLine;		//记录右内跳行数
-extern int SpecialElemFlag;    //特殊元素标志
-extern int BrokenFlag;			//断路标志 1直道断路  3弯道断路
-extern int BlockFlag;			//路障标志
-extern int StopLineFlag;		//停车线标志
-extern int RampFlag;			//坡道标志
+extern int Img_SpecialElemFlag;    //特殊元素标志
+extern int Img_BrokenFlag;			//断路标志 1直道断路  3弯道断路
+extern int Img_BlockFlag;			//路障标志
+extern int Img_StopLineFlag;		//停车线标志
+extern int Img_RampFlag;			//坡道标志
 
 extern int BrokenLastAve;
 extern int StopLineDist;

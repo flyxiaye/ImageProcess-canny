@@ -23,16 +23,17 @@ int LastMiddleLine = 0;
 
 int SpeedRow = 0;			//控速边界行数
 
-int CircleFlag = 1;
-int CircleState = 7;
+int CircleFlag = 0;
+int CircleState = 0;
 
 int LeftIntLine = 0;		//记录左内跳行数
 int RightIntLine = 0;		//记录右内跳行数
-int SpecialElemFlag = 0;    //特殊元素标志
-int BrokenFlag = 0;			//断路标志
-int BlockFlag = 0;			//路障标志
-int StopLineFlag = 0;		//停车线标志
-int RampFlag = 0;			//坡道标志
+
+int Img_SpecialElemFlag = 0;    //特殊元素标志
+int Img_BrokenFlag = 0;			//断路标志
+int Img_BlockFlag = 0;			//路障标志
+int Img_StopLineFlag = 0;		//停车线标志
+int Img_RampFlag = 0;			//坡道标志
 
 int BrokenLastAve = 0;
 int StopLineDist = 0;

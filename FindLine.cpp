@@ -10,7 +10,6 @@
 #include "FindLine.h"
 #include "canny.h"
 
-#define DE412 1
 
 #define UP_TH 15		//向上搜边缘行数
 #define LOST_TH 5	//首行丢边阈值	
@@ -159,12 +158,10 @@ int FirstRowProcess(void)
 		}
 		if (DOWN_EAGE - UP_TH == i)
 		{
-#if DE412
-			if (1 == TrendArray(&RL[DOWN_EAGE], 10) && LeftLostFlag)		//412新加
+			if (1 == TrendArray(&RL[DOWN_EAGE], 10) && LeftLostFlag)
 			{
 				RightLostFlag = 1;
 			}
-#endif // DE412
 			RightPnt.ErrRow = DOWN_EAGE;
 			RightPnt.ErrCol = RL[DOWN_EAGE];
 			RightPnt.Type = 0;
@@ -260,12 +257,10 @@ int FirstRowProcess(void)
 		}
 		if (DOWN_EAGE - UP_TH == i)
 		{
-#if DE412
-			if (-1 == TrendArray(&LL[DOWN_EAGE], 10) && RightLostFlag)		//412新加
+			if (-1 == TrendArray(&LL[DOWN_EAGE], 10) && RightLostFlag)
 			{
 				LeftLostFlag = 1;
 			}
-#endif // DE412
 			LeftPnt.ErrRow = DOWN_EAGE;
 			LeftPnt.ErrCol = LL[DOWN_EAGE];
 			LeftPnt.Type = 0;
