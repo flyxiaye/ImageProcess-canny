@@ -100,20 +100,26 @@ void ImgJudgeCurveBroken(void)
 	if (LeftPnt.ErrRow - RightPnt.ErrRow <= 3 && RightPnt.ErrRow - LeftPnt.ErrRow <= 3)
 	{
 		int RoadWidth[IMG_ROW] = { 0 };                 //路宽
+		int RoadWidthChange = 0;						//路宽变化率
 		int DownRow = DOWN_EAGE;
-		for (int i = LeftPnt.ErrRow; i <= DOWN_EAGE; i++)
+		int UpRow = MAX(LeftPnt.ErrRow,RightPnt.ErrRow);		
+		for (int i = UpRow; i <= DOWN_EAGE; i++)
 		{
 			RoadWidth[i] = RL[i] - LL[i];
-			if (LeftPnt.ErrRow != i && LL[i] - LEFT_EAGE < 10 || RIGHT_EAGE - RL[i] < 10)
+			if (LL[i] - LEFT_EAGE < 10 || RIGHT_EAGE - RL[i] < 10)
 			{
 				DownRow = i;
 				break;
 			}
 		}
-		int RoadWidthChange = (RoadWidth[DownRow] - (RightPnt.ErrCol - LeftPnt.ErrCol)) / (DownRow - LeftPnt.ErrRow);//路宽变化率
 		
+		if(LeftPnt.ErrRow == DownRow)
+			RoadWidthChange = 0;
+		else
+			RoadWidthChange = (RoadWidth[DownRow] - (RightPnt.ErrCol - LeftPnt.ErrCol)) / (DownRow - UpRow);
+
 		if (RoadWidthChange >= 3)
-		{
+		{		
 			BrokenFlag = 3;
 			SpecialElemFlag = 1;
 			if ((LL[DownRow] - LEFT_EAGE) < 15)//左弯断路
@@ -131,7 +137,7 @@ void ImgJudgeCurveBroken(void)
 				RightPnt.ErrCol = RIGHT_EAGE;
 				RightPnt.Type = 2;
 				LeftPnt.Type = 1;				
-			}
+			}			
 		}
 		else BrokenFlag = 0;
 	}
