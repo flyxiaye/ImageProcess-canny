@@ -8,7 +8,7 @@
 
 
 
-#define ROW 51
+#define ROW 46
 #define COL 188
 int HighThreshold = 50;
 int LowThreshold = HighThreshold * 0.4;

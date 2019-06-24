@@ -430,6 +430,7 @@ void FindLineNormal(int Fill)
 				TmpRow = SearchUpEage(i, LL[i] + 1);
 				if (i - TmpRow > CROSSUP || TmpRow == UP_EAGE)
 				{
+					string.Format("\r\n i = %d \r\n", i); PrintDebug(string);
 					LeftPnt.Type = 2;
 					LeftPnt.ErrRow = i;
 					LeftPnt.ErrCol = LL[i];
