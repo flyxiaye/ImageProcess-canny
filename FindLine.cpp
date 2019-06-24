@@ -377,7 +377,7 @@ void FindLineNormal(int Fill)
 					RL[i] = SearchRightNoEage(i, RL[i]) - 3;
 					RightIntLine = MAX(RightIntLine, i);
 				}
-				if (RL[i] - RL[i + 1] > FINDLINE_TH || RL[i + 1] - RL[i] > FINDLINE_TH || RIGHT_EAGE - 3 <= RL[i])
+				else if (RL[i] - RL[i + 1] > FINDLINE_TH || RL[i + 1] - RL[i] > FINDLINE_TH || RIGHT_EAGE - 3 <= RL[i])
 				{
 					RightPnt.ErrRow = i + 1;
 					RightPnt.ErrCol = RL[i + 1];
@@ -404,6 +404,8 @@ void FindLineNormal(int Fill)
 			RightPnt.ErrCol = RL[RightPnt.ErrRow];
 		}
 	}
+	string.Format("\r\n 0x02LeftPnt = %d %d %d \r\n", LeftPnt.Type, LeftPnt.ErrRow, LeftPnt.ErrCol); PrintDebug(string);
+	string.Format("\r\n 0x02RightPnt = %d %d %d \r\n", RightPnt.Type, RightPnt.ErrRow, RightPnt.ErrCol); PrintDebug(string);
 	if (Fill)
 	{
 		//对拐点的判断
@@ -413,9 +415,16 @@ void FindLineNormal(int Fill)
 			for (int i = LeftPnt.ErrRow; i >= RightPnt.ErrRow; --i)
 			{
 				TmpRow = SearchUpEage(i, RL[i] - 1);
-				if (i - TmpRow > CROSSUP || TmpRow == UP_EAGE)		//是拐点
+				if (i - TmpRow > CROSSUP)		//是拐点
 				{
 					RightPnt.Type = 2;
+					RightPnt.ErrRow = i;
+					RightPnt.ErrCol = RL[i];
+					break;
+				}
+				else if (TmpRow == UP_EAGE)
+				{
+					RightPnt.Type = 1;
 					RightPnt.ErrRow = i;
 					RightPnt.ErrCol = RL[i];
 					break;
@@ -428,10 +437,17 @@ void FindLineNormal(int Fill)
 			for (int i = RightPnt.ErrRow; i >= LeftPnt.ErrRow; --i)
 			{
 				TmpRow = SearchUpEage(i, LL[i] + 1);
-				if (i - TmpRow > CROSSUP || TmpRow == UP_EAGE)
+				if (i - TmpRow > CROSSUP)
 				{
 					string.Format("\r\n i = %d \r\n", i); PrintDebug(string);
 					LeftPnt.Type = 2;
+					LeftPnt.ErrRow = i;
+					LeftPnt.ErrCol = LL[i];
+					break;
+				}
+				else if (TmpRow == UP_EAGE)
+				{
+					LeftPnt.Type = 1;
 					LeftPnt.ErrRow = i;
 					LeftPnt.ErrCol = LL[i];
 					break;

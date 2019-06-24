@@ -139,16 +139,16 @@ void ImgJudgeBlock(void)
 			{
 				BlockFlag = 1;
 				BrokenFlag = 0;
-		}
+			}
 #endif 
-	}
+		}
 		else if (Img_BrokenOpen && 2 == flag)
 		{
 			Img_BrokenFlag = 1;
 			Img_SpecialElemFlag = 1;
 		}
 		else;
-}
+	}
 #endif
 }
 
@@ -420,7 +420,7 @@ int ImgJudgeOutBroken(void)
 			{
 				for (int j = i; j < 5; j++)
 				{
-					if (BrokenAve[i] - BrokenAve[j] > 45)
+					if (BrokenAve[i] - BrokenAve[j] > 35)
 					{
 						Num_i = 0;
 						return 1;
@@ -453,7 +453,7 @@ int ImgJudgeOutBroken(void)
 	{
 		if (Num_i < 5)
 		{
-			if (Num_i > 0 && LightThreshold - BrokenAve[Num_i - 1] > 45)
+			if (Num_i > 0 && LightThreshold - BrokenAve[Num_i - 1] > 35)
 			{
 				Num_i = 0;
 				return 2;

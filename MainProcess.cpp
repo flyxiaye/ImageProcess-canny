@@ -44,7 +44,7 @@ void MainFill(void)
 		PointF.Row = RightPnt.ErrRow; PointF.Col = RightPnt.ErrCol;
 
 		//ImgJudgeStopLine();		//识别停车
-		//ImgJudgeRamp();			//识别坡道
+		ImgJudgeRamp();			//识别坡道
 		//ImgJudgeCurveBroken();	//弯道断路
 #if CIRCLE == 2
 		CircleFlag = ImgJudgeCircle(0);
@@ -87,7 +87,7 @@ void MainFill(void)
 	}
 	if (1 == g_RoadType)
 	{
-		FindLineLost();
+		FindLineLost_1();
 #if CIRCLE == 2
 		CircleFlag = ImgJudgeCircle(1);
 		if (CL == CircleFlag)
@@ -156,7 +156,7 @@ void GetML(void)
 
 	//中线校验
 	if (RL[DOWN_EAGE] - LL[DOWN_EAGE] <= 40 || ML_Count > DOWN_EAGE - 20		//下边界过小，有效行数过低
-		|| RightPnt.ErrCol - LeftPnt.ErrCol > 100)									//上边界不收敛
+		|| RightPnt.ErrCol - LeftPnt.ErrCol > 100 ||LeftPnt.ErrCol - RightPnt.ErrCol > 30)									//上边界不收敛
 	{
 		ErrorFlag = 4;
 	}
