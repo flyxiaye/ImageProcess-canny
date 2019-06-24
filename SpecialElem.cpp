@@ -111,9 +111,8 @@ void ImgJudgeCurveBroken(void)
 				DownRow = i;
 				break;
 			}
-		}
-		
-		if(LeftPnt.ErrRow == DownRow)
+		}		
+		if(UpRow == DownRow)
 			RoadWidthChange = 0;
 		else
 			RoadWidthChange = (RoadWidth[DownRow] - (RightPnt.ErrCol - LeftPnt.ErrCol)) / (DownRow - UpRow);
