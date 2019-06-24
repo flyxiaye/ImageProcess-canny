@@ -95,24 +95,45 @@ void ImgJudgeRamp(void)
 //  @note   :		void
 //================================================================//
 void ImgJudgeCurveBroken(void)
-{
-	int RoadWidth[IMG_ROW];                 //路宽
-	for (int i = LeftPnt.ErrRow; i <= DOWN_EAGE; i++)
+{		
+#if CURVE_BROKEN	
+	if (LeftPnt.ErrRow - RightPnt.ErrRow <= 3 && RightPnt.ErrRow - LeftPnt.ErrRow <= 3)
 	{
-		RoadWidth[i] = RL[i] - LL[i];
+		int RoadWidth[IMG_ROW] = { 0 };                 //路宽
+		int DownRow = DOWN_EAGE;
+		for (int i = LeftPnt.ErrRow; i <= DOWN_EAGE; i++)
+		{
+			RoadWidth[i] = RL[i] - LL[i];
+			if (LeftPnt.ErrRow != i && LL[i] - LEFT_EAGE < 10 || RIGHT_EAGE - RL[i] < 10)
+			{
+				DownRow = i;
+				break;
+			}
+		}
+		int RoadWidthChange = (RoadWidth[DownRow] - (RightPnt.ErrCol - LeftPnt.ErrCol)) / (DownRow - LeftPnt.ErrRow);//路宽变化率
 		
-	}
-	int RoadWidthChange = (RoadWidth[DOWN_EAGE] - RoadWidth[LeftPnt.ErrRow]) / (DOWN_EAGE - LeftPnt.ErrRow);//路宽变化率
-	
-
-#if CURVE_BROKEN
-	
-	if (RoadWidthChange >= 3 && abs(LeftPnt.ErrRow - RightPnt.ErrRow) <= 3)
-	{				
-			string.Format("\r\n LRmeet\r\n"); PrintDebug(string);
+		if (RoadWidthChange >= 3)
+		{
 			BrokenFlag = 3;
 			SpecialElemFlag = 1;
-		
+			if ((LL[DownRow] - LEFT_EAGE) < 15)//左弯断路
+			{
+				string.Format("\r\n LeftBroke \r\n"); PrintDebug(string);
+				LeftPnt.ErrRow = DOWN_EAGE;
+				LeftPnt.ErrCol = LEFT_EAGE;
+				LeftPnt.Type = 2;
+				RightPnt.Type = 1;				
+			}
+			else if ((RIGHT_EAGE - RL[DownRow]) < 15)//右弯断路
+			{
+				string.Format("\r\n RightBroke \r\n"); PrintDebug(string);
+				RightPnt.ErrRow = DOWN_EAGE;
+				RightPnt.ErrCol = RIGHT_EAGE;
+				RightPnt.Type = 2;
+				LeftPnt.Type = 1;				
+			}
+		}
+		else BrokenFlag = 0;
 	}
 	else BrokenFlag = 0;
 #endif
@@ -190,25 +211,18 @@ void SpecialElemFill(void)
 		}
 		else if (ImgJudgeOutBroken())
 		{
-			BrokenFlag = 2;			//断路
+			BrokenFlag = 0;			//出断路
 		}
 		LeftPnt.ErrRow = MAX(LeftPnt.ErrRow, LeftIntLine);
 		RightPnt.ErrRow = MAX(RightPnt.ErrRow, RightIntLine);
 		FillMiddleLine();
 	}
-	else if (2 == BrokenFlag)
+	else if (3 == BrokenFlag)
 	{
 		if (ImgJudgeOutBroken())
 		{
 			BrokenFlag = 0;
 			SpecialElemFlag = 0;
-		}
-	}
-	else if (3 == BrokenFlag)
-	{
-		if (ImgJudgeOutBroken())
-		{
-			BrokenFlag = 2;			//断路
 		}
 	}
 	else if (BlockFlag)
@@ -396,7 +410,7 @@ int IsRamp(void)
 //================================================================//
 //  @brief  :		判断出断路
 //  @param  :		void
-//  @return :		1还处于断路  0已经出了断路
+//  @return :		0还处于断路  1已经出了断路
 //  @note   :		void
 //================================================================//
 int ImgJudgeOutBroken(void)
@@ -435,24 +449,24 @@ int ImgJudgeOutBroken(void)
 			return 0;
 		}
 
-		//		if (BrokenLastAve == 0)
-		//		{
-		//			BrokenLastAve = LightThreshold;
-		//			return 0;
-		//		}
-		//		else
-		//		{
-		//			if (BrokenLastAve - LightThreshold > 30)
-		//			{
-		//                          BrokenLastAve = LightThreshold;
-		//				return 1;
-		//			}
-		//			else 
-		//                        {
-		//                          BrokenLastAve = LightThreshold;
-		//                          return 0;
-		//                        }
-		//		}
+				/*if (BrokenLastAve == 0)
+				{
+					BrokenLastAve = LightThreshold;
+					return 0;
+				}
+				else
+				{
+					if (BrokenLastAve - LightThreshold > 30)
+					{
+		                          BrokenLastAve = LightThreshold;
+						return 1;
+					}
+					else 
+		                        {
+		                          BrokenLastAve = LightThreshold;
+		                          return 0;
+		                        }
+				}*/
 	}
 	else if (2 == BrokenFlag)
 	{
@@ -485,21 +499,21 @@ int ImgJudgeOutBroken(void)
 			}
 			return 0;
 		}
-		////FindLineNormal(0);
-		//if (LeftPnt.ErrRow < DOWN_EAGE - 20 && RightPnt.ErrRow < DOWN_EAGE - 20)
-		//{
-		//	if (RL[DOWN_EAGE] - LL[DOWN_EAGE] > 94 && RL[DOWN_EAGE - 1] - LL[DOWN_EAGE - 1] > 94
-		//		&& RL[DOWN_EAGE - 2] - LL[DOWN_EAGE - 2] > 94 && RL[DOWN_EAGE - 3] - LL[DOWN_EAGE - 3] > 94)
-		//	{
-		//		BrokenLastAve = 0;
-		//		return 0;
-		//	}
-		//	else return 2;
-		//}
-		//else
-		//{
-		//	return 2;
-		//}
+		//FindLineNormal(0);
+		/*if (LeftPnt.ErrRow < DOWN_EAGE - 20 && RightPnt.ErrRow < DOWN_EAGE - 20)
+		{
+			if (RL[DOWN_EAGE] - LL[DOWN_EAGE] > 94 && RL[DOWN_EAGE - 1] - LL[DOWN_EAGE - 1] > 94
+				&& RL[DOWN_EAGE - 2] - LL[DOWN_EAGE - 2] > 94 && RL[DOWN_EAGE - 3] - LL[DOWN_EAGE - 3] > 94)
+			{
+				BrokenLastAve = 0;
+				return 0;
+			}
+			else return 2;
+		}
+		else
+		{
+			return 2;
+		}*/
 	}
 	return 0;
 }
