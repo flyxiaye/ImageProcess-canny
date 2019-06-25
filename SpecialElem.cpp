@@ -96,13 +96,13 @@ void ImgJudgeRamp(void)
 //================================================================//
 void ImgJudgeCurveBroken(void)
 {		
-#if CURVE_BROKEN	
-	if (LeftPnt.ErrRow - RightPnt.ErrRow <= 3 && RightPnt.ErrRow - LeftPnt.ErrRow <= 3)
+#if CURVE_BROKEN
+	int UpRow = MAX(LeftPnt.ErrRow, RightPnt.ErrRow);
+	if (UpRow > 35 && LeftPnt.ErrRow - RightPnt.ErrRow <= 3 && RightPnt.ErrRow - LeftPnt.ErrRow <= 3)
 	{
 		int RoadWidth[IMG_ROW] = { 0 };                 //路宽
 		int RoadWidthChange = 0;						//路宽变化率
-		int DownRow = DOWN_EAGE;
-		int UpRow = MAX(LeftPnt.ErrRow,RightPnt.ErrRow);		
+		int DownRow = DOWN_EAGE;			
 		for (int i = UpRow; i <= DOWN_EAGE; i++)
 		{
 			RoadWidth[i] = RL[i] - LL[i];
@@ -112,6 +112,8 @@ void ImgJudgeCurveBroken(void)
 				break;
 			}
 		}		
+		string.Format("\r\n DownRow = %d \r\n",DownRow); PrintDebug(string);
+		string.Format("\r\n UpRow  = %d\r\n",UpRow); PrintDebug(string);
 		if(UpRow == DownRow || JudgeCurveEage(UpRow,DownRow,1) || JudgeCurveEage(UpRow, DownRow, 2))
 			RoadWidthChange = 0;
 		else
