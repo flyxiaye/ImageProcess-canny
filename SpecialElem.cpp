@@ -114,7 +114,7 @@ void ImgJudgeCurveBroken(void)
 		}		
 		string.Format("\r\n DownRow = %d \r\n",DownRow); PrintDebug(string);
 		string.Format("\r\n UpRow  = %d\r\n",UpRow); PrintDebug(string);
-		if(UpRow == DownRow || JudgeCurveEage(UpRow,DownRow,1) || JudgeCurveEage(UpRow, DownRow, 2))
+		if(DownRow - UpRow < 5 || JudgeCurveEage(UpRow,DownRow,1) || JudgeCurveEage(UpRow, DownRow, 2))
 			RoadWidthChange = 0;
 		else
 			RoadWidthChange = (RoadWidth[DownRow] - (RightPnt.ErrCol - LeftPnt.ErrCol)) / (DownRow - UpRow);
@@ -220,11 +220,19 @@ void SpecialElemFill(void)
 		}
 		else if (ImgJudgeOutBroken())
 		{
-			BrokenFlag = 0;			//³ö¶ÏÂ·
+			BrokenFlag = 2;			//¶ÏÂ·
 		}
 		LeftPnt.ErrRow = MAX(LeftPnt.ErrRow, LeftIntLine);
 		RightPnt.ErrRow = MAX(RightPnt.ErrRow, RightIntLine);
 		FillMiddleLine();
+	}
+	else if (2 == BrokenFlag)
+	{
+		if (ImgJudgeOutBroken())
+		{
+			BrokenFlag = 0;
+			SpecialElemFlag = 0;
+		}
 	}
 	else if (4 == BrokenFlag)//×óÍä¶ÏÂ·
 	{
@@ -239,8 +247,7 @@ void SpecialElemFill(void)
 		FillMiddleLine();
 		if (ImgJudgeOutBroken())
 		{
-			BrokenFlag = 0;
-			SpecialElemFlag = 0;
+			BrokenFlag = 2;
 		}
 	}
 	else if (5 == BrokenFlag)//ÓÒÍä¶ÏÂ·
@@ -256,16 +263,14 @@ void SpecialElemFill(void)
 		FillMiddleLine();
 		if (ImgJudgeOutBroken())
 		{
-			BrokenFlag = 0;
-			SpecialElemFlag = 0;
+			BrokenFlag = 2;
 		}
 	}
 	else if (3 == BrokenFlag)			
 	{
 		if (ImgJudgeOutBroken())
 		{
-			BrokenFlag = 0;
-			SpecialElemFlag = 0;
+			BrokenFlag = 2;
 		}
 	}
 	else if (BlockFlag)
