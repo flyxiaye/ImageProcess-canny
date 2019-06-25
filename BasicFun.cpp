@@ -484,3 +484,27 @@ int IsBigWave(int* line, int n)
 	}
 	return 0;
 }
+
+//================================================================//
+//  @brief  :		判断曲直
+//  @param  :		type : 1判断LL，2判断RL
+//  @return :		return : 1为曲线，0为直线
+//  @note   :		void
+//================================================================//
+int JudgeCurveEage(int up_row, int down_row, int type)
+{
+	if (type == 1)
+	{
+		if ((LL[up_row] + LL[down_row]) / 2 - LL[(up_row + down_row) / 2] < 10
+			&& LL[(up_row + down_row) / 2] - (LL[up_row] + LL[down_row]) / 2 < 10)
+			return 0;
+		else
+			return 1;
+	}
+	else if (type == 2)
+		if ((RL[up_row] + RL[down_row]) / 2 - RL[(up_row + down_row) / 2] < 10
+			&& RL[(up_row + down_row) / 2] - (RL[up_row] + RL[down_row]) / 2 < 10)
+			return 0;
+		else
+			return 1;
+}

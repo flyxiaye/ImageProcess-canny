@@ -108,11 +108,11 @@ void ImgJudgeCurveBroken(void)
 			RoadWidth[i] = RL[i] - LL[i];
 			if (LL[i] - LEFT_EAGE < 10 || RIGHT_EAGE - RL[i] < 10)
 			{
-				DownRow = i;
+				DownRow = i;				
 				break;
 			}
 		}		
-		if(UpRow == DownRow)
+		if(UpRow == DownRow || JudgeCurveEage(UpRow,DownRow,1) || JudgeCurveEage(UpRow, DownRow, 2))
 			RoadWidthChange = 0;
 		else
 			RoadWidthChange = (RoadWidth[DownRow] - (RightPnt.ErrCol - LeftPnt.ErrCol)) / (DownRow - UpRow);
@@ -123,19 +123,21 @@ void ImgJudgeCurveBroken(void)
 			SpecialElemFlag = 1;
 			if ((LL[DownRow] - LEFT_EAGE) < 15)//×óÍä¶ÏÂ·
 			{
-				string.Format("\r\n LeftBroke \r\n"); PrintDebug(string);
+				BrokenFlag = 4;
+				string.Format("\r\n LeftBroke \r\n"); PrintDebug(string);	
 				LeftPnt.ErrRow = DOWN_EAGE;
 				LeftPnt.ErrCol = LEFT_EAGE;
 				LeftPnt.Type = 2;
-				RightPnt.Type = 1;				
+				RightPnt.Type = 1;
 			}
 			else if ((RIGHT_EAGE - RL[DownRow]) < 15)//ÓÒÍä¶ÏÂ·
 			{
-				string.Format("\r\n RightBroke \r\n"); PrintDebug(string);
+				BrokenFlag = 5;
+				string.Format("\r\n RightBroke \r\n"); PrintDebug(string);	
 				RightPnt.ErrRow = DOWN_EAGE;
 				RightPnt.ErrCol = RIGHT_EAGE;
 				RightPnt.Type = 2;
-				LeftPnt.Type = 1;				
+				LeftPnt.Type = 1;
 			}			
 		}
 		else BrokenFlag = 0;
@@ -222,7 +224,41 @@ void SpecialElemFill(void)
 		RightPnt.ErrRow = MAX(RightPnt.ErrRow, RightIntLine);
 		FillMiddleLine();
 	}
-	else if (3 == BrokenFlag)
+	else if (4 == BrokenFlag)//×óÍä¶ÏÂ·
+	{
+		LeftPnt.ErrRow = DOWN_EAGE;
+		LeftPnt.ErrCol = LEFT_EAGE;
+		LeftPnt.Type = 2;
+		RightPnt.Type = 1;
+		for (int i = DOWN_EAGE ; i > UP_EAGE; --i)
+		{
+			LL[i] = LEFT_EAGE;
+		}
+		FillMiddleLine();
+		if (ImgJudgeOutBroken())
+		{
+			BrokenFlag = 0;
+			SpecialElemFlag = 0;
+		}
+	}
+	else if (5 == BrokenFlag)//ÓÒÍä¶ÏÂ·
+	{
+		RightPnt.ErrRow = DOWN_EAGE;
+		RightPnt.ErrCol = RIGHT_EAGE;
+		RightPnt.Type = 2;
+		LeftPnt.Type = 1;
+		for (int i = DOWN_EAGE ; i > UP_EAGE; --i)
+		{
+			RL[i] = RIGHT_EAGE;
+		}
+		FillMiddleLine();
+		if (ImgJudgeOutBroken())
+		{
+			BrokenFlag = 0;
+			SpecialElemFlag = 0;
+		}
+	}
+	else if (3 == BrokenFlag)			
 	{
 		if (ImgJudgeOutBroken())
 		{
