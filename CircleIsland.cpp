@@ -457,6 +457,7 @@ void GetPointA(void)
 			PointA.Col = RL[DOWN_EAGE] - 1;
 		break;
 	case 7:
+		break;
 		if (CL == CircleFlag)
 		{
 			int NewRow = DOWN_EAGE, OldRow = DOWN_EAGE - 2, TmpCol = LL[DOWN_EAGE];
@@ -657,6 +658,7 @@ void GetPointB(void)
 		}
 		break;
 	case 7:
+		break;
 		if (CL == CircleFlag)
 		{
 			Point PointNew = { SearchUpEage(PointA.Row + 1, PointA.Col + 1), PointA.Col + 1 };
@@ -899,6 +901,17 @@ void GetPointC(void)
 		PointC.Row = SearchUpEage((LeftPnt.ErrRow + RightPnt.ErrRow) >> 1, PointC.Col);
 		break;
 	case 7:
+		if (CL == CircleFlag)
+		{
+			PointC.Row = RightPnt.ErrRow;
+			PointC.Col = RightPnt.ErrCol;
+		}
+		else if (CR == CircleFlag)
+		{
+			PointC.Row = LeftPnt.ErrRow;
+			PointC.Col = LeftPnt.ErrCol;
+		}
+		break;
 		if (CL == CircleFlag && DOWN_EAGE - 25 < RightPnt.ErrRow
 			|| CR == CircleFlag && DOWN_EAGE - 25 < LeftPnt.ErrRow)
 		{
@@ -995,6 +1008,21 @@ void GetPointD(void)
 		}
 		break;
 	case 7:
+		if (CL == CircleFlag)
+		{
+			/*if (RL[DOWN_EAGE] > ConstRightEage)
+				PointD.Col = ConstRightEage;
+			else */PointD.Col = RL[DOWN_EAGE];
+			PointD.Row = DOWN_EAGE;
+		}
+		else if (CR == CircleFlag)
+		{
+			/*if (LL[DOWN_EAGE] < ConstLeftEage)
+				PointD.Col = ConstLeftEage;
+			else */PointD.Col = LL[DOWN_EAGE];
+			PointD.Row = DOWN_EAGE;
+		}
+		break;
 		if (UP_EAGE != PointC.Row)
 		{
 			if (CL == CircleFlag)
@@ -1075,13 +1103,16 @@ void FillLineAB(void)
 	case 7:
 		if (CL == CircleFlag)
 		{
-			PointB.Row = RightPnt.ErrRow;
-			PointB.Col = RightPnt.ErrCol - MidOffset[PointB.Row] * 2;
-			PointA.Col = RL[DOWN_EAGE] - 120;
-			PointA.Row = DOWN_EAGE;
-			LL[PointB.Row] = PointB.Col;
-			LL[PointA.Row] = PointA.Col;
-			FillLinePoint(LL, PointA.Row, PointB.Row);
+			LL[PointD.Row] = LeftPnt.ErrCol = PointD.Col - MidOffset[PointD.Row] * 2;
+			LeftPnt.ErrRow = PointD.Row;
+			LeftPnt.Type = 2;
+			//PointB.Row = RightPnt.ErrRow;
+			//PointB.Col = RightPnt.ErrCol - MidOffset[PointB.Row] * 2;
+			//PointA.Col = RL[DOWN_EAGE] - 120;
+			//PointA.Row = DOWN_EAGE;
+			//LL[PointB.Row] = PointB.Col;
+			//LL[PointA.Row] = PointA.Col;
+			//FillLinePoint(LL, PointA.Row, PointB.Row);
 			//if (DOWN_EAGE - 40 >= PointB.Row)		//no find line AB
 			//{
 			//	if (RL[DOWN_EAGE - 30] < LEFT_EAGE + 60)
@@ -1121,13 +1152,16 @@ void FillLineAB(void)
 		}
 		else if (CR == CircleFlag)
 		{
-			PointB.Row = LeftPnt.ErrRow;
-			PointB.Col = LeftPnt.ErrCol + MidOffset[PointB.Row] * 2;
-			PointA.Col = LL[DOWN_EAGE] + 120;
-			PointA.Row = DOWN_EAGE;
-			RL[PointB.Row] = PointB.Col;
-			RL[PointA.Row] = PointA.Col;
-			FillLinePoint(RL, PointA.Row, PointB.Row);
+			RL[PointD.Row] = RightPnt.ErrCol = PointD.Col + MidOffset[PointD.Row] * 2;
+			RightPnt.ErrRow = DOWN_EAGE;
+			RightPnt.Type = 2;
+			//PointB.Row = LeftPnt.ErrRow;
+			//PointB.Col = LeftPnt.ErrCol + MidOffset[PointB.Row] * 2;
+			//PointA.Col = LL[DOWN_EAGE] + 120;
+			//PointA.Row = DOWN_EAGE;
+			//RL[PointB.Row] = PointB.Col;
+			//RL[PointA.Row] = PointA.Col;
+			//FillLinePoint(RL, PointA.Row, PointB.Row);
 			//if (DOWN_EAGE - 40 >= PointB.Row)		//no find line AB
 			//{
 			//	if (LL[DOWN_EAGE - 30] > RIGHT_EAGE - 60)
@@ -1245,21 +1279,21 @@ void FillLineCD(void)
 	case 7:
 		if (CL == CircleFlag)
 		{
-			if (UP_EAGE != PointC.Row)	//fill line CD
+			if (RL[DOWN_EAGE] != PointD.Col)	//fill line CD
 			{
 				RL[PointC.Row] = PointC.Col;
 				RL[PointD.Row] = PointD.Col;
-				FillLinePoint(RL, PointD.Row, PointC.Row);
+				FillLinePoint(RL, PointD.Row, PointD.Row - 20);
 				RIGHT_PNT(PointC.Row, 0);
 			}
 		}
 		else if (CR == CircleFlag)
 		{
-			if (UP_EAGE != PointC.Row)	//fill line CD
+			if (LL[DOWN_EAGE] != PointD.Col)	//fill line CD
 			{
 				LL[PointC.Row] = PointC.Col;
 				LL[PointD.Row] = PointD.Col;
-				FillLinePoint(LL, PointD.Row, PointC.Row);
+				FillLinePoint(LL, PointD.Row, PointD.Row - 20);
 				LEFT_PNT(PointC.Row, 0);
 			}
 		}
