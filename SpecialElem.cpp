@@ -100,7 +100,8 @@ void ImgJudgeCurveBroken(void)
 {
 #if CURVE_BROKEN	
 	int UpRow = MAX(LeftPnt.ErrRow, RightPnt.ErrRow);
-	if (LeftPnt.ErrRow - RightPnt.ErrRow <= 3 && RightPnt.ErrRow - LeftPnt.ErrRow <= 3 && UpRow > 35)
+	if (LeftPnt.ErrRow - RightPnt.ErrRow <= 3 && RightPnt.ErrRow - LeftPnt.ErrRow <= 3 && UpRow > 35
+		&& ImgJudgeSpecialLine(LeftPnt.ErrRow, LeftPnt.ErrCol, RightPnt.ErrRow, RightPnt.ErrCol, 1))
 	{
 		int RoadWidth[IMG_ROW] = { 0 };                 //路宽
 		int RoadWidthChange = 0;						//路宽变化率
@@ -303,7 +304,7 @@ void SpecialElemFill(void)
 //================================================================//
 int ImgJudgeSpecialElem(int left_line, int right_line)
 {
-	if (ImgJudgeSpecialLine(left_line, right_line, 0))
+	if (ImgJudgeSpecialLine(left_line, LL[left_line], right_line, RL[right_line], 0))
 	{
 		if (IsBlock(left_line, right_line))
 			return 1;
@@ -318,29 +319,38 @@ int ImgJudgeSpecialElem(int left_line, int right_line)
 //  @return :		1 确认有
 //  @note   :		全局变量LL RL
 //================================================================//
-int ImgJudgeSpecialLine(int left_line, int right_line, int type)
+int ImgJudgeSpecialLine(int left_row, int left_col, int right_row, int right_col, int type)
 {
 	const int StartLine = 33;
-	if (left_line < StartLine && right_line < StartLine
-		|| left_line - right_line > 8 || right_line - left_line > 8
-		|| LL[left_line] > MIDDLE || RL[right_line] < MIDDLE)
+	if (!type &&
+		(left_row < StartLine && right_row < StartLine
+			|| left_row - right_row > 8 || right_row - left_row > 8
+			|| left_col > MIDDLE || right_col < MIDDLE))
 		return 0;
-	if (!type && LL[left_line] + 15 > RL[right_line]) return 0;
-
+	if (type)
+	{
+		if (left_col > right_col)
+		{
+			int tmp = left_col;
+			left_col = right_col; right_col = tmp;
+			tmp = left_row;
+			left_row = right_row; right_row = tmp;
+		}
+	}
 	const int diff = 2;
-	int NewRow = left_line;
-	int NewRow2 = right_line;
+	int NewRow = left_row;
+	int NewRow2 = right_row;
 	int OldRow = NewRow;
 	int OldRow2 = NewRow2;
-	int Middle = (LL[left_line] + RL[right_line]) >> 1;
-	for (int i = LL[left_line] + 1; i <= Middle; i++)
+	int Middle = (left_col + right_col) >> 1;
+	for (int i = left_col + 1; i <= Middle; i++)
 	{
 		NewRow = SearchUpEage(OldRow + 2, i);
 		if (NewRow - OldRow > diff || OldRow - NewRow > diff)
 			return 0;
 		OldRow = NewRow;
 	}
-	for (int i = RL[right_line] - 1; i >= Middle; i--)
+	for (int i = right_col - 1; i >= Middle; i--)
 	{
 		NewRow2 = SearchUpEage(OldRow2 + 2, i);
 		if (NewRow2 - OldRow2 > diff || OldRow2 - NewRow2 > diff)

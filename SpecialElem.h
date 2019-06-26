@@ -9,7 +9,7 @@ void ImgJudgeBlock(void);
 
 void SpecialElemFill(void);
 int ImgJudgeSpecialElem(int left_line, int right_line);
-int ImgJudgeSpecialLine(int left_line, int right_line,int type);
+int ImgJudgeSpecialLine(int left_line, int left_col, int right_line, int right_col, int type);
 int IsBlock(int left_line, int right_line);
 int IsRamp(void);
 int ImgJudgeOutBroken(void);
