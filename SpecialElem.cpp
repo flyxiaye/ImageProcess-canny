@@ -475,7 +475,7 @@ int IsRamp(void)
 int ImgJudgeOutBroken(void)
 {
 	static int Num_i = 0;
-	static int BrokenAve[5] = { 0 };
+	static int BrokenAve[10] = { 0 };
 	if (2 == Img_BrokenFlag)
 	{
 		if (Num_i < 5)
@@ -485,7 +485,7 @@ int ImgJudgeOutBroken(void)
 			{
 				for (int i = 0; i < Num_i - 1; i++)
 				{
-					for (int j = 0; j < Num_i; j++)
+					for (int j = i; j < Num_i; j++)
 					{
 						if (BrokenAve[j] - BrokenAve[i] > 30)
 						{
@@ -535,14 +535,14 @@ int ImgJudgeOutBroken(void)
 	}
 	else
 	{
-		if (Num_i < 5)
+		if (Num_i < 10)
 		{
 			BrokenAve[Num_i++] = LightThreshold;
 			if (Num_i > 1)
 			{
 				for (int i = 0; i < Num_i - 1; i++)
 				{
-					for (int j = 0; j < Num_i; j++)
+					for (int j = i; j < Num_i; j++)
 					{
 						if (BrokenAve[i] - BrokenAve[j] > 30)
 						{
@@ -562,13 +562,13 @@ int ImgJudgeOutBroken(void)
 		}
 		else
 		{
-			for (int i = 0; i < 4; i++)		//更新数组元素
+			for (int i = 0; i < 9; i++)		//更新数组元素
 				BrokenAve[i] = BrokenAve[i + 1];
-			BrokenAve[4] = LightThreshold;
+			BrokenAve[9] = LightThreshold;
 			//判断条件
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 9; i++)
 			{
-				for (int j = i; j < 5; j++)
+				for (int j = i; j < 10; j++)
 				{
 					if (BrokenAve[i] - BrokenAve[j] > 30)
 					{

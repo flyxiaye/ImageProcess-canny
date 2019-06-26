@@ -403,9 +403,6 @@ void CircleFindLine(void)
 		if (RightPnt.ErrRow - LeftPnt.ErrRow < EXIT_ISLAND && LeftPnt.ErrRow - RightPnt.ErrRow < EXIT_ISLAND
 			&& RightPnt.ErrCol - LeftPnt.ErrCol < 4 * EXIT_ISLAND)
 		{
-#if CI_IND
-			if (ind_left + ind_right <= ind_ci_th)
-#endif // CI_IND
 				ChangeFlag = 1;
 		}
 		break;
