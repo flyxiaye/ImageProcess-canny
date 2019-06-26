@@ -1236,12 +1236,14 @@ void FillLineCD(void)
 		if (CL == CircleFlag)
 		{
 			RL[PointD.Row] = PointD.Col;
-			FillLinePoint(RL, PointD.Row, PointC.Row);
+			//FillLinePoint(RL, PointD.Row, PointC.Row);
+			Connect_Point_Curve(RL, PointD.Row, PointD.Col, PointC.Row, PointC.Col);
 		}
 		else if (CR == CircleFlag)
 		{
 			LL[PointD.Row] = PointD.Col;
-			FillLinePoint(LL, PointD.Row, PointC.Row);
+			//FillLinePoint(LL, PointD.Row, PointC.Row);
+			Connect_Point_Curve(LL, PointD.Row, PointD.Col, PointC.Row, PointC.Col);
 		}
 		break;
 	case 5:

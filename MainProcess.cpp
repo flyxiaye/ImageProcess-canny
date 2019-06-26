@@ -45,7 +45,7 @@ void MainFill(void)
 
 		//ImgJudgeStopLine();		//识别停车
 		ImgJudgeRamp();			//识别坡道
-		//ImgJudgeCurveBroken();	//弯道断路
+		ImgJudgeCurveBroken();	//弯道断路
 #if CIRCLE == 2
 		CircleFlag = ImgJudgeCircle(0);
 		if (CL == CircleFlag)
@@ -100,7 +100,7 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
-			CircleFlag = CN;
+			//CircleFlag = CN;
 		}
 		else if (CR == CircleFlag)
 		{
@@ -112,7 +112,7 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
-			CircleFlag = CN;
+			//CircleFlag = CN;
 		}
 		else
 #endif
@@ -156,7 +156,7 @@ void GetML(void)
 
 	//中线校验
 	if (RL[DOWN_EAGE] - LL[DOWN_EAGE] <= 40 || ML_Count > DOWN_EAGE - 20		//下边界过小，有效行数过低
-		|| RightPnt.ErrCol - LeftPnt.ErrCol > 100 ||LeftPnt.ErrCol - RightPnt.ErrCol > 30)									//上边界不收敛
+		|| RightPnt.ErrCol - LeftPnt.ErrCol > 100 || LeftPnt.ErrCol - RightPnt.ErrCol > 30)									//上边界不收敛
 	{
 		ErrorFlag = 4;
 	}
@@ -170,13 +170,13 @@ void GetML(void)
 	//string.Format("\r\n SpeedRow = %d \r\n", SpeedRow); PrintDebug(string);
 	string.Format("\r\n CircleFlag = %d \r\n", CircleFlag); PrintDebug(string);
 	string.Format("\r\n CircleState = %d \r\n", CircleState); PrintDebug(string);
-	//string.Format("\r\n BrokenFlag = %d \r\n", BrokenFlag); PrintDebug(string);
+	string.Format("\r\n BrokenFlag = %d \r\n", Img_BrokenFlag); PrintDebug(string);
 	//string.Format("\r\n BlockFlag = %d \r\n", BlockFlag); PrintDebug(string);
 	//string.Format("\r\n RampFlag = %d \r\n", RampFlag); PrintDebug(string);
 	//string.Format("\r\n SpecElemFlag = %d \r\n", SpecialElemFlag); PrintDebug(string);
 	string.Format("\r\n ML_count = %d \r\n", ML_Count); PrintDebug(string);
 	string.Format("\r\n ML->count = %d \r\n", ML[ML_Count]); PrintDebug(string);
-	
+
 
 }
 

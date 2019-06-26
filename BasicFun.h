@@ -29,5 +29,7 @@ int MinArray(int* line, int n);
 signed int TrendArray(int* line, int n);
 void AveFilter(int* line, int n);
 int IsBigWave(int* line, int n);
+
+int JudgeCurveEage(int up_row, int down_row, int type);
 #endif //!BasicFun_H
 #pragma once

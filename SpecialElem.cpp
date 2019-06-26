@@ -98,19 +98,55 @@ void ImgJudgeRamp(void)
 //================================================================//
 void ImgJudgeCurveBroken(void)
 {
-#if CURVE_BROKEN
-	if (LeftPnt.ErrRow - RightPnt.ErrRow < 5 && RightPnt.ErrRow - LeftPnt.ErrRow < 5
-		&& LeftPnt.ErrCol - RightPnt.ErrCol < 10 && RightPnt.ErrCol - LeftPnt.ErrCol < 10)
+#if CURVE_BROKEN	
+	int UpRow = MAX(LeftPnt.ErrRow, RightPnt.ErrRow);
+	if (LeftPnt.ErrRow - RightPnt.ErrRow <= 3 && RightPnt.ErrRow - LeftPnt.ErrRow <= 3 && UpRow > 35)
 	{
-		if (ImgJudgeSpecialLine(LeftPnt.ErrRow, RightPnt.ErrRow, 1))
+		int RoadWidth[IMG_ROW] = { 0 };                 //路宽
+		int RoadWidthChange = 0;						//路宽变化率
+		int DownRow = DOWN_EAGE;
+		for (int i = UpRow; i <= DOWN_EAGE; i++)
+		{
+			RoadWidth[i] = RL[i] - LL[i];
+			if (LL[i] - LEFT_EAGE < 10 || RIGHT_EAGE - RL[i] < 10)
+			{
+				DownRow = i;
+				break;
+			}
+		}
+		if (DownRow - UpRow < 5 || JudgeCurveEage(UpRow, DownRow, 1) || JudgeCurveEage(UpRow, DownRow, 2))
+			RoadWidthChange = 0;
+		else
+			RoadWidthChange = (RoadWidth[DownRow] - (RightPnt.ErrCol - LeftPnt.ErrCol)) / (DownRow - UpRow);
+
+		if (RoadWidthChange >= 3)
 		{
 			Img_BrokenFlag = 3;
 			Img_SpecialElemFlag = 1;
+			if ((LL[DownRow] - LEFT_EAGE) < 15)//左弯断路
+			{
+				Img_BrokenFlag = 4;
+				//string.Format("\r\n LeftBroke \r\n"); PrintDebug(string);
+				LeftPnt.ErrRow = DOWN_EAGE;
+				LeftPnt.ErrCol = LEFT_EAGE;
+				LeftPnt.Type = 2;
+				RightPnt.Type = 1;
+			}
+			else if ((RIGHT_EAGE - RL[DownRow]) < 15)//右弯断路
+			{
+				Img_BrokenFlag = 5;
+				//string.Format("\r\n RightBroke \r\n"); PrintDebug(string);
+				RightPnt.ErrRow = DOWN_EAGE;
+				RightPnt.ErrCol = RIGHT_EAGE;
+				RightPnt.Type = 2;
+				LeftPnt.Type = 1;
+			}
 		}
 		else Img_BrokenFlag = 0;
 	}
 	else Img_BrokenFlag = 0;
 #endif
+
 }
 
 //================================================================//
@@ -138,7 +174,7 @@ void ImgJudgeBlock(void)
 			if (g_inf > stop_inf)
 			{
 				BlockFlag = 1;
-				BrokenFlag = 0;
+				Img_BrokenFlag = 0;
 			}
 #endif 
 		}
@@ -204,6 +240,38 @@ void SpecialElemFill(void)
 		if (ImgJudgeOutBroken())
 		{
 			Img_BrokenFlag = 2;			//断路
+		}
+	}
+	else if (4 == Img_BrokenFlag)//左弯断路
+	{
+		LeftPnt.ErrRow = DOWN_EAGE;
+		LeftPnt.ErrCol = LEFT_EAGE;
+		LeftPnt.Type = 2;
+		RightPnt.Type = 1;
+		for (int i = DOWN_EAGE; i > UP_EAGE; --i)
+		{
+			LL[i] = LEFT_EAGE;
+		}
+		FillMiddleLine();
+		if (ImgJudgeOutBroken())
+		{
+			Img_BrokenFlag = 2;
+		}
+	}
+	else if (5 == Img_BrokenFlag)//右弯断路
+	{
+		RightPnt.ErrRow = DOWN_EAGE;
+		RightPnt.ErrCol = RIGHT_EAGE;
+		RightPnt.Type = 2;
+		LeftPnt.Type = 1;
+		for (int i = DOWN_EAGE; i > UP_EAGE; --i)
+		{
+			RL[i] = RIGHT_EAGE;
+		}
+		FillMiddleLine();
+		if (ImgJudgeOutBroken())
+		{
+			Img_BrokenFlag = 2;
 		}
 	}
 	else if (Img_BlockFlag)
@@ -398,16 +466,26 @@ int ImgJudgeOutBroken(void)
 {
 	static int Num_i = 0;
 	static int BrokenAve[5] = { 0 };
-	if (Img_BrokenFlag == 1 || Img_BrokenFlag == 3)
+	if (2 == Img_BrokenFlag)
 	{
 		if (Num_i < 5)
 		{
-			if (Num_i > 0 && BrokenAve[Num_i - 1] - LightThreshold > 45)
-			{
-				Num_i = 0;
-				return 1;
-			}
 			BrokenAve[Num_i++] = LightThreshold;
+			if (Num_i > 1)
+			{
+				for (int i = 0; i < Num_i - 1; i++)
+				{
+					for (int j = 0; j < Num_i; j++)
+					{
+						if (BrokenAve[j] - BrokenAve[i] > 30)
+						{
+							Num_i = 0;
+							return 2;
+						}
+					}
+				}
+			}
+
 			return 0;
 		}
 		else
@@ -420,7 +498,69 @@ int ImgJudgeOutBroken(void)
 			{
 				for (int j = i; j < 5; j++)
 				{
-					if (BrokenAve[i] - BrokenAve[j] > 35)
+					if (BrokenAve[j] - BrokenAve[i] > 30)
+					{
+						Num_i = 0;
+						return 2;
+					}
+				}
+			}
+			return 0;
+		}
+		////FindLineNormal(0);
+		//if (LeftPnt.ErrRow < DOWN_EAGE - 20 && RightPnt.ErrRow < DOWN_EAGE - 20)
+		//{
+		//	if (RL[DOWN_EAGE] - LL[DOWN_EAGE] > 94 && RL[DOWN_EAGE - 1] - LL[DOWN_EAGE - 1] > 94
+		//		&& RL[DOWN_EAGE - 2] - LL[DOWN_EAGE - 2] > 94 && RL[DOWN_EAGE - 3] - LL[DOWN_EAGE - 3] > 94)
+		//	{
+		//		BrokenLastAve = 0;
+		//		return 0;
+		//	}
+		//	else return 2;
+		//}
+		//else
+		//{
+		//	return 2;
+		//}
+	}
+	else
+	{
+		if (Num_i < 5)
+		{
+			BrokenAve[Num_i++] = LightThreshold;
+			if (Num_i > 1)
+			{
+				for (int i = 0; i < Num_i - 1; i++)
+				{
+					for (int j = 0; j < Num_i; j++)
+					{
+						if (BrokenAve[i] - BrokenAve[j] > 30)
+						{
+							Num_i = 0;
+							return 1;
+						}
+					}
+				}
+			}
+			/*if (Num_i > 0 && BrokenAve[Num_i - 1] - LightThreshold > 30)
+			{
+				Num_i = 0;
+				return 1;
+			}
+			BrokenAve[Num_i++] = LightThreshold;
+			return 0;*/
+		}
+		else
+		{
+			for (int i = 0; i < 4; i++)		//更新数组元素
+				BrokenAve[i] = BrokenAve[i + 1];
+			BrokenAve[4] = LightThreshold;
+			//判断条件
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = i; j < 5; j++)
+				{
+					if (BrokenAve[i] - BrokenAve[j] > 30)
 					{
 						Num_i = 0;
 						return 1;
@@ -448,53 +588,6 @@ int ImgJudgeOutBroken(void)
 		//                          return 0;
 		//                        }
 		//		}
-	}
-	else if (2 == Img_BrokenFlag)
-	{
-		if (Num_i < 5)
-		{
-			if (Num_i > 0 && LightThreshold - BrokenAve[Num_i - 1] > 35)
-			{
-				Num_i = 0;
-				return 2;
-			}
-			BrokenAve[Num_i++] = LightThreshold;
-			return 0;
-		}
-		else
-		{
-			for (int i = 0; i < 4; i++)		//更新数组元素
-				BrokenAve[i] = BrokenAve[i + 1];
-			BrokenAve[4] = LightThreshold;
-			//判断条件
-			for (int i = 0; i < 4; i++)
-			{
-				for (int j = i; j < 5; j++)
-				{
-					if (BrokenAve[j] - BrokenAve[i] > 45)
-					{
-						Num_i = 0;
-						return 2;
-					}
-				}
-			}
-			return 0;
-		}
-		////FindLineNormal(0);
-		//if (LeftPnt.ErrRow < DOWN_EAGE - 20 && RightPnt.ErrRow < DOWN_EAGE - 20)
-		//{
-		//	if (RL[DOWN_EAGE] - LL[DOWN_EAGE] > 94 && RL[DOWN_EAGE - 1] - LL[DOWN_EAGE - 1] > 94
-		//		&& RL[DOWN_EAGE - 2] - LL[DOWN_EAGE - 2] > 94 && RL[DOWN_EAGE - 3] - LL[DOWN_EAGE - 3] > 94)
-		//	{
-		//		BrokenLastAve = 0;
-		//		return 0;
-		//	}
-		//	else return 2;
-		//}
-		//else
-		//{
-		//	return 2;
-		//}
 	}
 	return 0;
 }
