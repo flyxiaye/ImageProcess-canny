@@ -14,7 +14,7 @@ int ImgJudgeSpecialLine(int left_line, int left_col, int right_line, int right_c
 int IsBlock(int left_line, int right_line);
 int IsRamp(void);
 int ImgJudgeOutBroken(void);
-int IsStopLine(int line, int left, int right);
+int ImgIsStopLine(int line, int left, int right);
 int DistStopLine(int line);
 int JudgeInBroken(Point pa, Point pb);
 int JudgeInBroken_V2(Point pa, Point pb);

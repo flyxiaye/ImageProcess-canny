@@ -644,7 +644,7 @@ int ImgJudgeOutBroken(void)
 //  @return :		1停车线  0非停车线
 //  @note   :		void
 //================================================================//
-int IsStopLine(int line, int left, int right)
+int ImgIsStopLine(int line, int left, int right)
 {
 	int count = 0;
 	for (int i = left + 1; i < right; )
@@ -665,11 +665,11 @@ int IsStopLine(int line, int left, int right)
 //================================================================//
 int DistStopLine(int line)
 {
-	int a = IsStopLine(line, LL[line], RL[line]);
+	int a = ImgIsStopLine(line, LL[line], RL[line]);
 	line += 2;
-	int b = IsStopLine(line, LL[line], RL[line]);
+	int b = ImgIsStopLine(line, LL[line], RL[line]);
 	line += 2;
-	int c = IsStopLine(line, LL[line], RL[line]);
+	int c = ImgIsStopLine(line, LL[line], RL[line]);
 	if (a || b || c)return 1;
 	else return 0;
 }
