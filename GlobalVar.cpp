@@ -13,8 +13,8 @@ int ML[IMG_ROW], LL[IMG_ROW], RL[IMG_ROW];   //保存边缘线信息数组
 int ML_Count;									//中线有效行
 SpecialPoint LeftPnt, RightPnt;					//保存左右特殊点信息
 int DiffThreshold = 25;							//边缘检测阈值
-int DarkThreshold = 40;                         //暗阈值（路障）
-int BrightThreshold = 100;                      //亮阈值（坡道）
+int DarkThreshold = 85;                         //暗阈值（路障）
+int BrightThreshold = 15;                      //亮阈值（坡道）
 int LightThreshold = 80;						//去高光噪声阈值
 int LightThreshold2 = 150;						//去高光噪声阈值2
 int FindLineType = 0;							//是否加入高光滤波标志
@@ -41,7 +41,8 @@ int BrokenLastAve = 0;
 int StopLineDist = 0;
 
 unsigned char Img_CircleOpen = 1;
-unsigned char Img_BrokenOpen = 1;
+unsigned char Img_StraightBrokenOpen = 1;
+unsigned char Img_CurveBrokenOpen = 1;
 unsigned char Img_StopOpen = 1;
 unsigned char Img_BlockOpen = 1;
 unsigned char Img_RampOpen = 1;

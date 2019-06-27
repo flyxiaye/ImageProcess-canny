@@ -83,7 +83,8 @@ extern int BrokenLastAve;
 extern int StopLineDist;
 		
 extern unsigned char Img_CircleOpen;
-extern unsigned char Img_BrokenOpen;
+extern unsigned char Img_StraightBrokenOpen;
+extern unsigned char Img_CurveBrokenOpen;
 extern unsigned char Img_StopOpen;
 extern unsigned char Img_BlockOpen;
 extern unsigned char Img_RampOpen;

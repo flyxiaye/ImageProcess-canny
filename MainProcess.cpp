@@ -43,10 +43,9 @@ void MainFill(void)
 		PointE.Row = LeftPnt.ErrRow; PointE.Col = LeftPnt.ErrCol;
 		PointF.Row = RightPnt.ErrRow; PointF.Col = RightPnt.ErrCol;
 
-		//ImgJudgeStopLine();		//识别停车
-		ImgJudgeObstacle();         //识别坡道路障					
+		ImgJudgeStopLine();		//识别停车
+		ImgJudgeObstacle();     //识别坡道路障直道断路					
 		ImgJudgeCurveBroken();	//弯道断路
-		ImgJudgeStraightBroken();	//直道断路
 #if CIRCLE == 2
 		CircleFlag = ImgJudgeCircle(0);
 		if (CL == CircleFlag)
