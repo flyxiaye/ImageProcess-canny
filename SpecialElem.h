@@ -5,6 +5,7 @@ int ImgJudgeCircle(int type);
 void ImgJudgeStopLine(void);
 void ImgJudgeRamp(void);
 void ImgJudgeCurveBroken(void);
+void ImgJudgeStraightBroken(void);
 void ImgJudgeBlock(void);
 
 void SpecialElemFill(void);

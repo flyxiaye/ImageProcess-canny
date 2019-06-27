@@ -154,6 +154,27 @@ void ImgJudgeCurveBroken(void)
 }
 
 //================================================================//
+//  @brief  :		识别直道断路
+//  @param  :		void 
+//  @return :		void
+//  @note   :		void
+//================================================================//
+void ImgJudgeStraightBroken(void)
+{
+#if STRAIGHT_BROKEN
+	if ((Img_BlockOpen || Img_BrokenOpen) && !Img_SpecialElemFlag)
+	{
+		if (ImgJudgeSpecialLine(LeftIntLine, LL[LeftIntLine], RightIntLine, RL[RightIntLine], 0))
+		{
+			Img_BrokenFlag = 1;
+			Img_SpecialElemFlag = 1;
+		}
+	}
+#endif
+}
+
+
+//================================================================//
 //  @brief  :		识别路障
 //  @param  :		void 
 //  @return :		void

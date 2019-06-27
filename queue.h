@@ -1,6 +1,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#define MAXNUM 10	
+#define _type int
+
 typedef struct {
 	_type queue[MAXNUM];
 	int front;					//队首指向元素
@@ -73,35 +76,81 @@ void qUpdateQueue(SeqQueue * q, _type e)
 //获取队列中元素最大值
 _type qGetMax(SeqQueue * q)
 {
-	int tmp = q->front;
-	int i = q->front + 1;
-	while (i != q->rear)
+	if (q->flag)
 	{
-		if (i > MAXNUM) i = 0;
-		if (q->queue[i] > q->queue[tmp])
+		_type tmp = q->queue[0];
+		for (int i = 1; i < MAXNUM; i++)
 		{
-			tmp = i;
+			if (q->queue[i] > tmp)
+				tmp = q->queue[i];
 		}
-		i++;
+		return tmp;
 	}
-	return q->queue[tmp];
+	else if (q->front > q->rear)
+	{
+		_type tmp = q->queue[0];
+		for (int i = 1; i < q->rear; i++)
+		{
+			if (q->queue[i] > tmp)
+				tmp = q->queue[i];
+		}
+		for (int i = q->front; i < MAXNUM; i++)
+		{
+			if (q->queue[i] > tmp)
+				tmp = q->queue[i];
+		}
+		return tmp;
+	}
+	else
+	{
+		_type tmp = q->queue[q->front];
+		for (int i = q->front + 1; i < q->rear; i++)
+		{
+			if (q->queue[i] > tmp)
+				tmp = q->queue[i];
+		}
+		return tmp;
+	}
 }
 
 //获取队列中元素最小值
 _type qGetMin(SeqQueue * q)
 {
-	int tmp = q->front;
-	int i = q->front + 1;
-	while (i != q->rear)
+	if (q->flag)
 	{
-		if (i > MAXNUM) i = 0;
-		if (q->queue[i] < q->queue[tmp])
+		_type tmp = q->queue[0];
+		for (int i = 1; i < MAXNUM; i++)
 		{
-			tmp = i;
+			if (q->queue[i] < tmp)
+				tmp = q->queue[i];
 		}
-		i++;
+		return tmp;
 	}
-	return q->queue[tmp];
+	else if (q->front > q->rear)
+	{
+		_type tmp = q->queue[0];
+		for (int i = 1; i < q->rear; i++)
+		{
+			if (q->queue[i] < tmp)
+				tmp = q->queue[i];
+		}
+		for (int i = q->front; i < MAXNUM; i++)
+		{
+			if (q->queue[i] < tmp)
+				tmp = q->queue[i];
+		}
+		return tmp;
+	}
+	else
+	{
+		_type tmp = q->queue[q->front];
+		for (int i = q->front + 1; i < q->rear; i++)
+		{
+			if (q->queue[i] < tmp)
+				tmp = q->queue[i];
+		}
+		return tmp;
+	}
 }
 //void travelque(SeqQueue * q)
 //{

@@ -22,7 +22,8 @@
 
 #define CIRCLE 2			//环岛开关
 #define BROKEN 1			//断路开关
-#define CURVE_BROKEN 1
+#define CURVE_BROKEN 1		//弯道断路
+#define STRAIGHT_BROKEN	1	//直道断路
 #define RAMP 1				//坡道开关
 #define BLOCK_BROKEN 1		//路障断路开关
 #define STOPLINE 1			//停车开关
