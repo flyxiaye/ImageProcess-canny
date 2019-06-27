@@ -46,6 +46,7 @@ void MainFill(void)
 		//ImgJudgeStopLine();		//识别停车
 		ImgJudgeObstacle();         //识别坡道/路障/直道断路					
 		ImgJudgeCurveBroken();	    //弯道断路
+		//ImgJudgeStraightBroken();//直道断路
 
 #if CIRCLE == 2
 		CircleFlag = ImgJudgeCircle(0);
