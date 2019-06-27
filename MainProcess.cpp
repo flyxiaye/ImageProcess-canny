@@ -177,7 +177,5 @@ void GetML(void)
 	string.Format("\r\n SpecElemFlag = %d \r\n", Img_SpecialElemFlag); PrintDebug(string);
 	string.Format("\r\n ML_count = %d \r\n", ML_Count); PrintDebug(string);
 	string.Format("\r\n ML->count = %d \r\n", ML[ML_Count]); PrintDebug(string);
-
-
 }
 
