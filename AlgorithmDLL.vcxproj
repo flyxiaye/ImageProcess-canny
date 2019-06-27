@@ -114,7 +114,7 @@
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>E:\xiaobao up monitor\算法插件开发模板工程</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\ChxxxXL\Desktop\上位机代码 - 灰度 -canny;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -136,7 +136,7 @@
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>E:\xiaobao up monitor\plugins\双车\AlgorithmDLL.dll</OutputFile>
+      <OutputFile>C:\Users\ChxxxXL\Desktop\上位机代码 - 灰度 -canny\out\get_eage_canny.dll</OutputFile>
       <ImportLibrary>.\Debug\AlgorithmDLL.lib</ImportLibrary>
       <ModuleDefinitionFile>.\AlgorithmDLL.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories>D:\Program Files (x86)\专业智能车上位机调试软件\plugins\6、中线提取\AlgorithmDLL.dll</AdditionalLibraryDirectories>
