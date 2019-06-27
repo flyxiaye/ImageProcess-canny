@@ -1,14 +1,11 @@
 #define TRUE 1
 #define FALSE 0
 
-#define MAXNUM 10	
-#define _type int
-
 typedef struct {
 	_type queue[MAXNUM];
 	int front;					//队首指向元素
 	int rear;					//队尾不指向元素
-	unsigned char flag;			//1为满队列
+	unsigned char flag;			//1为满队列 0为非满队列
 }SeqQueue;
 
 //初始化队列
@@ -65,10 +62,53 @@ int qLength(SeqQueue * q)
 	else return q->rear - q->front;
 }
 
-//void travelque(SeqQueue* q)
+//更新队列
+//队列不满时入队 队列满时先出队再入队
+void qUpdateQueue(SeqQueue * q, _type e)
+{
+	if (q->flag)qPop(q);
+	qPush(q, e);
+}
+
+//获取队列中元素最大值
+_type qGetMax(SeqQueue * q)
+{
+	int tmp = q->front;
+	int i = q->front + 1;
+	while (i != q->rear)
+	{
+		if (i > MAXNUM) i = 0;
+		if (q->queue[i] > q->queue[tmp])
+		{
+			tmp = i;
+		}
+		i++;
+	}
+	return q->queue[tmp];
+}
+
+//获取队列中元素最小值
+_type qGetMin(SeqQueue * q)
+{
+	int tmp = q->front;
+	int i = q->front + 1;
+	while (i != q->rear)
+	{
+		if (i > MAXNUM) i = 0;
+		if (q->queue[i] < q->queue[tmp])
+		{
+			tmp = i;
+		}
+		i++;
+	}
+	return q->queue[tmp];
+}
+//void travelque(SeqQueue * q)
 //{
-//	if (q->flag || q->front > q->rear) q->rear += MAXNUM;
-//	for (int i = q->front; i < q->rear; i++)
+//	int tmp_rear = 0;
+//	if (q->flag || q->front > q->rear) tmp_rear = q->rear + MAXNUM;
+//	else tmp_rear = q->rear;
+//	for (int i = q->front; i < tmp_rear; i++)
 //	{
 //		std::cout << q->queue[i % MAXNUM];
 //	}

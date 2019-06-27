@@ -12,6 +12,9 @@
 #include "FirstLineProcess.h"
 #include "canny.h"
 #include "SpecialElem.h"
+#define MAXNUM 30
+#define _type int
+#include "queue.h"
 
 
 //===========================以下为可直接调用的元素识别函数======================//
@@ -474,132 +477,148 @@ int IsRamp(void)
 //================================================================//
 int ImgJudgeOutBroken(void)
 {
-	static int Num_i = 0;
-	static int BrokenAve[10] = { 0 };
-	if (2 == Img_BrokenFlag)
+	static SeqQueue qLight;
+	static unsigned char init_flag = 0;
+	if (!init_flag)
 	{
-		if (Num_i < 5)
-		{
-			BrokenAve[Num_i++] = LightThreshold;
-			if (Num_i > 1)
-			{
-				for (int i = 0; i < Num_i - 1; i++)
-				{
-					for (int j = i; j < Num_i; j++)
-					{
-						if (BrokenAve[j] - BrokenAve[i] > 30)
-						{
-							Num_i = 0;
-							return 2;
-						}
-					}
-				}
-			}
-
-			return 0;
-		}
-		else
-		{
-			for (int i = 0; i < 4; i++)		//更新数组元素
-				BrokenAve[i] = BrokenAve[i + 1];
-			BrokenAve[4] = LightThreshold;
-			//判断条件
-			for (int i = 0; i < 4; i++)
-			{
-				for (int j = i; j < 5; j++)
-				{
-					if (BrokenAve[j] - BrokenAve[i] > 30)
-					{
-						Num_i = 0;
-						return 2;
-					}
-				}
-			}
-			return 0;
-		}
-		////FindLineNormal(0);
-		//if (LeftPnt.ErrRow < DOWN_EAGE - 20 && RightPnt.ErrRow < DOWN_EAGE - 20)
-		//{
-		//	if (RL[DOWN_EAGE] - LL[DOWN_EAGE] > 94 && RL[DOWN_EAGE - 1] - LL[DOWN_EAGE - 1] > 94
-		//		&& RL[DOWN_EAGE - 2] - LL[DOWN_EAGE - 2] > 94 && RL[DOWN_EAGE - 3] - LL[DOWN_EAGE - 3] > 94)
-		//	{
-		//		BrokenLastAve = 0;
-		//		return 0;
-		//	}
-		//	else return 2;
-		//}
-		//else
-		//{
-		//	return 2;
-		//}
+		init_flag = 1;
+		initQueue(&qLight);
 	}
-	else
+	qUpdateQueue(&qLight, LightThreshold);
+	int max = qGetMax(&qLight);
+	int min = qGetMin(&qLight);
+	if (max - min > 35)
 	{
-		if (Num_i < 10)
-		{
-			BrokenAve[Num_i++] = LightThreshold;
-			if (Num_i > 1)
-			{
-				for (int i = 0; i < Num_i - 1; i++)
-				{
-					for (int j = i; j < Num_i; j++)
-					{
-						if (BrokenAve[i] - BrokenAve[j] > 30)
-						{
-							Num_i = 0;
-							return 1;
-						}
-					}
-				}
-			}
-			/*if (Num_i > 0 && BrokenAve[Num_i - 1] - LightThreshold > 30)
-			{
-				Num_i = 0;
-				return 1;
-			}
-			BrokenAve[Num_i++] = LightThreshold;
-			return 0;*/
-		}
-		else
-		{
-			for (int i = 0; i < 9; i++)		//更新数组元素
-				BrokenAve[i] = BrokenAve[i + 1];
-			BrokenAve[9] = LightThreshold;
-			//判断条件
-			for (int i = 0; i < 9; i++)
-			{
-				for (int j = i; j < 10; j++)
-				{
-					if (BrokenAve[i] - BrokenAve[j] > 30)
-					{
-						Num_i = 0;
-						return 1;
-					}
-				}
-			}
-			return 0;
-		}
-
-		//		if (BrokenLastAve == 0)
-		//		{
-		//			BrokenLastAve = LightThreshold;
-		//			return 0;
-		//		}
-		//		else
-		//		{
-		//			if (BrokenLastAve - LightThreshold > 30)
-		//			{
-		//                          BrokenLastAve = LightThreshold;
-		//				return 1;
-		//			}
-		//			else 
-		//                        {
-		//                          BrokenLastAve = LightThreshold;
-		//                          return 0;
-		//                        }
-		//		}
+		initQueue(&qLight);
+		return 1;
 	}
-	return 0;
+	else return 0;
+	//static int Num_i = 0;
+	//static int BrokenAve[10] = { 0 };
+	//if (2 == Img_BrokenFlag)
+	//{
+	//	if (Num_i < 5)
+	//	{
+	//		BrokenAve[Num_i++] = LightThreshold;
+	//		if (Num_i > 1)
+	//		{
+	//			for (int i = 0; i < Num_i - 1; i++)
+	//			{
+	//				for (int j = i; j < Num_i; j++)
+	//				{
+	//					if (BrokenAve[j] - BrokenAve[i] > 30)
+	//					{
+	//						Num_i = 0;
+	//						return 2;
+	//					}
+	//				}
+	//			}
+	//		}
+
+	//		return 0;
+	//	}
+	//	else
+	//	{
+	//		for (int i = 0; i < 4; i++)		//更新数组元素
+	//			BrokenAve[i] = BrokenAve[i + 1];
+	//		BrokenAve[4] = LightThreshold;
+	//		//判断条件
+	//		for (int i = 0; i < 4; i++)
+	//		{
+	//			for (int j = i; j < 5; j++)
+	//			{
+	//				if (BrokenAve[j] - BrokenAve[i] > 30)
+	//				{
+	//					Num_i = 0;
+	//					return 2;
+	//				}
+	//			}
+	//		}
+	//		return 0;
+	//	}
+	//	////FindLineNormal(0);
+	//	//if (LeftPnt.ErrRow < DOWN_EAGE - 20 && RightPnt.ErrRow < DOWN_EAGE - 20)
+	//	//{
+	//	//	if (RL[DOWN_EAGE] - LL[DOWN_EAGE] > 94 && RL[DOWN_EAGE - 1] - LL[DOWN_EAGE - 1] > 94
+	//	//		&& RL[DOWN_EAGE - 2] - LL[DOWN_EAGE - 2] > 94 && RL[DOWN_EAGE - 3] - LL[DOWN_EAGE - 3] > 94)
+	//	//	{
+	//	//		BrokenLastAve = 0;
+	//	//		return 0;
+	//	//	}
+	//	//	else return 2;
+	//	//}
+	//	//else
+	//	//{
+	//	//	return 2;
+	//	//}
+	//}
+	//else
+	//{
+	//	if (Num_i < 10)
+	//	{
+	//		BrokenAve[Num_i++] = LightThreshold;
+	//		if (Num_i > 1)
+	//		{
+	//			for (int i = 0; i < Num_i - 1; i++)
+	//			{
+	//				for (int j = i; j < Num_i; j++)
+	//				{
+	//					if (BrokenAve[i] - BrokenAve[j] > 30)
+	//					{
+	//						Num_i = 0;
+	//						return 1;
+	//					}
+	//				}
+	//			}
+	//		}
+	//		/*if (Num_i > 0 && BrokenAve[Num_i - 1] - LightThreshold > 30)
+	//		{
+	//			Num_i = 0;
+	//			return 1;
+	//		}
+	//		BrokenAve[Num_i++] = LightThreshold;
+	//		return 0;*/
+	//	}
+	//	else
+	//	{
+	//		for (int i = 0; i < 9; i++)		//更新数组元素
+	//			BrokenAve[i] = BrokenAve[i + 1];
+	//		BrokenAve[9] = LightThreshold;
+	//		//判断条件
+	//		for (int i = 0; i < 9; i++)
+	//		{
+	//			for (int j = i; j < 10; j++)
+	//			{
+	//				if (BrokenAve[i] - BrokenAve[j] > 30)
+	//				{
+	//					Num_i = 0;
+	//					return 1;
+	//				}
+	//			}
+	//		}
+	//		return 0;
+	//	}
+
+	//	//		if (BrokenLastAve == 0)
+	//	//		{
+	//	//			BrokenLastAve = LightThreshold;
+	//	//			return 0;
+	//	//		}
+	//	//		else
+	//	//		{
+	//	//			if (BrokenLastAve - LightThreshold > 30)
+	//	//			{
+	//	//                          BrokenLastAve = LightThreshold;
+	//	//				return 1;
+	//	//			}
+	//	//			else 
+	//	//                        {
+	//	//                          BrokenLastAve = LightThreshold;
+	//	//                          return 0;
+	//	//                        }
+	//	//		}
+	//}
+	//return 0;
 }
 
 //================================================================//

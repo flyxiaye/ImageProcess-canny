@@ -23,8 +23,8 @@ int LastMiddleLine = 0;
 
 int SpeedRow = 0;			//控速边界行数
 
-int CircleFlag = 1;
-int CircleState = 7;
+int CircleFlag = 0;
+int CircleState = 0;
 
 int LeftIntLine = 0;		//记录左内跳行数
 int RightIntLine = 0;		//记录右内跳行数
