@@ -175,7 +175,7 @@ void ImgJudgeStraightBroken(void)
 
 
 //================================================================//
-//  @brief  :		识别坡道路障
+//  @brief  :		识别坡道/路障/直道断路
 //  @param  :		void 
 //  @return :		void
 //  @note   :		void
@@ -189,24 +189,24 @@ void ImgJudgeObstacle(void)
 		{
 			int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
 			int FrontGray = RegionAveGray(Front - 2, LeftPnt.ErrCol, RightPnt.ErrCol);
+			int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
 			string.Format("\r\n FrontGray = %d \r\n", FrontGray); PrintDebug(string);
-			if (FrontGray < DarkThreshold &&
-				ImgJudgeSpecialLine(LeftPnt.ErrRow, LeftPnt.ErrCol, RightPnt.ErrRow, RightPnt.ErrCol, 0))
+			string.Format("\r\n DownGray = %d \r\n", DownGray); PrintDebug(string);
+			if (DownGray - FrontGray > DarkThreshold)
 			{
 				Img_BlockFlag = 1;//路障
 				Img_SpecialElemFlag = 1;
 			}
-			else if (UP_EAGE + 1 == Front && FrontGray > BrightThreshold)
+			else if (UP_EAGE + 1 == Front && DownGray - FrontGray < BrightThreshold && FrontGray - DownGray < BrightThreshold)
 			{
 				Img_RampFlag = 1;//坡道
 				Img_SpecialElemFlag = 1;
 			}
 		}
+		else
+			ImgJudgeStraightBroken();//直道断路
 #endif 		
 	}
-
-		
-	
 }
 
 //===========================以上为可直接调用的元素识别函数======================//
