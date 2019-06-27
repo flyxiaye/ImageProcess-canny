@@ -419,6 +419,23 @@ int AveGray(void)
 }
 
 //================================================================//
+//  @brief  :		计算区间内灰度平均值
+//  @param  :		数组首地址Array n个数
+//  @return :		最值
+//  @note   :		void
+//================================================================//
+int RegionAveGray(int row,int left_col,int right_col)
+{
+	long int sum = 0;
+	int width = right_col - left_col;
+	for (int j = left_col; j < right_col; j++)
+	{
+		sum += ImageData[row][j];
+	}
+	return sum / width;
+}
+
+//================================================================//
 //  @brief  :		求数组最值
 //  @param  :		数组首地址Array n个数
 //  @return :		最值

@@ -59,6 +59,8 @@ extern int g_RoadType;
 extern int ErrorFlag;								//错误标志位
 extern int LastMiddleLine;							//保存上帧中线
 extern int DiffThreshold;							//边缘检测阈值
+extern int DarkThreshold;                         //暗阈值（路障）
+extern int BrightThreshold;                       //亮阈值（坡道）
 extern int LightThreshold;						//去高光噪声阈值
 extern int LightThreshold2;						//去高光噪声阈值2
 extern int FindLineType;							//是否加入高光滤波标志
