@@ -23,6 +23,7 @@ Point SearchRightUpEage45(int row, int col);
 int GetLL(int row, int col);
 int GetRL(int row, int col);
 int AveGray(void);
+int RegionAveGray(int row, int left_col, int right_col);
 
 int MaxArray(int* line, int n);
 int MinArray(int* line, int n);

@@ -44,7 +44,7 @@ void MainFill(void)
 		PointF.Row = RightPnt.ErrRow; PointF.Col = RightPnt.ErrCol;
 
 		//ImgJudgeStopLine();		//识别停车
-		ImgJudgeRamp();			//识别坡道
+		ImgJudgeObstacle();         //识别坡道路障					
 		ImgJudgeCurveBroken();	//弯道断路
 		ImgJudgeStraightBroken();	//直道断路
 #if CIRCLE == 2
@@ -172,9 +172,9 @@ void GetML(void)
 	string.Format("\r\n CircleFlag = %d \r\n", CircleFlag); PrintDebug(string);
 	string.Format("\r\n CircleState = %d \r\n", CircleState); PrintDebug(string);
 	string.Format("\r\n BrokenFlag = %d \r\n", Img_BrokenFlag); PrintDebug(string);
-	//string.Format("\r\n BlockFlag = %d \r\n", BlockFlag); PrintDebug(string);
-	//string.Format("\r\n RampFlag = %d \r\n", RampFlag); PrintDebug(string);
-	//string.Format("\r\n SpecElemFlag = %d \r\n", SpecialElemFlag); PrintDebug(string);
+	string.Format("\r\n BlockFlag = %d \r\n", Img_BlockFlag); PrintDebug(string);
+	string.Format("\r\n RampFlag = %d \r\n", Img_RampFlag); PrintDebug(string);
+	string.Format("\r\n SpecElemFlag = %d \r\n", Img_SpecialElemFlag); PrintDebug(string);
 	string.Format("\r\n ML_count = %d \r\n", ML_Count); PrintDebug(string);
 	string.Format("\r\n ML->count = %d \r\n", ML[ML_Count]); PrintDebug(string);
 
