@@ -862,15 +862,8 @@ void GetPointC(void)
 			if (RightPnt.Type == 2 && RightPnt.ErrRow > DOWN_EAGE - FIVE_SIX_TH)// || DOWN_EAGE == RightPnt.ErrRow)
 			{
 				//拐点确认
-				int UpSum = 0, DownSum = 0;
-				for (int i = 1; i < 5; i++)
-				{
-					UpSum += RightPnt.ErrCol - RL[RightPnt.ErrRow - i];
-					DownSum += RightPnt.ErrCol - RL[RightPnt.ErrRow + i];
-				}
-				if (UpSum <= 0 && DownSum <= 0)
+				if (RIGHT_EAGE - 3 > RightPnt.ErrCol)
 					ChangeFlag = 1;
-
 			}
 			PointC.Col = (LeftPnt.ErrCol + RightPnt.ErrCol) >> 1;
 			PointC.Row = SearchUpEage((LeftPnt.ErrRow + RightPnt.ErrRow) >> 1, PointC.Col);
@@ -880,13 +873,7 @@ void GetPointC(void)
 			if (LeftPnt.Type == 2 && LeftPnt.ErrRow > DOWN_EAGE - FIVE_SIX_TH)// || DOWN_EAGE == LeftPnt.ErrRow)
 			{
 				//拐点确认
-				int UpSum = 0, DownSum = 0;
-				for (int i = 1; i < 5; i++)
-				{
-					UpSum += LeftPnt.ErrCol - LL[LeftPnt.ErrRow - i];
-					DownSum += LeftPnt.ErrCol - LL[LeftPnt.ErrRow + i];
-				}
-				if (UpSum >= 0 && DownSum >= 0)
+				if (LEFT_EAGE + 3 < LeftPnt.ErrCol)
 					ChangeFlag = 1;
 				PointC.Col = (LeftPnt.ErrCol + RightPnt.ErrCol) >> 1;
 				PointC.Row = SearchUpEage((RightPnt.ErrRow + LeftPnt.ErrRow) >> 1, PointC.Col);
