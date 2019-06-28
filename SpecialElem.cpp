@@ -182,30 +182,28 @@ void ImgJudgeStraightBroken(void)
 void ImgJudgeObstacle(void)
 {
 #if INF
-		if (g_inf > stop_inf)
+	if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2)
+	{
+		int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
+		int FrontRompGray = RegionAveGray(Front - 10, LeftPnt.ErrCol + 5, RightPnt.ErrCol - 5);
+		int FrontBlockGray = RegionAveGray(Front - 10, LeftPnt.ErrCol, RightPnt.ErrCol);
+		int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
+		string.Format("\r\n FrontRompGray = %d \r\n", FrontRompGray); PrintDebug(string);
+		string.Format("\r\n FrontBlockGray = %d \r\n", FrontBlockGray); PrintDebug(string);
+		string.Format("\r\n DownGray = %d \r\n", DownGray); PrintDebug(string);
+		if (DownGray - FrontBlockGray > DarkThreshold &&
+			FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
 		{
-			if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2)
-			{
-				int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
-				int FrontRompGray = RegionAveGray(Front - 10, LeftPnt.ErrCol + 5, RightPnt.ErrCol - 5);
-				int FrontBlockGray = RegionAveGray(Front - 10, LeftPnt.ErrCol, RightPnt.ErrCol);
-				int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
-				string.Format("\r\n FrontRompGray = %d \r\n", FrontRompGray); PrintDebug(string);
-				string.Format("\r\n FrontBlockGray = %d \r\n", FrontBlockGray); PrintDebug(string);
-				string.Format("\r\n DownGray = %d \r\n", DownGray); PrintDebug(string);
-				if (DownGray - FrontBlockGray > DarkThreshold)
-				{
-					Img_BlockFlag = 1;//路障
-					Img_SpecialElemFlag = 1;
-				}
-				else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
-					&& FrontRompGray - FrontBlockGray > 8)
-				{
-					Img_RampFlag = 1;//坡道
-					Img_SpecialElemFlag = 1;
-				}
-}
+			Img_BlockFlag = 1;//路障
+			Img_SpecialElemFlag = 1;
 		}
+		else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
+			&& FrontRompGray - FrontBlockGray > 8)
+		{
+			Img_RampFlag = 1;//坡道
+			Img_SpecialElemFlag = 1;
+		}
+	}
 		else
 			ImgJudgeStraightBroken();//直道断路
 #endif 		
