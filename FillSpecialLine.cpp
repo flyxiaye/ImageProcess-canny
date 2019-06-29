@@ -46,11 +46,21 @@ void FillFourCross(void)
 					ErrorFlag = 5;
 			}
 			//向下连线
-			FillLineDown(LL, PointOld.Row, PointOld.Row - 5);
-			LeftPnt.ErrRow = PointOld.Row - 3;
-			LeftPnt.ErrCol = LL[LeftPnt.ErrRow];
-			LeftPnt.Type = 0;
-			break;
+			float k = LeastSquare(LL, PointOld.Row, PointOld.Row - 5);
+			string.Format("\r\n k = %f \r\n", k); PrintDebug(string);
+			if (k > 0)
+			{
+				ErrorFlag = 5;
+				break;
+			}
+			else
+			{
+				FillLineDown(LL, PointOld.Row, PointOld.Row - 5);
+				LeftPnt.ErrRow = PointOld.Row - 3;
+				LeftPnt.ErrCol = LL[LeftPnt.ErrRow];
+				LeftPnt.Type = 0;
+				break;
+			}
 		}
 		else if (DOWN_EAGE <= PointNew.Row)
 		{
@@ -88,11 +98,21 @@ void FillFourCross(void)
 					ErrorFlag = 5;
 			}
 			//向下连线
-			FillLineDown(RL, PointOld.Row, PointOld.Row - 5);
-			RightPnt.ErrRow = PointOld.Row - 3;
-			RightPnt.ErrCol = RL[RightPnt.ErrRow];
-			RightPnt.Type = 0;
-			break;
+			float k = LeastSquare(RL, PointOld.Row, PointOld.Row - 5);
+			string.Format("\r\n k = %f \r\n", k); PrintDebug(string);
+			if (k < 0)
+			{
+				ErrorFlag = 5;
+				break;
+			}
+			else
+			{
+				FillLineDown(RL, PointOld.Row, PointOld.Row - 5);
+				RightPnt.ErrRow = PointOld.Row - 3;
+				RightPnt.ErrCol = RL[RightPnt.ErrRow];
+				RightPnt.Type = 0;
+				break;
+			}
 		}
 		else if (DOWN_EAGE <= PointNew.Row)
 		{
@@ -199,8 +219,8 @@ void FillBevelCross(void)
 			}
 		}
 		else			//丢边斜十字
-		{
-			if (UP_EAGE == PointOld.Row || LeftPnt.ErrRow + 20 > PointNew.Row)		//左边无补线
+		{					
+			if (UP_EAGE == PointOld.Row)		//左边无补线
 				;
 			else
 			{
@@ -217,19 +237,27 @@ void FillBevelCross(void)
 							if (PointOld.Col > RIGHT_EAGE - 10)		//过于靠近边界
 								break;
 							else
-							{
-								RL[PointOld.Row] = PointOld.Col;
+							{							
+								RL[PointOld.Row] = PointOld.Col;					
 								//向上找5个点
 								for (int i = PointOld.Row - 1; i > PointOld.Row - 5; --i)
 								{
-									RL[i] = GetRL(i, RL[i + 1]);
-
+									RL[i] = GetRL(i, RL[i + 1]);								
 								}
-								FillLineDown(RL, PointOld.Row, PointOld.Row - 4);
-								RightPnt.Type = 0;
-								RightPnt.ErrRow = PointOld.Row - 4;;
-								RightPnt.ErrCol = RL[RightPnt.ErrRow];
-								break;
+								if (RL[PointOld.Row - 1] < MIDDLE + 20)
+								{
+									string.Format("\r\n here \r\n"); PrintDebug(string);
+									ErrorFlag = 5;
+									break;
+								}
+								else
+								{
+									FillLineDown(RL, PointOld.Row, PointOld.Row - 4);
+									RightPnt.Type = 0;
+									RightPnt.ErrRow = PointOld.Row - 4;;
+									RightPnt.ErrCol = RL[RightPnt.ErrRow];
+									break;
+								}
 							}
 						}
 						else if (DOWN_EAGE <= PointNew.Row)
