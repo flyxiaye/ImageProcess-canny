@@ -270,6 +270,11 @@ void ChangeState(int Order)
 				}
 			}
 			break;
+		case 7:			//—”æ‡«Â±Í÷æ
+			if (CL == CircleFlag && !LeftLost && Dist_ClearSevenFlag
+				|| CR == CircleFlag && !RightLost && Dist_ClearSevenFlag)
+				ChangeFlag = 1;
+			break;
 		default:
 			break;
 		}
@@ -340,15 +345,6 @@ void CircleFindLine(void)
 					break;
 				}
 			}
-		}
-		break;
-	case 7:
-		//detect exit island
-#define EXIT_ISLAND 10
-		if (RightPnt.ErrRow - LeftPnt.ErrRow < EXIT_ISLAND && LeftPnt.ErrRow - RightPnt.ErrRow < EXIT_ISLAND
-			&& RightPnt.ErrCol - LeftPnt.ErrCol < 4 * EXIT_ISLAND)
-		{
-			ChangeFlag = 1;
 		}
 		break;
 	default:

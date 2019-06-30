@@ -495,22 +495,36 @@ int IsRamp(void)
 //================================================================//
 int ImgJudgeOutBroken(void)
 {
-	static SeqQueue qLight;
-	static unsigned char init_flag = 0;
-	if (!init_flag)
+	if (2 == Img_BrokenFlag)
 	{
-		init_flag = 1;
-		initQueue(&qLight);
+		if (LightThreshold > 50
+			&& RL[DOWN_EAGE] - LL[DOWN_EAGE] > 94
+			&& RL[DOWN_EAGE - 1] - LL[DOWN_EAGE - 1] > 94
+			&& RL[DOWN_EAGE - 2] - LL[DOWN_EAGE - 2] > 94
+			&& RL[DOWN_EAGE] >= RL[DOWN_EAGE - 1] && RL[DOWN_EAGE - 1] >= RL[DOWN_EAGE - 2]
+			&& LL[DOWN_EAGE] <= LL[DOWN_EAGE - 1] && LL[DOWN_EAGE - 1] <= LL[DOWN_EAGE - 2])
+			return 1;
+		else return 0;
 	}
-	qUpdateQueue(&qLight, LightThreshold);
-	int max = qGetMax(&qLight);
-	int min = qGetMin(&qLight);
-	if (max - min > 35)
+	else
 	{
-		initQueue(&qLight);
-		return 1;
+		static SeqQueue qLight;
+		static unsigned char init_flag = 0;
+		if (!init_flag)
+		{
+			init_flag = 1;
+			initQueue(&qLight);
+		}
+		qUpdateQueue(&qLight, LightThreshold);
+		int max = qGetMax(&qLight);
+		int min = qGetMin(&qLight);
+		if (max - min > 35)
+		{
+			initQueue(&qLight);
+			return 1;
+		}
+		else return 0;
 	}
-	else return 0;
 	//static int Num_i = 0;
 	//static int BrokenAve[10] = { 0 };
 	//if (2 == Img_BrokenFlag)

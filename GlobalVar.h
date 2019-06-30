@@ -70,6 +70,7 @@ extern int SpeedRow;			//控速边界行数
 
 extern int CircleFlag;
 extern int CircleState;
+extern unsigned char Dist_ClearSevenFlag;
 
 extern int LeftIntLine;		//记录左内跳行数
 extern int RightIntLine;		//记录右内跳行数

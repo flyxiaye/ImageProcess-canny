@@ -333,3 +333,14 @@ void FindLineLost_1(void)
 	string.Format("\r\n 0x01RightPnt = %d %d %d \r\n", RightPnt.Type, RightPnt.ErrRow, RightPnt.ErrCol); PrintDebug(string);
 
 }
+
+//================================================================//
+//  @brief  :		延距清环岛7状态标志
+//  @param  :		void
+//  @return :		void
+//  @note   :		放在中断
+//================================================================//
+unsigned char Dist_ClearIslandSeven(void)
+{
+	return 1;
+}
