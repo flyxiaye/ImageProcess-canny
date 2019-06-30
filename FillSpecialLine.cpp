@@ -31,7 +31,7 @@ void FillFourCross(void)
 		PointNew = SearchRightUpEage(PointOld.Row + 1, PointOld.Col);
 		if (UP_EAGE >= PointNew.Row || RIGHT_EAGE <= PointNew.Col
 			|| PointOld.Row - PointNew.Row > UP45_TH)		//找到为边界点 或者找到左点
-		{
+		{			
 			if (PointOld.Row < 3 + UP_EAGE)
 			{
 				ErrorFlag = 1;
@@ -45,11 +45,11 @@ void FillFourCross(void)
 				if (LL[i] - LL[i + 1] > FINDLINE_TH || LL[i + 1] - LL[i] > FINDLINE_TH)
 					ErrorFlag = 5;
 			}
-			//向下连线
+			//向下连线			
 			float k = LeastSquare(LL, PointOld.Row, PointOld.Row - 5);
 			string.Format("\r\n k = %f \r\n", k); PrintDebug(string);
 			if (k > 0)
-			{
+			{				
 				ErrorFlag = 5;
 				break;
 			}
@@ -244,14 +244,14 @@ void FillBevelCross(void)
 								{
 									RL[i] = GetRL(i, RL[i + 1]);								
 								}
-								if (RL[PointOld.Row - 1] < MIDDLE + 20)
-								{
-									string.Format("\r\n here \r\n"); PrintDebug(string);
+								float k = LeastSquare(RL, PointOld.Row, PointOld.Row - 4);
+								if (RL[PointOld.Row - 1] < MIDDLE + 20 || k < 0)
+								{								
 									ErrorFlag = 5;
 									break;
 								}
 								else
-								{
+								{								
 									FillLineDown(RL, PointOld.Row, PointOld.Row - 4);
 									RightPnt.Type = 0;
 									RightPnt.ErrRow = PointOld.Row - 4;;
@@ -360,7 +360,7 @@ void FillBevelCross(void)
 		}
 		else			//左边丢边十字
 		{
-			if (UP_EAGE == PointOld.Row || RightPnt.ErrRow + 20 > PointNew.Row)		//右边无补线 
+			if (UP_EAGE == PointOld.Row)		//右边无补线 
 				;
 			else
 			{
@@ -384,11 +384,20 @@ void FillBevelCross(void)
 								{
 									LL[i] = GetLL(i, LL[i + 1]);
 								}
-								FillLineDown(LL, PointOld.Row, PointOld.Row - 4);
-								LeftPnt.Type = 0;
-								LeftPnt.ErrRow = PointOld.Row - 4;
-								LeftPnt.ErrCol = LL[LeftPnt.ErrRow];
-								break;
+								float k = LeastSquare(LL, PointOld.Row, PointOld.Row - 4);
+								if (LL[PointOld.Row - 1] > MIDDLE - 20 || k > 0)
+								{
+									ErrorFlag = 5;
+									break;
+								}
+								else
+								{
+									FillLineDown(LL, PointOld.Row, PointOld.Row - 4);
+									LeftPnt.Type = 0;
+									LeftPnt.ErrRow = PointOld.Row - 4;
+									LeftPnt.ErrCol = LL[LeftPnt.ErrRow];
+									break;
+								}
 							}
 						}
 						else if (DOWN_EAGE <= PointNew.Row)
