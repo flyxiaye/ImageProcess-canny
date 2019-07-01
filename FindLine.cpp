@@ -93,6 +93,7 @@ int FirstRowProcess(void)
 					&& LL[i + 2] - LL[i + 4] > JUMP_TH
 					&& LL[i + 3] - LL[i + 4] > JUMP_TH)		//非丢边 向下补线
 				{
+					string.Format("\r\n i = %d \r\n", i); PrintDebug(string);
 					FillLineDown(LL, i + 3, i);
 					LeftPnt.ErrRow = i;
 					LeftPnt.Type = 0;

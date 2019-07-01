@@ -31,7 +31,7 @@ void FillFourCross(void)
 		PointNew = SearchRightUpEage(PointOld.Row + 1, PointOld.Col);
 		if (UP_EAGE >= PointNew.Row || RIGHT_EAGE <= PointNew.Col
 			|| PointOld.Row - PointNew.Row > UP45_TH)		//找到为边界点 或者找到左点
-		{			
+		{
 			if (PointOld.Row < 3 + UP_EAGE)
 			{
 				ErrorFlag = 1;
@@ -49,7 +49,7 @@ void FillFourCross(void)
 			float k = LeastSquare(LL, PointOld.Row, PointOld.Row - 5);
 			string.Format("\r\n k = %f \r\n", k); PrintDebug(string);
 			if (k > 0)
-			{				
+			{
 				ErrorFlag = 5;
 				break;
 			}
@@ -219,7 +219,7 @@ void FillBevelCross(void)
 			}
 		}
 		else			//丢边斜十字
-		{					
+		{
 			if (UP_EAGE == PointOld.Row)		//左边无补线
 				;
 			else
@@ -237,21 +237,21 @@ void FillBevelCross(void)
 							if (PointOld.Col > RIGHT_EAGE - 10)		//过于靠近边界
 								break;
 							else
-							{							
-								RL[PointOld.Row] = PointOld.Col;					
+							{
+								RL[PointOld.Row] = PointOld.Col;
 								//向上找5个点
 								for (int i = PointOld.Row - 1; i > PointOld.Row - 5; --i)
 								{
-									RL[i] = GetRL(i, RL[i + 1]);								
+									RL[i] = GetRL(i, RL[i + 1]);
 								}
 								float k = LeastSquare(RL, PointOld.Row, PointOld.Row - 4);
 								if (RL[PointOld.Row - 1] < MIDDLE + 20 || k < 0)
-								{								
+								{
 									ErrorFlag = 5;
 									break;
 								}
 								else
-								{								
+								{
 									FillLineDown(RL, PointOld.Row, PointOld.Row - 4);
 									RightPnt.Type = 0;
 									RightPnt.ErrRow = PointOld.Row - 4;;

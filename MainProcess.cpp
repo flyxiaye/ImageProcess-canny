@@ -35,6 +35,7 @@ void MainFill(void)
 	SelectFirstLine();
 	g_RoadType = FirstRowProcess();
 	string.Format("\r\n RoadType = %d \r\n", g_RoadType); PrintDebug(string);
+
 	if (0 == g_RoadType)
 	{
 		FindLineNormal(1);
@@ -46,11 +47,12 @@ void MainFill(void)
 		ImgJudgeStopLine();		//识别停车
 		ImgJudgeObstacle();     //识别坡道路障直道断路					
 		ImgJudgeCurveBroken();	//弯道断路
+
 #if CIRCLE == 2
-		CircleFlag = ImgJudgeCircle(0);
+		//CircleFlag = ImgJudgeCircle(0);
+		CircleFlag = Img_JudgeCircleIsland(0);
 		if (CL == CircleFlag)
 		{
-			CircleState = 1;
 			GetPointA();
 			GetPointB();
 			GetPointC();
@@ -58,11 +60,12 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
-			CircleFlag = CN;
+			if (LeftPnt.ErrRow > DOWN_EAGE - 10)
+				;
+			else CircleFlag = CN;
 		}
 		else if (CR == CircleFlag)
 		{
-			CircleState = 1;
 			GetPointA();
 			GetPointB();
 			GetPointC();
@@ -70,7 +73,9 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
-			CircleFlag = CN;
+			if (RightPnt.ErrRow > DOWN_EAGE - 10)
+				;
+			else CircleFlag = CN;
 		}
 		else
 #endif // CIRCLE
@@ -83,16 +88,15 @@ void MainFill(void)
 				FindLineNormal(0);
 
 			}
-		//ImgJudgeBlock();		//识别路障
 	}
 	if (1 == g_RoadType)
 	{
 		FindLineLost_1();
 #if CIRCLE == 2
-		CircleFlag = ImgJudgeCircle(1);
+		//CircleFlag = ImgJudgeCircle(1);
+		CircleFlag = Img_JudgeCircleIsland(1);
 		if (CL == CircleFlag)
 		{
-			CircleState = 2;
 			GetPointA();
 			GetPointB();
 			GetPointC();
@@ -100,11 +104,9 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
-			//CircleFlag = CN;
 		}
 		else if (CR == CircleFlag)
 		{
-			CircleState = 2;
 			GetPointA();
 			GetPointB();
 			GetPointC();
@@ -112,7 +114,6 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
-			//CircleFlag = CN;
 		}
 		else
 #endif
@@ -176,5 +177,6 @@ void GetML(void)
 	string.Format("\r\n SpecElemFlag = %d \r\n", Img_SpecialElemFlag); PrintDebug(string);
 	string.Format("\r\n ML_count = %d \r\n", ML_Count); PrintDebug(string);
 	string.Format("\r\n ML->count = %d \r\n", ML[ML_Count]); PrintDebug(string);
+
 }
 

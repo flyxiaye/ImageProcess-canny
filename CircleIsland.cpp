@@ -23,6 +23,70 @@ int LeftLost = 0, RightLost = 0;
 int ChangeFlag = 0;
 int ConstLeftEage = 30, ConstRightEage = 158;
 //int SixFlag = 0;
+
+//================================================================//
+//  @brief  :		»·µº¶ÀÁ¢ÅÐ¶Ï
+//  @param  :		void
+//  @return :		CN²»ÊÇ CL×ó»·µº CRÓÒ»·µº
+//  @note   :		void
+//================================================================//
+CircleType Img_JudgeCircleIsland(int type)
+{
+	if (0 == type)
+	{
+		if (Img_CircleOpen && !Img_SpecialElemFlag
+			&& LeftPnt.Type == 2 && LeftPnt.ErrRow > DOWN_EAGE - 30 && RightPnt.ErrRow < UP_EAGE + 10
+			&& LeftPnt.ErrCol < MIDDLE + 7 && LeftPnt.ErrCol > LEFT_EAGE + 25
+			&& RightPnt.ErrCol > MIDDLE - 7 && RightPnt.ErrCol < RIGHT_EAGE - 55)
+		{
+			CircleState = 1;
+			return CL;
+		}
+		else if (Img_CircleOpen && !Img_SpecialElemFlag
+			&& RightPnt.Type == 2 && RightPnt.ErrRow > DOWN_EAGE - 30 && LeftPnt.ErrRow < UP_EAGE + 10
+			&& RightPnt.ErrCol > MIDDLE - 7 && RightPnt.ErrCol < RIGHT_EAGE - 25
+			&& LeftPnt.ErrCol < MIDDLE + 7 && LeftPnt.ErrCol > LEFT_EAGE + 55)
+		{
+			CircleState = 1;
+			return CR;
+		}
+		else return CN;
+	}
+	else
+	{
+		if (Img_CircleOpen && !Img_SpecialElemFlag
+			&& LL[DOWN_EAGE] <= LEFT_EAGE + 3 && RightPnt.ErrRow < UP_EAGE + 10 && RightPnt.ErrCol > MIDDLE - 7
+			&& RightPnt.ErrCol < RIGHT_EAGE - 55)
+		{
+			int middle = (LL[DOWN_EAGE] + RL[DOWN_EAGE]) >> 1;
+			for (int i = DOWN_EAGE - 1; i > DOWN_EAGE - 15; i--)
+			{
+
+				LL[i] = SearchLeftEage(i, middle);
+				if (LL[i] - LL[i + 1] > 8)
+					return CN;
+			}
+			CircleState = 2;
+			return CL;
+		}
+		else if (Img_CircleOpen && !Img_SpecialElemFlag
+			&& RL[DOWN_EAGE] >= RIGHT_EAGE - 3 && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE + 7
+			&& LeftPnt.ErrCol > LEFT_EAGE + 55)
+		{
+			int middle = (LL[DOWN_EAGE] + RL[DOWN_EAGE]) >> 1;
+			for (int i = DOWN_EAGE - 1; i > DOWN_EAGE - 15; i--)
+			{
+				RL[i] = SearchRightEage(i, middle);
+				if (RL[i + 1] - RL[i] > 8)
+					return CN;
+			}
+			CircleState = 2;
+			return CR;
+		}
+		else return CN;
+	}
+}
+
 //================================================================//
 //  @brief  :		»·µºÅÐ¶Ï
 //  @param  :		void

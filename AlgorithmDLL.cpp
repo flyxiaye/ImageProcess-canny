@@ -112,6 +112,13 @@ void _stdcall HandleImg(void* pData, ULONG w, ULONG h)
 		ImageData[LeftIntLine][i] = 100;
 	for (int i = 187; i > 158; i--)
 		ImageData[RightIntLine][i] = 128;
+	if (CircleFlag)
+	{
+		for (int i = 0; i < 188; i++)
+		{
+			ImageData[13][i] = 100;
+		}
+	}
 	QueryPerformanceCounter(&end);
 
 	//long a = 300000;

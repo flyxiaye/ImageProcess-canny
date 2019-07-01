@@ -1,6 +1,7 @@
 #ifndef CircleIsland_H
 #define CircleIsland_H
 int IsCircleIsland(int type);
+CircleType Img_JudgeCircleIsland(int type);
 void CircleIslandImageInit(void);
 void CircleFill(void);
 void CircleFirstLine(void);
