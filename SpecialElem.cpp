@@ -27,6 +27,7 @@
 //================================================================//
 int ImgJudgeCircle(int type)
 {
+#define LOST_EAGE_TH 4	//判断为非丢边的阈值
 	if (0 == type)
 	{
 		if (Img_CircleOpen && !Img_SpecialElemFlag
@@ -41,14 +42,65 @@ int ImgJudgeCircle(int type)
 	}
 	else
 	{
+		Point PointLess1,PointLess2;
+		int first = 0; int LLMax = LEFT_EAGE, RLMin = RIGHT_EAGE;
+
 		if (Img_CircleOpen && !Img_SpecialElemFlag
 			&& LL[DOWN_EAGE] <= LEFT_EAGE + 3 && RightPnt.ErrRow < UP_EAGE + 10 && RightPnt.ErrCol > MIDDLE - 7
 			&& RightPnt.ErrCol < RIGHT_EAGE - 30)
+		{
+			for (int i = DOWN_EAGE - 1; i > RightPnt.ErrRow; i--)
+			{
+				LL[i] = SearchLeftEage(i, MIDDLE);
+				if (first == 0 && LL[i] > (LEFT_EAGE + LOST_EAGE_TH))
+				{
+					first = 1;
+					PointLess1.Row = i;
+					PointLess1.Col = LL[i];
+				}
+				if (LL[i] > LLMax)
+				{
+					LLMax = LL[i];
+					PointLess2.Row = i;
+					PointLess2.Col = LL[i];
+				}
+			}
+			if (PointLess1.Row - PointLess2.Row > 20 &&
+				PointLess1.Col - PointLess2.Col < 40 && PointLess2.Col - PointLess1.Col < 40)
+			{
+				g_RoadType = 2;
+			}
+			else
 			return CL;
+		}
 		else if (Img_CircleOpen && !Img_SpecialElemFlag
 			&& RL[DOWN_EAGE] >= RIGHT_EAGE - 3 && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE + 7
 			&& LeftPnt.ErrCol > LEFT_EAGE + 30)
-			return CR;
+		{
+			for (int i = DOWN_EAGE - 1; i > LeftPnt.ErrRow; i--)
+			{
+				RL[i] = SearchRightEage(i, MIDDLE);
+				if (first == 0 && RL[i] < (RIGHT_EAGE - LOST_EAGE_TH))
+				{
+					first = 1;
+					PointLess1.Row = i;
+					PointLess1.Col = RL[i];
+				}
+				if (RL[i] < RLMin)
+				{
+					RLMin = RL[i];
+					PointLess2.Row = i;
+					PointLess2.Col = RL[i];
+				}
+			}			
+			if (PointLess1.Row - PointLess2.Row > 20 &&
+				PointLess1.Col - PointLess2.Col < 40 && PointLess2.Col - PointLess1.Col < 40)
+			{			
+				g_RoadType = 2;
+			}
+			else
+				return CR;
+		}			
 		else return CN;
 	}
 }
