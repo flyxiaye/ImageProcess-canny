@@ -53,6 +53,7 @@ void MainFill(void)
 		CircleFlag = Img_JudgeCircleIsland(0);
 		if (CL == CircleFlag)
 		{
+			int tmp_row = LeftPnt.ErrRow;
 			GetPointA();
 			GetPointB();
 			GetPointC();
@@ -60,12 +61,13 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
-			if (LeftPnt.ErrRow > DOWN_EAGE - 10)
+			if (tmp_row > DOWN_EAGE - 10)
 				;
 			else CircleFlag = CN;
 		}
 		else if (CR == CircleFlag)
 		{
+			int tmp_row = RightPnt.ErrRow;
 			GetPointA();
 			GetPointB();
 			GetPointC();
@@ -73,7 +75,7 @@ void MainFill(void)
 			FillLineAB();
 			FillLineCD();
 			FillAllEage();
-			if (RightPnt.ErrRow > DOWN_EAGE - 10)
+			if (tmp_row > DOWN_EAGE - 10)
 				;
 			else CircleFlag = CN;
 		}

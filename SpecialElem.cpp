@@ -73,26 +73,6 @@ void ImgJudgeStopLine(void)
 #endif
 }
 
-//================================================================//
-//  @brief  :		识别坡道
-//  @param  :		void 
-//  @return :		void
-//  @note   :		void
-//================================================================//
-void ImgJudgeRamp(void)
-{
-#if RAMP
-	if (Img_RampOpen && !Img_SpecialElemFlag
-		&& LeftPnt.ErrRow <= UP_EAGE + 1 && RightPnt.ErrRow <= UP_EAGE + 1)
-	{
-		if (IsRamp())
-		{
-			Img_RampFlag = 1;
-			Img_SpecialElemFlag = 1;
-		}
-	}
-#endif
-}
 
 //================================================================//
 //  @brief  :		识别弯道断路
@@ -184,7 +164,8 @@ void ImgJudgeObstacle(void)
 #if INF
 	if (g_inf > stop_inf)
 	{
-		if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2)
+		if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2 
+			&& RightPnt.ErrCol -  LeftPnt.ErrCol > 20)
 		{
 			int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
 			int FrontRompGray = RegionAveGray(Front - 10, LeftPnt.ErrCol + 5, RightPnt.ErrCol - 5);
@@ -228,19 +209,6 @@ void SpecialElemFill(void)
 	FindLineNormal(0);
 	if (1 == Img_BrokenFlag)
 	{
-		//if (LeftIntLine < UP_EAGE + 15 && RightIntLine < UP_EAGE + 15
-		//	&& LeftPnt.ErrRow < UP_EAGE + 15 && RightPnt.ErrRow < UP_EAGE + 15
-		//	&& DistStopLine(UP_EAGE + 15))
-		//{
-		//	Img_StopLineFlag = 1;
-		//	Img_BrokenFlag = 0;
-		//}
-		//else if (1 == Img_BlockFlag && 1 == ImgJudgeSpecialElem(LeftIntLine, RightIntLine))
-		//{
-		//	Img_BlockFlag = 1;			//路障
-		//	Img_BrokenFlag = 0;
-		//}
-		//else 
 		if (ImgJudgeOutBroken())
 		{
 			Img_BrokenFlag = 2;			//断路
@@ -318,23 +286,6 @@ void SpecialElemFill(void)
 
 
 //================================================================//
-//  @brief  :		路障断路判断
-//  @param  :		void 
-//  @return :		1路障 2断路
-//  @note   :		void
-//================================================================//
-int ImgJudgeSpecialElem(int left_line, int right_line)
-{
-	if (ImgJudgeSpecialLine(left_line, LL[left_line], right_line, RL[right_line], 0))
-	{
-		if (IsBlock(left_line, right_line))
-			return 1;
-		else return 2;
-	}
-	else return 0;
-}
-
-//================================================================//
 //  @brief  :		内跳线判断封闭曲线
 //  @param  :		左线行数 右线行数 type 0为直道断路 1位弯道断路
 //  @return :		1 确认有
@@ -382,110 +333,6 @@ int ImgJudgeSpecialLine(int left_row, int left_col, int right_row, int right_col
 	else return 0;
 }
 
-//================================================================//
-//  @brief  :		判断路障
-//  @param  :		left_line right_line
-//  @return :		0无   1路障
-//  @note   :		全局变量 LL RL
-//================================================================//
-int IsBlock(int left_line, int right_line)
-{
-	int left_end = 0, right_end = 0;
-	int left_num = 0, right_num = 0;
-	int left_flag = 0, right_flag = 0;
-	int left_eage[70], right_eage[70];
-	left_eage[left_line] = LL[left_line]; right_eage[right_line] = RL[right_line];
-	for (int i = left_line - 1; i > UP_EAGE; i--)
-	{
-		left_eage[i] = GetLL(i, left_eage[i + 1]);
-		if (left_eage[i] - left_eage[i + 1] > FINDLINE_TH)
-			left_eage[i] = SearchLeftNoEage(i, left_eage[i]) + 3;
-		else if (left_eage[i + 1] - left_eage[i] > FINDLINE_TH || left_eage[i] == LEFT_EAGE)
-		{
-			left_end = i + 1;
-			break;
-		}
-	}
-	if (left_end == 0) left_end = UP_EAGE + 1;
-	for (int i = right_line - 1; i > UP_EAGE; i--)
-	{
-		right_eage[i] = GetRL(i, right_eage[i + 1]);
-		if (right_eage[i + 1] - right_eage[i] > FINDLINE_TH)
-			right_eage[i] = SearchRightNoEage(i, right_eage[i]) - 3;
-		else if (right_eage[i] - right_eage[i + 1] > FINDLINE_TH || right_eage[i] == RIGHT_EAGE)
-		{
-			right_end = i + 1;
-			break;
-		}
-	}
-	if (right_end == 0) right_end = UP_EAGE + 1;
-
-	if (left_line - left_end < 5)
-		left_flag = 0;
-	else left_flag = 1;
-	if (right_line - right_end < 5)
-		right_flag = 0;
-	else right_flag = 1;
-
-	if (left_flag || right_flag)
-	{
-		if (left_flag)
-		{
-			for (int i = left_line; i > left_end; i--)
-			{
-				if (left_eage[i + 1] - left_eage[i] >= 0)
-					left_num++;
-			}
-			if (left_num >= (left_line - left_end) * 0.8)
-				left_num = 1;
-			else left_num = 0;
-		}
-		if (right_flag)
-		{
-			for (int i = right_line; i > right_end; i--)
-			{
-				if (right_eage[i] - right_eage[i + 1] >= 0)
-					right_num++;
-			}
-			if (right_num >= (right_line - right_end) * 0.8)
-				right_num = 1;
-			else right_num = 0;
-		}
-		if (!(left_num ^ left_flag) && !(right_num ^ right_flag))
-			return 1;
-		else return 0;
-	}
-	else return 0;
-}
-
-//================================================================//
-//  @brief  :		识别坡道
-//  @param  :		void
-//  @return :		void
-//  @note   :		void
-//================================================================//
-int IsRamp(void)
-{
-	const int DiffTh = 500;
-	int DiffSum = 0;
-	for (int i = UP_EAGE + 20; i > UP_EAGE; i--)
-	{
-		DiffSum += (RL[i] - LL[i]) - (MidOffset[i] << 1);
-	}
-	if (DiffSum > DiffTh)
-	{
-		int left_out_num = 0, right_out_num = 0;
-		for (int i = DOWN_EAGE; i > UP_EAGE - 1; i--)
-		{
-			if (LL[i] - LL[i - 1] > 0)left_out_num++;
-			if (RL[i - 1] - RL[i] > 0)right_out_num++;
-		}
-		if (left_out_num < 5 && right_out_num < 5)
-			return 1;
-		else return 0;
-	}
-	else return 0;
-}
 
 //================================================================//
 //  @brief  :		判断出断路
@@ -686,38 +533,6 @@ int DistStopLine(int line)
 	line += 2;
 	int c = ImgIsStopLine(line, LL[line], RL[line]);
 	if (a || b || c)return 1;
-	else return 0;
-}
-
-//================================================================//
-//  @brief  :		判断进入断路V2
-//  @param  :		void
-//  @return :		void
-//  @note   :		void
-//================================================================//
-int JudgeInBroken_V2(Point pa, Point pb)
-{
-	const int diff = 2;
-	int NewRow = pa.Row;
-	int NewRow2 = pb.Row;
-	int OldRow = NewRow;
-	int OldRow2 = NewRow2;
-	int Middle = (pa.Col + pb.Col) >> 1;
-	for (int i = pa.Col + 1; i <= Middle; i++)
-	{
-		NewRow = SearchUpEage(OldRow + 2, i);
-		if (NewRow - OldRow > diff || OldRow - NewRow > diff)
-			return 0;
-		OldRow = NewRow;
-	}
-	for (int i = pb.Col - 1; i >= Middle; i--)
-	{
-		NewRow2 = SearchUpEage(OldRow2 + 2, i);
-		if (NewRow2 - OldRow2 > diff || OldRow2 - NewRow2 > diff)
-			return 0;
-		OldRow2 = NewRow2;
-	}
-	if (NewRow == NewRow2)return 1;
 	else return 0;
 }
 
