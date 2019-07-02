@@ -33,11 +33,17 @@ int ImgJudgeCircle(int type)
 		if (Img_CircleOpen && !Img_SpecialElemFlag
 			&& LeftPnt.Type == 2 && LeftPnt.ErrRow > UP_EAGE + 20 && RightPnt.ErrRow < UP_EAGE + 10
 			&& LeftPnt.ErrCol < MIDDLE && RightPnt.ErrCol > MIDDLE - 7 && IsCircleIsland(CL))
+		{
+			CircleState = 1;
 			return CL;
+		}
 		else if (Img_CircleOpen && !Img_SpecialElemFlag
 			&& RightPnt.Type == 2 && RightPnt.ErrRow > UP_EAGE + 20 && LeftPnt.ErrRow < UP_EAGE + 10
 			&& RightPnt.ErrCol > MIDDLE && LeftPnt.ErrCol < MIDDLE + 7 && IsCircleIsland(CR))
+		{
+			CircleState = 1;
 			return CR;
+		}
 		else return CN;
 	}
 	else
@@ -71,7 +77,10 @@ int ImgJudgeCircle(int type)
 				g_RoadType = 2;
 			}
 			else
+			{
+				CircleState = 2;
 				return CL;
+			}
 		}
 		else if (Img_CircleOpen && !Img_SpecialElemFlag
 			&& RL[DOWN_EAGE] >= RIGHT_EAGE - 3 && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE + 7
@@ -99,7 +108,10 @@ int ImgJudgeCircle(int type)
 				g_RoadType = 2;
 			}
 			else
+			{
+				CircleState = 2;
 				return CR;
+			}
 		}
 		else return CN;
 	}
