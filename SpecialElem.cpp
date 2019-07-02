@@ -42,7 +42,7 @@ int ImgJudgeCircle(int type)
 	}
 	else
 	{
-		Point PointLess1,PointLess2;
+		Point PointLess1 = { 0,0 }, PointLess2 = { 0,0 };
 		int first = 0; int LLMax = LEFT_EAGE, RLMin = RIGHT_EAGE;
 
 		if (Img_CircleOpen && !Img_SpecialElemFlag
@@ -71,7 +71,7 @@ int ImgJudgeCircle(int type)
 				g_RoadType = 2;
 			}
 			else
-			return CL;
+				return CL;
 		}
 		else if (Img_CircleOpen && !Img_SpecialElemFlag
 			&& RL[DOWN_EAGE] >= RIGHT_EAGE - 3 && LeftPnt.ErrRow < UP_EAGE + 10 && LeftPnt.ErrCol < MIDDLE + 7
@@ -92,15 +92,15 @@ int ImgJudgeCircle(int type)
 					PointLess2.Row = i;
 					PointLess2.Col = RL[i];
 				}
-			}			
+			}
 			if (PointLess1.Row - PointLess2.Row > 20 &&
 				PointLess1.Col - PointLess2.Col < 40 && PointLess2.Col - PointLess1.Col < 40)
-			{			
+			{
 				g_RoadType = 2;
 			}
 			else
 				return CR;
-		}			
+		}
 		else return CN;
 	}
 }
@@ -216,8 +216,8 @@ void ImgJudgeObstacle(void)
 #if INF
 	if (g_inf > stop_inf)
 	{
-		if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2 
-			&& RightPnt.ErrCol -  LeftPnt.ErrCol > 20)
+		if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2
+			&& RightPnt.ErrCol - LeftPnt.ErrCol > 20)
 		{
 			int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
 			int FrontRompGray = RegionAveGray(Front - 10, LeftPnt.ErrCol + 5, RightPnt.ErrCol - 5);
