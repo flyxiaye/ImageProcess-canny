@@ -176,8 +176,8 @@ void ImgJudgeObstacle(void)
 				Img_BlockFlag = 1;//Â·ÕÏ
 				Img_SpecialElemFlag = 1;
 			}
-			else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold 
-				&& FrontRompGray - DownGray < BrightThreshold
+			else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < DownGray / 10 
+				&& FrontRompGray - DownGray < DownGray / 10
 				&& RightPnt.ErrCol - LeftPnt.ErrCol - MidOffset[Front] > 30)
 			{
 				Img_RampFlag = 1;//ÆÂµÀ
