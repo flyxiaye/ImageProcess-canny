@@ -237,8 +237,8 @@ void ImgJudgeObstacle(void)
 			int FrontBlockGray2 = RegionAveGray(Front - 2, LeftPnt.ErrCol, RightPnt.ErrCol);
 			int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
 			if (Img_BlockOpen && !Img_SpecialElemFlag
-				DownGray - FrontBlockGray > DarkThreshold &&
-				FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
+				DownGray - FrontBlockGray > DarkThreshold && DownGray - FrontBlockGray2 > DarkThreshold
+				&& FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
 			{
 				Img_BlockFlag = 1;//Â·ÕÏ
 				Img_SpecialElemFlag = 1;
