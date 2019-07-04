@@ -234,6 +234,7 @@ void ImgJudgeObstacle(void)
 			int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
 			int FrontRompGray = RegionAveGray(Front - 10, LeftPnt.ErrCol + 5, RightPnt.ErrCol - 5);
 			int FrontBlockGray = RegionAveGray(Front - 10, LeftPnt.ErrCol, RightPnt.ErrCol);
+			int FrontBlockGray2 = RegionAveGray(Front - 2, LeftPnt.ErrCol, RightPnt.ErrCol);
 			int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
 			if (Img_BlockOpen && !Img_SpecialElemFlag
 				DownGray - FrontBlockGray > DarkThreshold &&
@@ -250,7 +251,7 @@ void ImgJudgeObstacle(void)
 				Img_SpecialElemFlag = 1;
 			}
 		}
-	}
+	//}
 	else
 #endif 	
 		ImgJudgeStraightBroken();//Ö±µÀ¶ÏÂ·
