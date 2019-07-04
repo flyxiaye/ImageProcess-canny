@@ -162,7 +162,7 @@ void ImgJudgeStraightBroken(void)
 void ImgJudgeObstacle(void)
 {
 #if INF
-	if (g_inf > stop_inf && g_angle - run_angle <= 2 && run_angle - g_angle <= 2)
+	if (g_inf > stop_inf && AngleMutationFlag)
 	{
 		if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2 
 			&& RightPnt.ErrCol -  LeftPnt.ErrCol > 20)
