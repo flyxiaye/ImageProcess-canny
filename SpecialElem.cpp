@@ -162,23 +162,23 @@ void ImgJudgeStraightBroken(void)
 void ImgJudgeObstacle(void)
 {
 #if INF
-	if (g_inf > stop_inf)
+	if (g_inf > stop_inf && g_angle - run_angle <= 2 && run_angle - g_angle <= 2)
 	{
 		if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2 
 			&& RightPnt.ErrCol -  LeftPnt.ErrCol > 20)
 		{
 			int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
-			int FrontRompGray = RegionAveGray(Front - 10, LeftPnt.ErrCol + 5, RightPnt.ErrCol - 5);
-			int FrontBlockGray = RegionAveGray(Front - 10, LeftPnt.ErrCol, RightPnt.ErrCol);
+			int FrontRompGray = RegionAveGray(Front - 2, LeftPnt.ErrCol + 2, RightPnt.ErrCol - 2);
+			int FrontBlockGray = RegionAveGray(Front - 2, LeftPnt.ErrCol, RightPnt.ErrCol);
 			int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
-			if (DownGray - FrontBlockGray > DarkThreshold &&
-				FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
+			if (UP_EAGE + 1 < Front && DownGray - FrontBlockGray > DarkThreshold )
 			{
 				Img_BlockFlag = 1;//Â·ÕÏ
 				Img_SpecialElemFlag = 1;
 			}
-			else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
-				&& FrontRompGray - FrontBlockGray > 8)
+			else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold 
+				&& FrontRompGray - DownGray < BrightThreshold
+				&& RightPnt.ErrCol - LeftPnt.ErrCol - MidOffset[Front] > 30)
 			{
 				Img_RampFlag = 1;//ÆÂµÀ
 				Img_SpecialElemFlag = 1;
