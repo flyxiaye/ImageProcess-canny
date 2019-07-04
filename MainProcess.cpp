@@ -182,3 +182,69 @@ void GetML(void)
 
 }
 
+//================================================================//
+//  @brief  :		补图主程序（电磁）
+//  @param  :		void
+//  @return :		void
+//  @note   :		void
+//================================================================//
+void GetML_Ind(void)
+{
+	CannyEage();
+#if CIRCLE
+	if (CircleFlag)		//is CircleIsland 
+	{
+		CircleFill();
+	}
+	else
+#endif // CIRCLE
+	{
+		VarInit();
+		SelectFirstLine();
+		if (2 == Img_BrokenFlag)
+		{
+			if (ImgJudgeOutBroken())
+			{
+				Img_BrokenFlag = 0;
+			}
+		}
+		else if (Img_StopLineFlag)
+			;
+		else if (Img_RampFlag)
+			;
+		else
+		{
+			Img_SpecialElemFlag = 0;		//	特殊元素复位
+			FindLineNormal(0);
+#if INF		
+			if (g_inf > stop_inf)			//识别坡道路障
+			{
+				if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2
+					&& RightPnt.ErrCol - LeftPnt.ErrCol > 20)
+				{
+					int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
+					int FrontRompGray = RegionAveGray(Front - 10, LeftPnt.ErrCol + 5, RightPnt.ErrCol - 5);
+					int FrontBlockGray = RegionAveGray(Front - 10, LeftPnt.ErrCol, RightPnt.ErrCol);
+					int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
+					if (DownGray - FrontBlockGray > DarkThreshold &&
+						FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
+					{
+						Img_BlockFlag = 1;//路障
+						Img_SpecialElemFlag = 1;
+					}
+					else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
+						&& FrontRompGray - FrontBlockGray > 8)
+					{
+						Img_RampFlag = 1;//坡道
+						Img_SpecialElemFlag = 1;
+					}
+				}
+			}
+#endif 	
+			if (ImgJudgeOutBroken())		//识别断路
+				Img_BrokenFlag = 1;
+			ImgJudgeStopLine();
+		}
+	}
+
+}
