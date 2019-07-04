@@ -233,9 +233,9 @@ void ImgJudgeStraightBroken(void)
 //================================================================//
 void ImgJudgeObstacle(void)
 {
-#if INF
-	if (g_inf > stop_inf)
-	{
+//#if INF
+	//if (g_inf > stop_inf)
+	//{
 		if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2 && LeftPnt.ErrCol < MIDDLE && RightPnt.ErrCol > MIDDLE)
 		{
 			int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
@@ -251,17 +251,17 @@ void ImgJudgeObstacle(void)
 				Img_BlockFlag = 1;//路障
 				Img_SpecialElemFlag = 1;
 			}
-			else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
+			else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < DownGray / 10 && FrontRompGray - DownGray < DownGray / 10
 				&& FrontRompGray - FrontBlockGray > 8)
 			{
 				Img_RampFlag = 1;//坡道
 				Img_SpecialElemFlag = 1;
 			}
 		}
-	}
+	//}
 	else
 		ImgJudgeStraightBroken();//直道断路
-#endif 	
+//#endif 	
 }
 
 //===========================以上为可直接调用的元素识别函数======================//
