@@ -171,14 +171,16 @@ void ImgJudgeObstacle(void)
 			int FrontRompGray = RegionAveGray(Front - 2, LeftPnt.ErrCol + 2, RightPnt.ErrCol - 2);
 			int FrontBlockGray = RegionAveGray(Front - 2, LeftPnt.ErrCol, RightPnt.ErrCol);
 			int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
+			string.Format("\r\n RompGray = %d \r\n", FrontRompGray); PrintDebug(string);
+			string.Format("\r\n BlockGray = %d \r\n", FrontBlockGray); PrintDebug(string);
+			string.Format("\r\n DownGray = %d \r\n", DownGray); PrintDebug(string);
 			if (UP_EAGE + 1 < Front && DownGray - FrontBlockGray > DarkThreshold )
 			{
 				Img_BlockFlag = 1;//Â·ÕÏ
 				Img_SpecialElemFlag = 1;
 			}
 			else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < DownGray / 10 
-				&& FrontRompGray - DownGray < DownGray / 10
-				&& RightPnt.ErrCol - LeftPnt.ErrCol - MidOffset[Front] > 30)
+				&& FrontRompGray - DownGray < DownGray / 10)
 			{
 				Img_RampFlag = 1;//ÆÂµÀ
 				Img_SpecialElemFlag = 1;
