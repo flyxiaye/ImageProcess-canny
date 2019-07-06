@@ -247,7 +247,8 @@ void ImgJudgeObstacle(void)
 			string.Format("\r\n FrontBlockGray = %d \r\n", FrontBlockGray); PrintDebug(string);
 			string.Format("\r\n FrontBlockGray2 = %d \r\n", FrontBlockGray2); PrintDebug(string);
 			string.Format("\r\n DownGray = %d \r\n", DownGray); PrintDebug(string);
-			if (DownGray - FrontBlockGray > DarkThreshold && DownGray - FrontBlockGray2 > DarkThreshold
+			if (DownGray - FrontBlockGray > DarkThreshold 
+				&& FrontBlockGray2 - FrontBlockGray < 15 && FrontBlockGray - FrontBlockGray2 < 15
 				&& FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
 			{
 				Img_BlockFlag = 1;//Â·ÕÏ
@@ -555,6 +556,7 @@ int ImgJudgeOutBroken(void)
 	static SeqQueue qLight;
 	static unsigned char init_flag = 0;
 	if (!init_flag)
+
 	{
 		init_flag = 1;
 		initQueue(&qLight);
