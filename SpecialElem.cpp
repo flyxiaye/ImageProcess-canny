@@ -712,7 +712,10 @@ int ImgIsStopLine(int line, int left, int right)
 		i = SearchRightEage(line, i);
 		i = SearchRightNoEage(line, i);
 		count++;
-		if (count > 6) return 1;
+		
+		if (count > 6 && RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]) 
+			- RegionAveGray(line, left, right) > BrightThreshold)	
+			return 1;
 	}
 	return 0;
 }
