@@ -16,6 +16,7 @@
 #include "FirstLineProcess.h"
 #include "FindLine.h"
 #include "canny.h"
+#include "binary.h"
 
 //说明：用户只需要修改：全局变量区 和 自定义仿真算法区 就可以进行算法仿真插件的开发
 //其它内容请勿修改。
@@ -30,7 +31,8 @@ static char THIS_FILE[] = __FILE__;
 //添加到上位机后显示的算法名称，只需修改名称内容即可
 void _stdcall AlgorithmName(char* pName)
 {
-	char* p = "补图canny";
+	//char* p = "补图canny";
+	char* p = "改二值化";
 	strcpy(pName, p);
 }
 // 初始化图像数据
@@ -93,32 +95,33 @@ void _stdcall HandleImg(void* pData, ULONG w, ULONG h)
 
 	
 	QueryPerformanceCounter(&start);//获取内部高精度计数器当前的计数值
-	GetML();
-	for (int i = 0; i < 120; i++)
-	{
-		for (int j = 0; j < 188; j++)
-		{
-			if (ImageEage[i][j] == HIGH_TH) ImageData[i][j] = 255;
-			else ImageData[i][j] = 0;
-		}
-	}
-	for (int i = 0; i < 120; i++)
-	{
-		ImageData[i][LL[i]] = 100;
-		ImageData[i][ML[i]] = 254;
-		ImageData[i][RL[i]] = 128;
-	}
-	for (int i = 0; i < 30; i++)
-		ImageData[LeftIntLine][i] = 100;
-	for (int i = 187; i > 158; i--)
-		ImageData[RightIntLine][i] = 128;
-	if (CircleFlag)
-	{
-		for (int i = 0; i < 188; i++)
-		{
-			ImageData[13][i] = 100;
-		}
-	}
+	gray2Binary(ImageData[0], ImageData[0]);
+	//GetML();//补图主程序
+	//for (int i = 0; i < 120; i++)
+	//{
+	//	for (int j = 0; j < 188; j++)
+	//	{
+	//		if (ImageEage[i][j] == HIGH_TH) ImageData[i][j] = 255;
+	//		else ImageData[i][j] = 0;
+	//	}
+	//}
+	//for (int i = 0; i < 120; i++)
+	//{
+	//	ImageData[i][LL[i]] = 100;
+	//	ImageData[i][ML[i]] = 254;
+	//	ImageData[i][RL[i]] = 128;
+	//}
+	//for (int i = 0; i < 30; i++)
+	//	ImageData[LeftIntLine][i] = 100;
+	//for (int i = 187; i > 158; i--)
+	//	ImageData[RightIntLine][i] = 128;
+	//if (CircleFlag)
+	//{
+	//	for (int i = 0; i < 188; i++)
+	//	{
+	//		ImageData[13][i] = 100;
+	//	}
+	//}
 	QueryPerformanceCounter(&end);
 
 	//long a = 300000;
@@ -151,8 +154,8 @@ void _stdcall HandleImg(void* pData, ULONG w, ULONG h)
 	//int a = AveGray();
 	//string.Format("\r\n gray = %d \r\n", a); PrintDebug(string);
 	
-	ImageData[PointE.Row][PointE.Col] = 128;
-	ImageData[PointF.Row][PointF.Col] = 100;
+	//ImageData[PointE.Row][PointE.Col] = 128;
+	//ImageData[PointF.Row][PointF.Col] = 100;
 	string.Format("\r\n time = %lfs \r\n", duration); PrintDebug(string);
 	string.Format("\r\n freq = %lfs \r\n", dFreq); PrintDebug(string);
 	//CannyEdgeTest(&ImageData[0], 20);

@@ -51,7 +51,7 @@ void GetFirstLineEage(void)
 //  @return :		void
 //  @note   :		void
 //================================================================//
-char otsuThreshold(unsigned char *image, int col, int row)
+unsigned char otsuThreshold(unsigned char *image, int col, int row)
 {
 #define GrayScale 256
 	int width = col;

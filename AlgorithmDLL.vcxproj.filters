@@ -60,6 +60,9 @@
     <ClCompile Include="SpecialElem.cpp">
       <Filter>Source Files\MyGrayImage</Filter>
     </ClCompile>
+    <ClCompile Include="binary.cpp">
+      <Filter>Source Files\MyGrayImage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AlgorithmDLL.rc">
@@ -113,6 +116,9 @@
       <Filter>Header Files\MyGrayImage</Filter>
     </ClInclude>
     <ClInclude Include="queue.h">
+      <Filter>Header Files\MyGrayImage</Filter>
+    </ClInclude>
+    <ClInclude Include="binary.h">
       <Filter>Header Files\MyGrayImage</Filter>
     </ClInclude>
   </ItemGroup>

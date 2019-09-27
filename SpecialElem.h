@@ -9,7 +9,7 @@ void ImgJudgeStraightBroken(void);
 void ImgJudgeObstacle(void);
 
 void SpecialElemFill(void);
-int ImgJudgeSpecialLine(int left_line, int left_col, int right_line, int right_col, int type);
+int ImgJudgeSpecialLine(int left_line, int left_col, int right_line, int right_col, int type, int start_line);
 int ImgJudgeOutBroken(void);
 int ImgIsStopLine(int line, int left, int right);
 int DistStopLine(int line);

@@ -335,9 +335,9 @@ void ChangeState(int Order)
 			}
 			break;
 		case 7:			//延距清标志
-			//if (CL == CircleFlag && !LeftLost && Dist_ClearSevenFlag
-			//	|| CR == CircleFlag && !RightLost && Dist_ClearSevenFlag)
-			//	ChangeFlag = 1;
+			if (CL == CircleFlag && !LeftLost && Dist_ClearSevenFlag
+				|| CR == CircleFlag && !RightLost && Dist_ClearSevenFlag)
+				ChangeFlag = 1;
 			break;
 		default:
 			break;
@@ -411,54 +411,54 @@ void CircleFindLine(void)
 			}
 		}
 		break;
-	case 7:
-		if (CL == CircleFlag)					//找最大值
-		{
-			if (LL[DOWN_EAGE] > LEFT_EAGE + 3 && RL[DOWN_EAGE] < RIGHT_EAGE - 3
-				&& RightPnt.ErrRow < LeftPnt.ErrRow)
-			{
-				int tmp = DOWN_EAGE;
-				for (int i = LeftPnt.ErrRow; i < DOWN_EAGE; i++)
-				{
-					if (LL[i] > LL[tmp])
-						tmp = i;
-				}
-				int NewWidth = RL[LeftPnt.ErrRow] - LL[LeftPnt.ErrRow];
-				int OldWidth = NewWidth;
-				int WidthCount = 0;
-				for (int i = LeftPnt.ErrRow; i < tmp; i++)
-				{
-					NewWidth = RL[i] - LL[i];
-					if (NewWidth < OldWidth) WidthCount++;
-					OldWidth = NewWidth;
-				}
-				if (!WidthCount) ChangeFlag = 1;
-			}
-		}
-		else if (CR == CircleFlag)				//找最小值
-		{
-			if (LL[DOWN_EAGE] > LEFT_EAGE + 3 && RL[DOWN_EAGE] < RIGHT_EAGE - 3
-				&& RightPnt.ErrRow > LeftPnt.ErrRow)
-			{
-				int tmp = DOWN_EAGE;
-				for (int i = RightPnt.ErrRow; i < DOWN_EAGE; i++)
-				{
-					if (RL[i] < RL[tmp])
-						tmp = i;
-				}
-				int NewWidth = RL[RightPnt.ErrRow] - LL[RightPnt.ErrRow];
-				int OldWidth = NewWidth;
-				int WidthCount = 0;
-				for (int i = RightPnt.ErrRow; i < tmp; i++)
-				{
-					NewWidth = RL[i] - LL[i];
-					if (NewWidth < OldWidth) WidthCount++;
-					OldWidth = NewWidth;
-				}
-				if (!WidthCount) ChangeFlag = 1;
-			}
+	//case 7:
+	//	if (CL == CircleFlag)					//找最大值
+	//	{
+	//		if (LL[DOWN_EAGE] > LEFT_EAGE + 3 && RL[DOWN_EAGE] < RIGHT_EAGE - 3
+	//			&& RightPnt.ErrRow < LeftPnt.ErrRow)
+	//		{
+	//			int tmp = DOWN_EAGE;
+	//			for (int i = LeftPnt.ErrRow; i < DOWN_EAGE; i++)
+	//			{
+	//				if (LL[i] > LL[tmp])
+	//					tmp = i;
+	//			}
+	//			int NewWidth = RL[LeftPnt.ErrRow] - LL[LeftPnt.ErrRow];
+	//			int OldWidth = NewWidth;
+	//			int WidthCount = 0;
+	//			for (int i = LeftPnt.ErrRow; i < tmp; i++)
+	//			{
+	//				NewWidth = RL[i] - LL[i];
+	//				if (NewWidth < OldWidth) WidthCount++;
+	//				OldWidth = NewWidth;
+	//			}
+	//			if (!WidthCount) ChangeFlag = 1;
+	//		}
+	//	}
+	//	else if (CR == CircleFlag)				//找最小值
+	//	{
+	//		if (LL[DOWN_EAGE] > LEFT_EAGE + 3 && RL[DOWN_EAGE] < RIGHT_EAGE - 3
+	//			&& RightPnt.ErrRow > LeftPnt.ErrRow)
+	//		{
+	//			int tmp = DOWN_EAGE;
+	//			for (int i = RightPnt.ErrRow; i < DOWN_EAGE; i++)
+	//			{
+	//				if (RL[i] < RL[tmp])
+	//					tmp = i;
+	//			}
+	//			int NewWidth = RL[RightPnt.ErrRow] - LL[RightPnt.ErrRow];
+	//			int OldWidth = NewWidth;
+	//			int WidthCount = 0;
+	//			for (int i = RightPnt.ErrRow; i < tmp; i++)
+	//			{
+	//				NewWidth = RL[i] - LL[i];
+	//				if (NewWidth < OldWidth) WidthCount++;
+	//				OldWidth = NewWidth;
+	//			}
+	//			if (!WidthCount) ChangeFlag = 1;
+	//		}
 
-		}
+	//	}
 	default:
 		break;
 	}
@@ -583,17 +583,14 @@ void GetPointC(void)
 		}
 		break;
 	case 3:
-		int TmpRow;
 		if (CL == CircleFlag)		//Left CircleIsland
 		{
-			TmpRow = SearchUpEage(PointB.Row - 1, PointB.Col + 1);
-			PointC.Row = TmpRow;
+			PointC.Row = SearchUpEage(PointB.Row - 1, PointB.Col + 11);
 			PointC.Col = PointB.Col + 11;
 		}
 		else if (CR == CircleFlag)		//Right CircleIsland
 		{
-			TmpRow = SearchUpEage(PointB.Row - 1, PointB.Col - 1);
-			PointC.Row = TmpRow;
+			PointC.Row = SearchUpEage(PointB.Row - 1, PointB.Col - 11);
 			PointC.Col = PointB.Col - 11;
 		}
 		else return;

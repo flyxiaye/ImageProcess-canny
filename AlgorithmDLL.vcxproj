@@ -15,7 +15,7 @@
     <SccLocalPath />
     <Keyword>MFCProj</Keyword>
     <ProjectGuid>{57E95972-08DA-43F8-8301-BF56EF29F95F}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -136,7 +136,7 @@
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>C:\Users\ChxxxXL\Desktop\专业智能车上位机调试软件\plugins\默认库\get_eage_canny.dll</OutputFile>
+      <OutputFile>C:\Users\ChxxxXL\Desktop\专业智能车上位机调试软件\plugins\默认库\bin.dll</OutputFile>
       <ImportLibrary>.\Debug\AlgorithmDLL.lib</ImportLibrary>
       <ModuleDefinitionFile>.\AlgorithmDLL.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories>D:\Program Files (x86)\专业智能车上位机调试软件\plugins\6、中线提取\AlgorithmDLL.dll</AdditionalLibraryDirectories>
@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="AlgorithmDLL.cpp" />
     <ClCompile Include="BasicFun.cpp" />
+    <ClCompile Include="binary.cpp" />
     <ClCompile Include="canny.cpp" />
     <ClCompile Include="CircleIsland.cpp" />
     <ClCompile Include="cxw\XW_GlobalVar.cpp" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="AlgorithmDLL.h" />
     <ClInclude Include="BasicFun.h" />
+    <ClInclude Include="binary.h" />
     <ClInclude Include="canny.h" />
     <ClInclude Include="CircleIsland.h" />
     <ClInclude Include="cxw\XW_GlobalVar.h" />

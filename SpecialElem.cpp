@@ -150,7 +150,7 @@ void ImgJudgeCurveBroken(void)
 	int UpRow = MAX(LeftPnt.ErrRow, RightPnt.ErrRow);
 	if (!Img_SpecialElemFlag && Img_CurveBrokenOpen
 		&& LeftPnt.ErrRow - RightPnt.ErrRow <= 3 && RightPnt.ErrRow - LeftPnt.ErrRow <= 3 && UpRow > 35
-		&& ImgJudgeSpecialLine(LeftPnt.ErrRow, LeftPnt.ErrCol, RightPnt.ErrRow, RightPnt.ErrCol, 1))
+		&& ImgJudgeSpecialLine(LeftPnt.ErrRow, LeftPnt.ErrCol, RightPnt.ErrRow, RightPnt.ErrCol, 1, 0))
 	{
 		int RoadWidth[IMG_ROW] = { 0 };                 //路宽
 		int RoadWidthChange = 0;						//路宽变化率
@@ -207,7 +207,7 @@ void ImgJudgeStraightBroken(void)
 #if STRAIGHT_BROKEN
 	if (Img_StraightBrokenOpen && !Img_SpecialElemFlag)
 	{
-		if (ImgJudgeSpecialLine(LeftIntLine, LL[LeftIntLine], RightIntLine, RL[RightIntLine], 0))
+		if (ImgJudgeSpecialLine(LeftIntLine, LL[LeftIntLine], RightIntLine, RL[RightIntLine], 0, 33))
 		{
 			Img_BrokenFlag = 1;
 			Img_SpecialElemFlag = 1;
@@ -237,14 +237,14 @@ void ImgJudgeObstacle(void)
 			int FrontBlockGray2 = RegionAveGray(Front - 2, LeftPnt.ErrCol, RightPnt.ErrCol);
 			int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
 			if (Img_BlockOpen && !Img_SpecialElemFlag
-				DownGray - FrontBlockGray > DarkThreshold && DownGray - FrontBlockGray2 > DarkThreshold
+				&& DownGray - FrontBlockGray > DarkThreshold && DownGray - FrontBlockGray2 > DarkThreshold
 				&& FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
 			{
 				Img_BlockFlag = 1;//路障
 				Img_SpecialElemFlag = 1;
 			}
 			else if (Img_RampOpen && !Img_SpecialElemFlag
-				UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
+				&& UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
 				&& FrontRompGray - FrontBlockGray > 8)
 			{
 				Img_RampFlag = 1;//坡道
@@ -358,7 +358,7 @@ void SpecialElemFill(void)
 //  @return :		1 确认有
 //  @note   :		全局变量LL RL
 //================================================================//
-int ImgJudgeSpecialLine(int left_row, int left_col, int right_row, int right_col, int type)
+int ImgJudgeSpecialLine(int left_row, int left_col, int right_row, int right_col, int type, int start_line)
 {
 	const int StartLine = 33;
 	if (!type &&						//直道
@@ -575,17 +575,38 @@ int ImgJudgeOutBroken(void)
 //  @return :		1停车线  0非停车线
 //  @note   :		void
 //================================================================//
+//int ImgIsStopLine(int line, int left, int right)
+//{
+//	int count = 0;
+//	for (int i = left + 1; i < right; )
+//	{
+//		i = SearchRightEage(line, i);
+//		i = SearchRightNoEage(line, i);
+//		count++;
+//		if (count > 6) return 1;
+//	}
+//	return 0;
+//}
 int ImgIsStopLine(int line, int left, int right)
 {
-	int count = 0;
-	for (int i = left + 1; i < right; )
+	int left_count = 0, right_count = 0;
+	for (int i = left + 1; i < (left + right) >> 1; i++)
 	{
 		i = SearchRightEage(line, i);
 		i = SearchRightNoEage(line, i);
-		count++;
-		if (count > 6) return 1;
+		left_count++;
 	}
-	return 0;
+	for (int i = right - 1; i > (left + right) >> 1; i--)
+	{
+		i = SearchLeftEage(line, i);
+		i = SearchLeftNoEage(line, i);
+		right_count++;
+	}
+	if (left_count + right_count > 7
+		&& left_count - right_count <= 2 && right_count - left_count <= 2)
+		return 1;
+	else
+		return 0;
 }
 
 //================================================================//

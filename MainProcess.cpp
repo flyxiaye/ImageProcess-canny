@@ -41,8 +41,8 @@ void MainFill(void)
 		FindLineNormal(1);
 		string.Format("\r\n 0x01LeftPnt = %d %d %d \r\n", LeftPnt.Type, LeftPnt.ErrRow, LeftPnt.ErrCol); PrintDebug(string);
 		string.Format("\r\n 0x01RightPnt = %d %d %d \r\n", RightPnt.Type, RightPnt.ErrRow, RightPnt.ErrCol); PrintDebug(string);
-		PointE.Row = LeftPnt.ErrRow; PointE.Col = LeftPnt.ErrCol;
-		PointF.Row = RightPnt.ErrRow; PointF.Col = RightPnt.ErrCol;
+		//PointE.Row = LeftPnt.ErrRow; PointE.Col = LeftPnt.ErrCol;
+		//PointF.Row = RightPnt.ErrRow; PointF.Col = RightPnt.ErrCol;
 
 		ImgJudgeStopLine();		//识别停车
 		ImgJudgeObstacle();     //识别坡道路障直道断路					
@@ -208,6 +208,13 @@ void GetML_Ind(void)
 				Img_BrokenFlag = 0;
 			}
 		}
+		else if (Img_BrokenFlag)
+		{
+			if (ImgJudgeOutBroken())
+			{
+				Img_BrokenFlag = 2;
+			}
+		}
 		else if (Img_StopLineFlag)
 			;
 		else if (Img_RampFlag)
@@ -216,8 +223,8 @@ void GetML_Ind(void)
 		{
 			Img_SpecialElemFlag = 0;		//	特殊元素复位
 			FindLineNormal(0);
-#if INF		
-			if (g_inf > stop_inf)			//识别坡道路障
+#if INF
+			if (g_inf > stop_inf)
 			{
 				if (LeftPnt.ErrRow - RightPnt.ErrRow <= 2 && RightPnt.ErrRow - LeftPnt.ErrRow <= 2
 					&& RightPnt.ErrCol - LeftPnt.ErrCol > 20)
@@ -225,26 +232,36 @@ void GetML_Ind(void)
 					int Front = MIN(LeftPnt.ErrRow, RightPnt.ErrRow);
 					int FrontRompGray = RegionAveGray(Front - 10, LeftPnt.ErrCol + 5, RightPnt.ErrCol - 5);
 					int FrontBlockGray = RegionAveGray(Front - 10, LeftPnt.ErrCol, RightPnt.ErrCol);
+					int FrontBlockGray2 = RegionAveGray(Front - 2, LeftPnt.ErrCol, RightPnt.ErrCol);
 					int DownGray = RegionAveGray(DOWN_EAGE - 2, LL[DOWN_EAGE - 2], RL[DOWN_EAGE - 2]);
-					if (DownGray - FrontBlockGray > DarkThreshold &&
-						FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
+					if (Img_BlockOpen && !Img_SpecialElemFlag
+						&& DownGray - FrontBlockGray > DarkThreshold && DownGray - FrontBlockGray2 > DarkThreshold
+						&& FrontRompGray - FrontBlockGray < 6 && FrontBlockGray - FrontRompGray < 6)
 					{
 						Img_BlockFlag = 1;//路障
 						Img_SpecialElemFlag = 1;
-					}
-					else if (UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
+	}
+					else if (Img_RampOpen && !Img_SpecialElemFlag
+						&& UP_EAGE + 1 == Front && DownGray - FrontRompGray < BrightThreshold && FrontRompGray - DownGray < BrightThreshold
 						&& FrontRompGray - FrontBlockGray > 8)
 					{
 						Img_RampFlag = 1;//坡道
 						Img_SpecialElemFlag = 1;
 					}
-				}
-			}
+}
+	}
+			else
 #endif 	
-			if (ImgJudgeOutBroken())		//识别断路
-				Img_BrokenFlag = 1;
-			ImgJudgeStopLine();
+			if (Img_StraightBrokenOpen && !Img_SpecialElemFlag)		//识别直道断路
+			{
+				if (ImgJudgeSpecialLine(LeftIntLine, LL[LeftIntLine], RightIntLine, RL[RightIntLine], 0, 45))
+				{
+					Img_BrokenFlag = 1;
+					Img_SpecialElemFlag = 1;
+				}
+			}		
+			ImgJudgeCurveBroken();			//识别弯道断路
+			ImgJudgeStopLine();				//识别停车线
 		}
 	}
-
 }
