@@ -31,8 +31,8 @@ static char THIS_FILE[] = __FILE__;
 //添加到上位机后显示的算法名称，只需修改名称内容即可
 void _stdcall AlgorithmName(char* pName)
 {
-	//char* p = "补图canny";
-	char* p = "改二值化";
+	char* p = "补图canny";
+	//char* p = "改二值化";
 	strcpy(pName, p);
 }
 // 初始化图像数据
@@ -95,22 +95,22 @@ void _stdcall HandleImg(void* pData, ULONG w, ULONG h)
 
 	
 	QueryPerformanceCounter(&start);//获取内部高精度计数器当前的计数值
-	gray2Binary(ImageData[0], ImageData[0]);
-	//GetML();//补图主程序
-	//for (int i = 0; i < 120; i++)
-	//{
-	//	for (int j = 0; j < 188; j++)
-	//	{
-	//		if (ImageEage[i][j] == HIGH_TH) ImageData[i][j] = 255;
-	//		else ImageData[i][j] = 0;
-	//	}
-	//}
-	//for (int i = 0; i < 120; i++)
-	//{
-	//	ImageData[i][LL[i]] = 100;
-	//	ImageData[i][ML[i]] = 254;
-	//	ImageData[i][RL[i]] = 128;
-	//}
+	GetML();//补图主程序
+	QueryPerformanceCounter(&end);
+	for (int i = 0; i < 120; i++) 
+	{
+		for (int j = 0; j < 188; j++)
+		{
+			if (ImageEage[i][j] == HIGH_TH) ImageData[i][j] = 255;
+			else ImageData[i][j] = 0;
+		}
+	}
+	for (int i = 0; i < 120; i++)
+	{
+		ImageData[i][LL[i]] = 100;
+		ImageData[i][ML[i]] = 254;
+		ImageData[i][RL[i]] = 128;
+	}
 	//for (int i = 0; i < 30; i++)
 	//	ImageData[LeftIntLine][i] = 100;
 	//for (int i = 187; i > 158; i--)
@@ -122,7 +122,7 @@ void _stdcall HandleImg(void* pData, ULONG w, ULONG h)
 	//		ImageData[13][i] = 100;
 	//	}
 	//}
-	QueryPerformanceCounter(&end);
+	
 
 	//long a = 300000;
 	//while (a--);
