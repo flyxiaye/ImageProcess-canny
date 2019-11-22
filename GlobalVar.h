@@ -38,7 +38,7 @@ typedef struct
 
 typedef struct
 {
-	int Type;		//0普通情况 1内跳 2外跳 3拐点 4上边界 5左边界 6右边界 7首行丢边 8：4类十字补线 9结束循环
+	int Type;		
 	int ErrRow;
 	int ErrCol;
 }SpecialPoint;

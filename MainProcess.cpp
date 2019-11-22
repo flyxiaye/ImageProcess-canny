@@ -142,7 +142,7 @@ void GetML(void)
 #if CIRCLE
 	if (CircleFlag)		//is CircleIsland 
 	{
-		CircleFill();
+		CircleFill();		//ª∑µ∫¥¶¿Ì
 	}
 	else
 #endif // CIRCLE
