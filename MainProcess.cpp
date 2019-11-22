@@ -24,16 +24,16 @@ void SelectFirstLine(void)
 	FirstLineV4();
 }
 //================================================================//
-//  @brief  :		普通补图主程序
+//  @brief  :		普通情况补图主程序
 //  @param  :		void
 //  @return :		void
 //  @note   :		void
 //================================================================//
 void MainFill(void)
 {
-	VarInit();
-	SelectFirstLine();
-	g_RoadType = FirstRowProcess();
+	VarInit();			//变量初始化
+	SelectFirstLine();	
+	g_RoadType = FirstRowProcess();	//赛道类型初次判断
 	string.Format("\r\n RoadType = %d \r\n", g_RoadType); PrintDebug(string);
 
 	if (0 == g_RoadType)
@@ -41,15 +41,12 @@ void MainFill(void)
 		FindLineNormal(1);
 		string.Format("\r\n 0x01LeftPnt = %d %d %d \r\n", LeftPnt.Type, LeftPnt.ErrRow, LeftPnt.ErrCol); PrintDebug(string);
 		string.Format("\r\n 0x01RightPnt = %d %d %d \r\n", RightPnt.Type, RightPnt.ErrRow, RightPnt.ErrCol); PrintDebug(string);
-		//PointE.Row = LeftPnt.ErrRow; PointE.Col = LeftPnt.ErrCol;
-		//PointF.Row = RightPnt.ErrRow; PointF.Col = RightPnt.ErrCol;
 
 		ImgJudgeStopLine();		//识别停车
 		ImgJudgeObstacle();     //识别坡道路障直道断路					
 		ImgJudgeCurveBroken();	//弯道断路
 
-#if CIRCLE == 2
-		//CircleFlag = ImgJudgeCircle(0);
+#if CIRCLE == 2					//环岛判断
 		CircleFlag = Img_JudgeCircleIsland(0);
 		if (CL == CircleFlag)
 		{
@@ -84,9 +81,9 @@ void MainFill(void)
 			if (LeftPnt.Type == 2 && RightPnt.Type == 2)		//十字补图
 			{
 				if (LeftPnt.ErrRow - RightPnt.ErrRow > 10 || RightPnt.ErrRow - LeftPnt.ErrRow > 10)
-					FillBevelCross();
+					FillBevelCross();			//斜十字
 				else
-					FillLevelCross();
+					FillLevelCross();			//平十字
 				FindLineNormal(0);
 
 			}
@@ -95,7 +92,6 @@ void MainFill(void)
 	{
 		FindLineLost_1();
 #if CIRCLE == 2
-		//CircleFlag = ImgJudgeCircle(1);
 		CircleFlag = Img_JudgeCircleIsland(1);
 		if (CL == CircleFlag)
 		{
@@ -146,25 +142,25 @@ void GetML(void)
 #if CIRCLE
 	if (CircleFlag)		//is CircleIsland 
 	{
-		CircleFill();
+		CircleFill();		//环岛处理
 	}
 	else
 #endif // CIRCLE
 	{
 		if (Img_SpecialElemFlag)
-			SpecialElemFill();
+			SpecialElemFill();		//特殊元素处理
 		if (!Img_SpecialElemFlag)
-			MainFill();
+			MainFill();				//普通情况处理
 	}
 
-	//中线校验
+	//错误校验机制，中线校验
 	if (RL[DOWN_EAGE] - LL[DOWN_EAGE] <= 40 || ML_Count > DOWN_EAGE - 20		//下边界过小，有效行数过低
 		|| RightPnt.ErrCol - LeftPnt.ErrCol > 100 || LeftPnt.ErrCol - RightPnt.ErrCol > 30)									//上边界不收敛
 	{
 		ErrorFlag = 4;
 	}
 	if (!ErrorFlag)
-		SpeedRow = GetSpeedRow(ML[DOWN_EAGE], LeftPnt.ErrRow, RightPnt.ErrRow);
+		SpeedRow = GetSpeedRow(ML[DOWN_EAGE], LeftPnt.ErrRow, RightPnt.ErrRow);		//速控赛道最远行
 
 
 

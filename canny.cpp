@@ -14,8 +14,6 @@ int HighThreshold = 50;
 int LowThreshold = HighThreshold * 0.4;
 
 
-
-
 //±ßÔµ¼ì²âËã×Ó
 int GetEageThreshold(int row, int col)
 {

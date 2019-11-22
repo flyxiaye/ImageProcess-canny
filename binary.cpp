@@ -9,54 +9,54 @@
 #include "binary.h"
 #include "FirstLineProcess.h"
 
-//================================================================//
-//  @brief  :		中心区域降低亮度
-//  @param  :		*image          图像数组地址
-//  @param  :		start_row             起始行
-//  @param  :		start_col             起始列
-//  @param  :		height             行数
-//  @param  :		width             列数
-//  @param  :		diff_light             亮度差值
-//  @return :		void
-//  @note   :		void
-//================================================================//
-void lowLight(unsigned char* srcImage, int start_row, int start_col, int height, int width, int diff_light)
-{
-	for (int i = start_row; i <= start_row + height; i++)
-	{
-		for (int j = start_col; j <= start_col + width; j++)
-		{
-			srcImage[i * IMG_COL + j] -= diff_light;
-			srcImage[i * IMG_COL + j] = MAX(0, srcImage[i * IMG_COL + j]);
-
-		}
-	}
-}
-
-//================================================================//
-//  @brief  :		灰度图二值化
-//  @param  :		*image          图像数组地址
-//  @param  :		col             列数
-//  @param  :		row             行数
-//  @return :		void
-//  @note   :		void
-//================================================================//
-void gray2Binary(unsigned char* srcImage, unsigned char* dstImage)
-{
-	unsigned char th = otsuThreshold(&srcImage[20 * 188], 188, 51);
-	//unsigned char th = 60;
-	lowLight(srcImage, 20, 40, 30, 100, 10);
-	unsigned char* sp = srcImage, * dp = dstImage;
-	//  for(int i = 0; i < 20 * 188; i++, sp++,dp++)
-	//    *dp = 0;
-	for (int i = 0; i < 188 * 120; i++, sp++, dp++)
-	{
-		if (*sp < th)* dp = 0;
-		else *dp = 255;
-	}
-	//  for (int i = 71*188; i < 188 * 120; i++, sp++, dp++)
-	//    *dp=0;
-}
+////================================================================//
+////  @brief  :		中心区域降低亮度
+////  @param  :		*image          图像数组地址
+////  @param  :		start_row             起始行
+////  @param  :		start_col             起始列
+////  @param  :		height             行数
+////  @param  :		width             列数
+////  @param  :		diff_light             亮度差值
+////  @return :		void
+////  @note   :		void
+////================================================================//
+//void lowLight(unsigned char* srcImage, int start_row, int start_col, int height, int width, int diff_light)
+//{
+//	for (int i = start_row; i <= start_row + height; i++)
+//	{
+//		for (int j = start_col; j <= start_col + width; j++)
+//		{
+//			srcImage[i * IMG_COL + j] -= diff_light;
+//			srcImage[i * IMG_COL + j] = MAX(0, srcImage[i * IMG_COL + j]);
+//
+//		}
+//	}
+//}
+//
+////================================================================//
+////  @brief  :		灰度图二值化
+////  @param  :		*image          图像数组地址
+////  @param  :		col             列数
+////  @param  :		row             行数
+////  @return :		void
+////  @note   :		void
+////================================================================//
+//void gray2Binary(unsigned char* srcImage, unsigned char* dstImage)
+//{
+//	unsigned char th = otsuThreshold(&srcImage[20 * 188], 188, 51);
+//	//unsigned char th = 60;
+//	lowLight(srcImage, 20, 40, 30, 100, 10);
+//	unsigned char* sp = srcImage, * dp = dstImage;
+//	//  for(int i = 0; i < 20 * 188; i++, sp++,dp++)
+//	//    *dp = 0;
+//	for (int i = 0; i < 188 * 120; i++, sp++, dp++)
+//	{
+//		if (*sp < th)* dp = 0;
+//		else *dp = 255;
+//	}
+//	//  for (int i = 71*188; i < 188 * 120; i++, sp++, dp++)
+//	//    *dp=0;
+//}
 
 //================================================================//
 //  @brief  :		大津法二值化

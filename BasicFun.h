@@ -3,9 +3,6 @@
 
 float LeastSquare(int *array, int row1, int row2);
 
-int ArrayMax(int *Array, int n);
-int ArrayMin(int *Array, int n);
-
 int IsEage(int row, int col);
 int SearchUpEage(int row, int col);
 int SearchDownEage(int row, int col);

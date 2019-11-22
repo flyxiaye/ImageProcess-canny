@@ -11,7 +11,7 @@
 
 //================================================================//
 //  @brief  :		判断是否为边缘
-//  @param  :		void
+//  @param  :		row col
 //  @return :		1是 0不是
 //  @note   :		void
 //================================================================//
@@ -41,7 +41,7 @@ int IsEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向左搜索一个边界点
-//  @param  :		void
+//  @param  :		row col 起始点坐标
 //  @return :		边界点所在列
 //  @note   :		void
 //================================================================//
@@ -57,7 +57,7 @@ int SearchLeftEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向右搜索一个边界点
-//  @param  :		void
+//  @param  :		row col 起始点坐标
 //  @return :		边界点所在列
 //  @note   :		void
 //================================================================//
@@ -73,7 +73,7 @@ int SearchRightEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向上搜索一个边界点
-//  @param  :		void
+//  @param  :		row col 起始点坐标
 //  @return :		边界点所在行
 //  @note   :		void
 //================================================================//
@@ -89,7 +89,7 @@ int SearchUpEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向下搜索一个边界点
-//  @param  :		void
+//  @param  :		row col 起始点坐标
 //  @return :		边界点所在行
 //  @note   :		void
 //================================================================//
@@ -105,7 +105,7 @@ int SearchDownEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向左搜索一个非边界点
-//  @param  :		void
+//  @param  :		row col 起始点坐标
 //  @return :		边界点所在列
 //  @note   :		void
 //================================================================//
@@ -121,7 +121,7 @@ int SearchLeftNoEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向右搜索一个非边界点
-//  @param  :		void
+//  @param  :		row col 起始点坐标
 //  @return :		边界点所在列
 //  @note   :		void
 //================================================================//
@@ -138,8 +138,8 @@ int SearchRightNoEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向左上搜索一个边界点
-//  @param  :		void
-//  @return :		边界点所在列
+//  @param  :		row col 起始点坐标
+//  @return :		边界点所在坐标
 //  @note   :		void
 //================================================================//
 Point SearchLeftUpEage(int row, int col)
@@ -171,8 +171,8 @@ Point SearchLeftUpEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向左上搜索一个边界点45
-//  @param  :		void
-//  @return :		边界点所在列
+//  @param  :		row col 起始点坐标
+//  @return :		边界点所在坐标
 //  @note   :		void
 //================================================================//
 Point SearchLeftUpEage45(int row, int col)
@@ -198,8 +198,8 @@ Point SearchLeftUpEage45(int row, int col)
 
 //================================================================//
 //  @brief  :		向右上搜索一个边界点
-//  @param  :		void
-//  @return :		边界点所在列
+//  @param  :		row col 起始点坐标
+//  @return :		边界点所在坐标
 //  @note   :		void
 //================================================================//
 Point SearchRightUpEage(int row, int col)
@@ -230,8 +230,8 @@ Point SearchRightUpEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向右上搜索一个边界点45
-//  @param  :		void
-//  @return :		边界点所在列
+//  @param  :		row col 起始点坐标
+//  @return :		边界点所在坐标
 //  @note   :		void
 //================================================================//
 Point SearchRightUpEage45(int row, int col)
@@ -257,8 +257,8 @@ Point SearchRightUpEage45(int row, int col)
 
 //================================================================//
 //  @brief  :		向左下搜索一个边界点
-//  @param  :		void
-//  @return :		边界点所在列
+//  @param  :		row col 起始点坐标
+//  @return :		边界点所在坐标
 //  @note   :		void
 //================================================================//
 Point SearchLeftDownEage(int row, int col)
@@ -282,8 +282,8 @@ Point SearchLeftDownEage(int row, int col)
 
 //================================================================//
 //  @brief  :		向右下搜索一个边界点
-//  @param  :		void
-//  @return :		边界点所在列
+//  @param  :		row col 起始点坐标
+//  @return :		边界点所在坐标
 //  @note   :		void
 //================================================================//
 Point SearchRightDownEage(int row, int col)
@@ -306,7 +306,7 @@ Point SearchRightDownEage(int row, int col)
 }
 //================================================================//
 //  @brief  :		搜左边线
-//  @param  :		void
+//  @param  :		row行数 col列数
 //  @return :		边界点所在列
 //  @note   :		void
 //================================================================//
@@ -327,7 +327,7 @@ int GetLL(int row, int col)
 
 //================================================================//
 //  @brief  :		搜右边线
-//  @param  :		void
+//  @param  :		row行数 col列数
 //  @return :		边界点所在列
 //  @note   :		void
 //================================================================//
@@ -350,7 +350,7 @@ int GetRL(int row, int col)
 //  @brief  :		最小二乘法
 //  @param  :		起始行（row1） 结束行（row2） 首地址（array）
 //  @return :		k斜率
-//  @note   :		void
+//  @note   :		两端闭区间
 //================================================================//
 float LeastSquare(int* array, int row1, int row2)
 {
@@ -402,8 +402,8 @@ int JudgeCurveEage(int up_row, int down_row, int type)
 
 //================================================================//
 //  @brief  :		计算灰度平均值
-//  @param  :		数组首地址Array n个数
-//  @return :		最值
+//  @param  :		void
+//  @return :		平均值
 //  @note   :		void
 //================================================================//
 int AveGray(void)
@@ -421,7 +421,7 @@ int AveGray(void)
 //================================================================//
 //  @brief  :		计算区间内灰度平均值
 //  @param  :		数组首地址Array n个数
-//  @return :		最值
+//  @return :		平均值
 //  @note   :		void
 //================================================================//
 int RegionAveGray(int row,int left_col,int right_col)
@@ -511,10 +511,6 @@ void AveFilter(int* line, int n)
 int IsBigWave(int* line, int n)
 {
 	AveFilter(line, n);		//滤波
-	//for (int i = 0; i < n; i++)
-	//{
-	//	string.Format("\r\n LL = %d \r\n", *(line-i)); PrintDebug(string);
-	//}
 	int* line_init = line;
 	while (--n > 0)
 	{

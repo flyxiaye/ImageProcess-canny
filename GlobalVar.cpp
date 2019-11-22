@@ -24,8 +24,8 @@ int LastMiddleLine = 0;
 
 int SpeedRow = 0;			//控速边界行数
 
-int CircleFlag = 0;
-int CircleState = 0;
+int CircleFlag = 0;			//环岛方向
+int CircleState = 0;		//环岛状态
 unsigned char Dist_ClearSevenFlag = 1;		//延距清环岛7标志位
 
 int LeftIntLine = 0;		//记录左内跳行数
@@ -40,6 +40,7 @@ int Img_RampFlag = 0;			//坡道标志
 int BrokenLastAve = 0;
 int StopLineDist = 0;
 
+//各特殊元素开启标志
 unsigned char Img_CircleOpen = 1;
 unsigned char Img_StraightBrokenOpen = 1;
 unsigned char Img_CurveBrokenOpen = 1;
@@ -53,7 +54,6 @@ void VarInit(void)
 	g_RoadType = 0;
 	LeftIntLine = 0;
 	RightIntLine = 0;
-	//下面某些地方起了关键作用
 	LeftPnt.ErrCol = RightPnt.ErrCol = 0;
 	LeftPnt.ErrRow = RightPnt.ErrRow = DOWN_EAGE;
 	for (int i = 0; i < IMG_ROW; i++)
