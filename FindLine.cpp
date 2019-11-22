@@ -70,9 +70,8 @@ int FirstRowProcess(void)
 
 	if (LEFT_EAGE + LOST_TH > LL[DOWN_EAGE] && RIGHT_EAGE - LOST_TH < RL[DOWN_EAGE])	//两侧丢边 判定为双侧十字
 	{
-		LeftPnt.ErrRow = RightPnt.ErrRow = DOWN_EAGE;
-		LeftPnt.ErrCol = LL[LeftPnt.ErrRow];
-		RightPnt.ErrCol = RL[RightPnt.ErrRow];
+		LEFT_PNT(DOWN_EAGE, 0);
+		RIGHT_PNT(DOWN_EAGE, 0);
 		RoadType = 2;
 	}
 	else if (LEFT_EAGE + LOST_TH > LL[DOWN_EAGE])	//左侧丢边
@@ -95,9 +94,7 @@ int FirstRowProcess(void)
 				{
 					string.Format("\r\n i = %d \r\n", i); PrintDebug(string);
 					FillLineDown(LL, i + 3, i);
-					LeftPnt.ErrRow = i;
-					LeftPnt.Type = 0;
-					LeftPnt.ErrCol = LL[i];
+					LEFT_PNT(i, 0);
 					NoLostFlag = i;
 					break;
 				}
@@ -112,9 +109,7 @@ int FirstRowProcess(void)
 		{
 			if (NoLostFlag)
 			{
-				LeftPnt.ErrRow = NoLostFlag;
-				LeftPnt.ErrCol = LL[NoLostFlag];
-				LeftPnt.Type = 0;
+				LEFT_PNT(NoLostFlag, 0);
 				LL[NoLostFlag - 1] = GetLL(NoLostFlag - 1, LL[NoLostFlag]);
 				LL[NoLostFlag - 2] = GetLL(NoLostFlag - 2, LL[NoLostFlag - 1]);
 				LL[NoLostFlag - 3] = GetLL(NoLostFlag - 3, LL[NoLostFlag - 2]);
@@ -122,9 +117,7 @@ int FirstRowProcess(void)
 			}
 			else
 			{
-				LeftPnt.ErrRow = DOWN_EAGE;
-				LeftPnt.ErrCol = LL[DOWN_EAGE];
-				LeftPnt.Type = 2;
+				LEFT_PNT(DOWN_EAGE, 2);
 				LeftLostFlag = 1;
 			}
 		}
@@ -134,25 +127,19 @@ int FirstRowProcess(void)
 			RL[i] = GetRL(i, RL[i + 1]);
 			if (RL[i] - RL[i + 1] > FINDLINE_TH || RL[i + 1] - RL[i] > FINDLINE_TH)		//Jump
 			{
-				RightPnt.ErrRow = DOWN_EAGE;
-				RightPnt.ErrCol = RL[DOWN_EAGE];
-				RightPnt.Type = 0;
+				RIGHT_PNT(DOWN_EAGE, 0);
 				break;
 			}
 			if (RL[i] > RIGHT_EAGE - LOST_TH)		//Lost line
 			{
 				if (NoLostFlag)			//other side is no lost
 				{
-					RightPnt.ErrRow = DOWN_EAGE;
-					RightPnt.ErrCol = RL[DOWN_EAGE];
-					RightPnt.Type = 0;
+					RIGHT_PNT(DOWN_EAGE, 0);
 				}
 				else					//other side is lost, is RoadType2
 				{
 					RightLostFlag = 1;
-					RightPnt.ErrRow = i;
-					RightPnt.ErrCol = RL[i];
-					RightPnt.Type = 0;
+					RIGHT_PNT(i, 0);
 				}
 				break;
 			}
@@ -163,9 +150,7 @@ int FirstRowProcess(void)
 			{
 				RightLostFlag = 1;
 			}
-			RightPnt.ErrRow = DOWN_EAGE;
-			RightPnt.ErrCol = RL[DOWN_EAGE];
-			RightPnt.Type = 0;
+			RIGHT_PNT(DOWN_EAGE, 0);
 		}
 		//judge roadtype
 		if (LeftLostFlag & RightLostFlag)
@@ -194,9 +179,7 @@ int FirstRowProcess(void)
 					&& RL[i + 4] - RL[i + 3] > JUMP_TH)		//非丢边 向下补线
 				{
 					FillLineDown(RL, i + 3, i);
-					RightPnt.ErrRow = i;
-					RightPnt.Type = 0;
-					RightPnt.ErrCol = RL[i];
+					RIGHT_PNT(i, 0);
 					break;
 				}
 			}
@@ -211,9 +194,7 @@ int FirstRowProcess(void)
 		{
 			if (NoLostFlag)
 			{
-				RightPnt.ErrRow = NoLostFlag;
-				RightPnt.ErrCol = RL[NoLostFlag];
-				RightPnt.Type = 0;
+				RIGHT_PNT(NoLostFlag, 0);
 				RL[NoLostFlag - 1] = GetRL(NoLostFlag - 1, RL[NoLostFlag]);
 				RL[NoLostFlag - 2] = GetRL(NoLostFlag - 2, RL[NoLostFlag - 1]);
 				RL[NoLostFlag - 3] = GetRL(NoLostFlag - 3, RL[NoLostFlag - 2]);
@@ -221,9 +202,7 @@ int FirstRowProcess(void)
 			}
 			else
 			{
-				RightPnt.ErrRow = DOWN_EAGE;
-				RightPnt.Type = 2;
-				RightPnt.ErrCol = RL[DOWN_EAGE];
+				RIGHT_PNT(DOWN_EAGE, 2);
 				RightLostFlag = 1;
 			}
 		}
@@ -233,25 +212,19 @@ int FirstRowProcess(void)
 			LL[i] = GetLL(i, LL[i + 1]);
 			if (LL[i] - LL[i + 1] > FINDLINE_TH || LL[i + 1] - LL[i] > FINDLINE_TH)		//Jump
 			{
-				LeftPnt.ErrRow = DOWN_EAGE;
-				LeftPnt.ErrCol = LL[DOWN_EAGE];
-				LeftPnt.Type = 0;
+				LEFT_PNT(DOWN_EAGE, 0);
 				break;
 			}
 			if (LL[i] < LEFT_EAGE + LOST_TH)		//Lost line
 			{
 				if (NoLostFlag)			//other side is no lost
 				{
-					LeftPnt.ErrRow = DOWN_EAGE;
-					LeftPnt.ErrCol = LL[DOWN_EAGE];
-					LeftPnt.Type = 0;
+					LEFT_PNT(DOWN_EAGE, 0);
 				}
 				else					//other side is lost, is RoadType2
 				{
 					LeftLostFlag = 1;
-					LeftPnt.Type = 0;
-					LeftPnt.ErrRow = i;
-					LeftPnt.ErrCol = LL[i];
+					LEFT_PNT(i, 0);
 				}
 				break;
 			}
@@ -262,9 +235,7 @@ int FirstRowProcess(void)
 			{
 				LeftLostFlag = 1;
 			}
-			LeftPnt.ErrRow = DOWN_EAGE;
-			LeftPnt.ErrCol = LL[DOWN_EAGE];
-			LeftPnt.Type = 0;
+			LEFT_PNT(DOWN_EAGE, 0);
 		}
 		//judge roadtype
 		if (LeftLostFlag & RightLostFlag)
@@ -275,10 +246,8 @@ int FirstRowProcess(void)
 	}
 	else			//两侧都不丢
 	{
-		LeftPnt.ErrRow = RightPnt.ErrRow = DOWN_EAGE;
-		LeftPnt.ErrCol = LL[LeftPnt.ErrRow];
-		RightPnt.ErrCol = RL[RightPnt.ErrRow];
-		LeftPnt.Type = RightPnt.Type = 0;
+		LEFT_PNT(DOWN_EAGE, 0);
+		RIGHT_PNT(DOWN_EAGE, 0);
 		RoadType = 0;
 		int i;
 		int LeftFlag = 0, RightFlag = 0;
@@ -291,16 +260,12 @@ int FirstRowProcess(void)
 			if (LEFT_EAGE + LOST_TH > LL[i])
 			{
 				LeftFlag = 1;
-				LeftPnt.ErrRow = MIN(i + 2, DOWN_EAGE);
-				LeftPnt.ErrCol = LL[LeftPnt.ErrRow];
-				LeftPnt.Type = 0;
+				LEFT_PNT(MIN(i + 2, DOWN_EAGE), 0);
 			}
 			if (RIGHT_EAGE - LOST_TH < RL[i])
 			{
 				RightFlag = 1;
-				RightPnt.ErrRow = MIN(i + 2, DOWN_EAGE);
-				RightPnt.ErrCol = RL[RightPnt.ErrRow];
-				RightPnt.Type = 0;
+				RIGHT_PNT(MIN(i + 2, DOWN_EAGE), 0);
 			}
 			if (LeftFlag & RightFlag)
 			{
@@ -310,10 +275,8 @@ int FirstRowProcess(void)
 		}
 		if (DOWN_EAGE - UP_TH == i)
 		{
-			LeftPnt.ErrRow = RightPnt.ErrRow = DOWN_EAGE;
-			LeftPnt.Type = RightPnt.Type = 0;
-			LeftPnt.ErrCol = LL[LeftPnt.ErrRow];
-			RightPnt.ErrCol = RL[RightPnt.ErrRow];
+			LEFT_PNT(DOWN_EAGE, 0);
+			RIGHT_PNT(DOWN_EAGE, 0);
 			RoadType = 0;
 		}
 	}
@@ -322,7 +285,7 @@ int FirstRowProcess(void)
 
 //================================================================//
 //  @brief  :		普通寻线
-//  @param  :		void
+//  @param  :		Fill 是否检查拐点
 //  @return :		void
 //  @note   :		void
 //================================================================//
